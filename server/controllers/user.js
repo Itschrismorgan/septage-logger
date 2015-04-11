@@ -11,22 +11,37 @@ exports.createUser = function(req,res){
         _id: req.body.username,
         passwordHash: passwordHash,
         salt: salt,
-        type: req.body.userType,
+        type: req.body.type,
         email: req.body.email,
         active: true
     };
     
+    console.log(userToCreate);
     user.create(userToCreate, function(err){
         if(err){
             //user creation failed
-            
+            console.log("failed to create user");
+            res.status(500).json({code: 500, message: "Failed to create user"});
         }
         
-        // user created
+        console.log(userToCreate._id+" created.");
+        res.status(200).json({username: userToCreate._id});
     });
 };
 
-exports.viewUser = function(req,res){
+exports.getUser = function(req,res){
+    
+    user.findOne({_id: req.params.username}, function(err, user){
+        if(err){
+            res.status(500).json({code:500, message: "GetUser: Server error"});
+        }
+        
+        if(!user){
+            res.status(404).json({code:404, message: "user not found"});
+        } else {
+            res.status(200).json(safeUserInfo(user));
+        }
+    });
     
     
 };
@@ -34,6 +49,39 @@ exports.viewUser = function(req,res){
 exports.updateUser = function(req,res){
     
     
+};
+
+
+exports.deleteUser = function(req,res){
+    user.findOne({_id: req.params.username }, function(err, user){
+        if(err) {
+            res.status(500).json({code: 500, message: "failed to delete user"});
+        }
+        
+        if(!user){
+            res.status(404).json({code: 404, message: "user not found"})
+        } else {
+            user.remove({_id: req.params.username}, function(err){
+                if(err) {
+                    res.status(500).json({code: 500, message: "failed to delete user"});
+                }
+            
+                res.status(200).json({code: 200, message: req.params.username+" deleted"});
+            });
+        }
+    });
+};
+
+
+var safeUserInfo = function(user){
+    var cleanedUser = {};
+    
+    cleanedUser.username = user._id;
+    cleanedUser.email = user.email;
+    cleanedUser.active = user.active;
+    cleanedUser.type = user.type;
+
+    return cleanedUser;
 };
 
 
