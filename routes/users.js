@@ -12,6 +12,7 @@ router.post('/', function(req, res, next){
 });
 
 router.get('/:username', function(req,res,next){
+    console.log(req.user);
     user.getUser(req,res);
 });
 
