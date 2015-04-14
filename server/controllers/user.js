@@ -73,6 +73,16 @@ exports.deleteUser = function(req,res){
 };
 
 
+exports.checkCredentials = function(userToCheck, password){
+        
+    var passwordHash = hash(password, userToCheck.salt);
+    if(passwordHash === userToCheck.passwordHash){
+        return true;
+    } else {
+        return false;
+    }
+};
+
 var safeUserInfo = function(user){
     var cleanedUser = {};
     
