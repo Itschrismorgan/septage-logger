@@ -8,12 +8,21 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next){
-    user.createUser(req,res);
+    if(req.user.type === "admin"){
+        user.createUser(req,res);
+    } else {
+        res.status(401).json({code: 401, message: 'not authorized to create users'});
+    }
 });
 
 router.get('/:username', function(req,res,next){
-    console.log(req.user);
-    user.getUser(req,res);
+    //console.log(req.user);
+    if(req.user._id === req.params.username || req.user.type === "admin"){
+        // user can get info on themselves or admin can see all users
+        user.getUser(req,res);
+    } else {
+        res.status(401).json({code: 401, message: 'not authorized for requested info'});        
+    }
 });
 
 router.delete('/:username', function(req, res, next){

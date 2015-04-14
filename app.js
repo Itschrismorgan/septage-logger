@@ -30,6 +30,7 @@ passport.use(new LocalStrategy(passportHelpers.localHandler));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+//TODO: Do we need to set an expiration time somehow?
 app.use(session({
   secret: 'keyboard cat',
   resave: false,
