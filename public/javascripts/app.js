@@ -9,44 +9,54 @@ septageLogger.controller('IndexCtrl',['$scope',function($scope){
     
 }]);
 
+septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', function($scope, $routeParams, userService){
+    console.log($routeParams.username);
+    
+    userService.getUser($routeParams.username)
+        .then(function(data){
+            $scope.username = data.data.username;
+            $scope.accountType = data.data.type;
+        }, function(error){
+            console.log("problem");
+        });
+}]);
+
+
+septageLogger.service('userService', ['$http', function($http){
+    this.getUser = function(username){
+        //console.log('userService::getUser', username);
+        return $http.get('/users/'+username)
+            .success(function(data){
+                //console.log('user returned');
+                //console.log(data);
+            })
+            .error(function(e){
+                return e;
+            });
+    };
+}]);
+
+
 septageLogger.controller('LoginCtrl',['$scope', '$location', 'loginService', function($scope, $location, loginService){
     
     
     $scope.sendLogin = function(){
-        console.log($scope.login.username);
-        console.log($scope.login.password);
         loginService.login($scope.login.username, $scope.login.password)
             .then(function(data){
-                console.log("login good");
-                $location.url("/");
+                //console.log("login good");
+                $scope.loginResult = "";
+                $scope.login.password = "";
+                $location.url("/user/"+$scope.login.username);
             }, function(error){
-                console.log("login bad");
+                //console.log("login bad");
                 $scope.login.username = "";
                 $scope.login.password = "";
+                $scope.loginResult = "has-error";
             });
-        
-        
-    /*            authService.authorize($scope.login.username,$scope.login.password)
-            .then(function(data){
-                $scope.loginMessage = "You have succesfully logged in...";
-                $scope.messageStyle = "successBox";
-                $scope.login.username = "";
-                $scope.login.password = "";
-                $location.url("/user");
-            },function(error){
-                if (error.data.code >= 400 && error.data.code <= 500){
-                    $scope.loginMessage = error.data.message;
-                    $scope.messageStyle = 'errorBox';
-                }
-                $scope.login.username = "";
-                $scope.login.password = "";
-            });*/
     };
 }]);
 
 septageLogger.service('loginService',['$http', function($http){
-    
-    
     this.login = function(username, password){
         console.log('loginService::login', username, password);
         return $http.post('/login',{username: username, password: password})
@@ -60,6 +70,8 @@ septageLogger.service('loginService',['$http', function($http){
     };
 }]);
 
+
+
 septageLogger.config(function($routeProvider) {
 $routeProvider.
 when('/', {
@@ -69,6 +81,10 @@ controller: 'IndexCtrl'
 when('/login', {
    templateUrl: 'javascripts/views/login.html',
    controller: 'LoginCtrl'
+}).
+when('/user/:username',{
+    templateUrl: 'javascripts/views/user.html',
+    controller: 'UserCtrl'
 }).
 otherwise('/');
 });
