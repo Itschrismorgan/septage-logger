@@ -1,1 +1,55 @@
-<p>Logged in as {{username}} ({{accountType}})</p>
+<div>
+    <div class="row">
+        <div class="col-sm-8">
+            <p>Logged in as {{username | uppercase }} ({{accountType | uppercase}})</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="btn-group col-sm-8" role="group">
+          <button type="button" class="btn btn-default" ng-click="button = 1">User Management</button>
+          <button type="button" class="btn btn-default" ng-click="button = 2">Company Reports</button>
+          <button type="button" class="btn btn-default" ng-click="button = 3">Spread Site Reports</button>
+          <button type="button" class="btn btn-default" ng-click="button = 4">Spread Site Management</button>
+        </div>
+    </div>
+    <div ng-show="button === 1">
+        <form>
+            <br>
+            <div>
+                <label for="Username">Username:</label>
+                <input type="text" name="username"/>
+            </div>
+            <br>
+            <div>
+                <label for="Password">Password:</label>
+                <input type="text" name="password"/>
+            </div>
+            <br>
+            <div>
+                <label for="usertype">User Type:</label>
+                <select>
+                    <option value="admin">Admin</option>
+                    <option value="contractor">Contractor</option>
+                </select>
+            </div>
+            <br>
+            <div>
+                <label for="email">Email Address:</label>
+                <input type="text" name="email"/>
+            </div>
+            <br>
+            <div>
+                <label for="active">Active?</label>
+                <select>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+            </div>
+            
+        </form>
+    </div>
+    <div ng-show="button === 2">
+        {{button}}
+    </div>
+</div>
