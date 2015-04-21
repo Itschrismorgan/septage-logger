@@ -7,28 +7,28 @@
 
     <div class="row">
         <div class="btn-group col-sm-8" role="group">
-          <button type="button" class="btn btn-default" ng-click="button = 1">User Management</button>
-          <button type="button" class="btn btn-default" ng-click="button = 2">Company Reports</button>
-          <button type="button" class="btn btn-default" ng-click="button = 3">Spread Site Reports</button>
-          <button type="button" class="btn btn-default" ng-click="button = 4">Spread Site Management</button>
+          <button type="button" class="btn btn-default" ng-click="setButton(1)">User Management</button>
+          <button type="button" class="btn btn-default" ng-click="setButton(2)">Company Reports</button>
+          <button type="button" class="btn btn-default" ng-click="setButton(3)">Spread Site Reports</button>
+          <button type="button" class="btn btn-default" ng-click="setButton(4)">Spread Site Management</button>
         </div>
     </div>
-    <div ng-show="button === 1">
+    <div ng-show="isButton(1)">
         <form>
             <br>
             <div>
                 <label for="Username">Username:</label>
-                <input type="text" name="username"/>
+                <input type="text" name="username" ng-model="newUser.username"/>
             </div>
             <br>
             <div>
                 <label for="Password">Password:</label>
-                <input type="text" name="password"/>
+                <input type="text" name="password" ng-model="newUser.password"/>
             </div>
             <br>
             <div>
                 <label for="usertype">User Type:</label>
-                <select>
+                <select ng-model="newUser.type">
                     <option value="admin">Admin</option>
                     <option value="contractor">Contractor</option>
                 </select>
@@ -36,20 +36,22 @@
             <br>
             <div>
                 <label for="email">Email Address:</label>
-                <input type="text" name="email"/>
+                <input type="text" name="email" ng-model="newUser.email"/>
             </div>
             <br>
             <div>
                 <label for="active">Active?</label>
-                <select>
+                <select ng-model="newUser.active">
                     <option value="yes">Yes</option>
                     <option value="no">No</option>
                 </select>
             </div>
-            
+            <div>
+                <button type="submit" class="" ng-click="createUser()">Create User</button>
+            </div>
         </form>
     </div>
-    <div ng-show="button === 2">
+    <div ng-show="isButton(2)">
         {{button}}
     </div>
 </div>

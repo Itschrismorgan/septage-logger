@@ -12,6 +12,8 @@ septageLogger.controller('IndexCtrl',['$scope',function($scope){
 septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', function($scope, $routeParams, userService){
     console.log($routeParams.username);
     
+    $scope.showTab = 'companyReports';
+    
     userService.getUser($routeParams.username)
         .then(function(data){
             $scope.username = data.data.username;
@@ -19,6 +21,27 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', fu
         }, function(error){
             console.log("problem");
         });
+        
+        
+    $scope.createUser = function(){
+        console.log($scope.newUser);
+        userService.createUser($scope.newUser)
+            .then(function(data){
+                console.log("user created");
+            }, function(error){
+                console.log("problem");
+            });
+            
+    };
+    
+    
+    $scope.setButton = function(value){
+        $scope.button = value;
+    };
+    
+    $scope.isButton = function(value){
+        return $scope.button === value;
+    };
 }]);
 
 
@@ -29,6 +52,16 @@ septageLogger.service('userService', ['$http', function($http){
             .success(function(data){
                 //console.log('user returned');
                 //console.log(data);
+            })
+            .error(function(e){
+                return e;
+            });
+    };
+    
+    this.createUser = function(user){
+        return $http.post('/users')
+            .success(function(data){
+                return data;
             })
             .error(function(e){
                 return e;
@@ -70,7 +103,17 @@ septageLogger.service('loginService',['$http', function($http){
     };
 }]);
 
-
+septageLogger.controller('ButtonController', ['$scope', function ($scope){
+    $scope.button = 1;
+    
+    $scope.setButton = function(value){
+        $scope.button = value;
+    };
+    
+    $scope.isButton = function(value){
+        return $scope.button === value;
+    };
+}]);
 
 septageLogger.config(function($routeProvider) {
 $routeProvider.
