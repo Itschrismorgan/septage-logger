@@ -15,29 +15,29 @@
     </div>
     <div ng-show="isButton(1)">
         <form class="form-horizontal" novalidate>
+            <br>
             <div class="form-group">
                 <label for="Users" class="col-sm-2 control-label">Existing Users:</label>
                 <div class="col-sm-3">
                     <select class="form-control input-lg" ng-model="selectedUser" ng-options="user for user in userList"></select>
                 </div>
             </div>
-            <br>
             <div class="form-group">
                 <label for="Username" class="col-sm-2 control-label">Username:</label>
                 <div class="col-sm-3">
-                    <input class="form-control" type="text" name="username" ng-model="newUser.username" required/>
+                    <input class="form-control input-lg" type="text" name="username" ng-model="newUser.username" required/>
                 </div>
             </div>
             <div class="form-group">
                 <label for="Password" class="col-sm-2 control-label">Password:</label>
                 <div class="col-sm-3">
-                    <input class="form-control" type="password" name="password" ng-model="newUser.password" required/>
+                    <input class="form-control input-lg" type="password" name="password" ng-model="newUser.password" required/>
                 </div>
             </div>
             <div class="form-group">
                 <label for="usertype" class="col-sm-2 control-label">User Type:</label>
                 <div class="col-sm-3">
-                    <select class = "form-control" ng-model="newUser.type" required>
+                    <select class = "form-control input-lg" ng-model="newUser.type" required>
                         <option value="admin">Admin</option>
                         <option value="contractor">Contractor</option>
                     </select>
@@ -46,13 +46,13 @@
             <div class="form-group">
                 <label for="email" class="col-sm-2 control-label">Email Address:</label>
                 <div class="col-sm-3">
-                    <input class="form-control" type="email" name="email" ng-model="newUser.email" required/>
+                    <input class="form-control input-lg" type="email" name="email" ng-model="newUser.email" required/>
                 </div>
             </div>
             <div class="form-group">
                 <label for="active" class="col-sm-2 control-label">Active?</label>
                 <div class="col-sm-3">
-                    <select class="form-control" ng-model="newUser.active" required>
+                    <select class="form-control input-lg" ng-model="newUser.active" required>
                         <option value="yes">Yes</option>
                         <option value="no">No</option>
                     </select>

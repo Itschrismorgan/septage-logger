@@ -28,6 +28,14 @@ router.get('/:username', function(req,res,next){
     }
 });
 
+router.post('/:username', function(req,res,next){
+    if(req.user === req.params.username || req.user.type === 'admin'){
+        user.updateUser(req,res);
+    } else {
+        res.status(401).json({code: 401, message: 'not authorized for the requested action'});   
+    }
+});
+
 router.delete('/:username', function(req, res, next){
     user.deleteUser(req,res);
 })

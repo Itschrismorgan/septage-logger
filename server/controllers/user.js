@@ -54,8 +54,24 @@ exports.getUser = function(req,res){
 };
 
 exports.updateUser = function(req,res){
-    
-    
+    user.findByIdAndUpdate(req.params.username, req.body , function(err, userRet){
+        if(err){
+            res.status(500).json({code:500, message: "error updating user", error: err});
+        }
+        
+        console.log(userRet);
+        user.findOne({_id: userRet._id}, function(err,updateUser){
+            if(err){
+                res.status(500).json({code:500, message: "GetUser: Server error"});
+            }
+            
+            if(!user){
+                res.status(404).json({code:404, message: "user not found"});
+            } else {
+                res.status(200).json(safeUserInfo(updateUser));
+            }
+        });
+    });
 };
 
 exports.getUserList = function(req,res){
