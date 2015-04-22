@@ -14,6 +14,31 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', fu
     
     fillInUserList();
     
+    $scope.$watch('selectedUser', function(newSelectedUser){
+        if(newSelectedUser === "" || newSelectedUser === undefined){
+            // clear out the form inputs
+            $scope.newUser = {};
+        } else {
+            userService.getUser(newSelectedUser)
+            .then(function(returnData){
+                //console.log(returnData);
+                //console.log($scope.newUser);
+                $scope.newUser.username = returnData.data.username;
+                $scope.newUser.password = "";
+                $scope.newUser.email = returnData.data.email;
+                $scope.newUser.type = returnData.data.type;
+                if(returnData.data.active){
+                    $scope.newUser.active = 'yes';
+                } else {
+                    $scope.newUser.active = 'no';
+                }
+            }, function(err){
+                console.log("problem");
+            });
+            
+        }
+    });
+    
     
     userService.getUser($routeParams.username)
         .then(function(data){
@@ -25,15 +50,26 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', fu
         
         
     $scope.createUser = function(){
-        console.log($scope.newUser);
-        userService.createUser($scope.newUser)
-            .then(function(data){
-                console.log("user created");
-                fillInUserList();
-            }, function(error){
-                console.log("problem");
-            });
+        if($scope.userList.indexOf($scope.newUser.username) !== -1 ){
+            //console.log("update user");
+            userService.updateUser($scope.newUser)
+                .then(function(data){
+                    //console.log("user updated");
+                }, function(error){
+                    console.log("problem");
+                });
             
+        } else {
+            //console.log("create user");
+            //console.log($scope.newUser);
+            userService.createUser($scope.newUser)
+                .then(function(data){
+                    //console.log("user created");
+                    fillInUserList();
+                }, function(error){
+                    console.log("problem");
+                });
+        }
     };
     
     //Luke added button control here
@@ -77,6 +113,16 @@ septageLogger.service('userService', ['$http', function($http){
     
     this.createUser = function(user){
         return $http.post('/users',user)
+            .success(function(data){
+                return data;
+            })
+            .error(function(e){
+                return e;
+            });
+    };
+    
+    this.updateUser = function(user){
+        return $http.post('/users/'+user.username, user)
             .success(function(data){
                 return data;
             })
