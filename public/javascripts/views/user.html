@@ -15,6 +15,12 @@
     </div>
     <div ng-show="isButton(1)">
         <form class="form-horizontal" novalidate>
+            <div class="form-group">
+                <label for="Users" class="col-sm-2 control-label">Existing Users:</label>
+                <div class="col-sm-3">
+                    <select class="form-control input-lg" ng-model="selectedUser" ng-options="user for user in userList"></select>
+                </div>
+            </div>
             <br>
             <div class="form-group">
                 <label for="Username" class="col-sm-2 control-label">Username:</label>
@@ -58,6 +64,12 @@
         </form>
     </div>
     <div ng-show="isButton(2)">
+        {{button}}
+    </div>
+        <div ng-show="isButton(3)">
+        {{button}}
+    </div>
+        <div ng-show="isButton(4)">
         {{button}}
     </div>
 </div>

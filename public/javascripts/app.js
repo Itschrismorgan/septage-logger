@@ -10,9 +10,10 @@ septageLogger.controller('IndexCtrl',['$scope',function($scope){
 }]);
 
 septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', function($scope, $routeParams, userService){
-    console.log($routeParams.username);
+    //console.log($routeParams.username);
     
-    $scope.showTab = 'companyReports';
+    fillInUserList();
+    
     
     userService.getUser($routeParams.username)
         .then(function(data){
@@ -28,19 +29,35 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', fu
         userService.createUser($scope.newUser)
             .then(function(data){
                 console.log("user created");
+                fillInUserList();
             }, function(error){
                 console.log("problem");
             });
             
     };
     
-    
+    //Luke added button control here
     $scope.setButton = function(value){
         $scope.button = value;
     };
     
     $scope.isButton = function(value){
         return $scope.button === value;
+    };
+    
+    function fillInUserList(){
+        $scope.userList = [];
+        userService.getUserList()
+            .then(function(response){
+                //console.log(response);
+                response.data.map(function(user){
+                    //console.log(user);
+                    $scope.userList.push(user._id);    
+                    //console.log($scope.userList);
+                });
+            }, function(error){
+                console.log("no users returned");
+            });
     };
 }]);
 
@@ -59,13 +76,19 @@ septageLogger.service('userService', ['$http', function($http){
     };
     
     this.createUser = function(user){
-        return $http.post('/users')
+        return $http.post('/users',user)
             .success(function(data){
                 return data;
             })
             .error(function(e){
                 return e;
             });
+    };
+    
+    this.getUserList = function(){
+        return $http.get('/users')
+            .success(function(data){return data;})
+            .error(function(e) {return e;});
     };
 }]);
 
@@ -91,11 +114,12 @@ septageLogger.controller('LoginCtrl',['$scope', '$location', 'loginService', fun
 
 septageLogger.service('loginService',['$http', function($http){
     this.login = function(username, password){
-        console.log('loginService::login', username, password);
+        //console.log('loginService::login', username, password);
         return $http.post('/login',{username: username, password: password})
             .success(function(data){
-                console.log('login returned');
-                console.log(data);
+                //console.log('login returned');
+                //console.log(data);
+                return data;
             })
             .error(function(e){
                 return e;
@@ -103,17 +127,6 @@ septageLogger.service('loginService',['$http', function($http){
     };
 }]);
 
-septageLogger.controller('ButtonController', ['$scope', function ($scope){
-    $scope.button = 1;
-    
-    $scope.setButton = function(value){
-        $scope.button = value;
-    };
-    
-    $scope.isButton = function(value){
-        return $scope.button === value;
-    };
-}]);
 
 septageLogger.config(function($routeProvider) {
 $routeProvider.

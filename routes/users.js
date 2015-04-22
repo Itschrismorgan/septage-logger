@@ -4,11 +4,14 @@ var user = require('../server/controllers/user');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+    user.getUserList(req,res);
 });
 
 router.post('/', function(req, res, next){
+    //console.log("in user post");
+    //console.log(req.user);
     if(req.user.type === "admin"){
+        //console.log("is an admin")
         user.createUser(req,res);
     } else {
         res.status(401).json({code: 401, message: 'not authorized to create users'});

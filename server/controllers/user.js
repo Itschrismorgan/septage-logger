@@ -3,8 +3,13 @@ var crypto = require('crypto');
 var user = mongoose.model('User');
 
 
+
+
+
 exports.createUser = function(req,res){
+    //console.log("in controller:createUser");
     var salt = genSalt();
+    //console.log(req.body);
     var passwordHash = hash(req.body.password, salt);
     
     var userToCreate = {
@@ -16,11 +21,13 @@ exports.createUser = function(req,res){
         active: true
     };
     
-    console.log(userToCreate);
+    
+    //console.log(userToCreate);
     user.create(userToCreate, function(err){
         if(err){
             //user creation failed
             console.log("failed to create user");
+            console.log(err);
             res.status(500).json({code: 500, message: "Failed to create user"});
         }
         
@@ -49,6 +56,20 @@ exports.getUser = function(req,res){
 exports.updateUser = function(req,res){
     
     
+};
+
+exports.getUserList = function(req,res){
+    user.find({}, '_id type email active', function(err, users){
+        if(err) {
+            res.status(500).json({code: 500, message: "failed to delete user"});
+        }
+        
+        if(!users){
+            res.status(404).json({code: 404, message: "no users found"})
+        } else {
+            res.status(200).json(users);
+        }
+    });  
 };
 
 
