@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var crypto = require('crypto');
 var user = mongoose.model('User');
+var company = mongoose.model('Company');
 
 
 
@@ -9,30 +10,40 @@ var user = mongoose.model('User');
 exports.createUser = function(req,res){
     //console.log("in controller:createUser");
     var salt = genSalt();
-    //console.log(req.body);
+    console.log(req.body);
     var passwordHash = hash(req.body.password, salt);
     
-    var userToCreate = {
-        _id: req.body.username,
-        passwordHash: passwordHash,
-        salt: salt,
-        type: req.body.type,
-        email: req.body.email,
-        active: true
-    };
-    
-    
-    //console.log(userToCreate);
-    user.create(userToCreate, function(err){
+    company.findOne({name: req.body.company}, function(err, company){
         if(err){
-            //user creation failed
-            console.log("failed to create user");
-            console.log(err);
-            res.status(500).json({code: 500, message: "Failed to create user"});
+            res.status(500).json({code:500, message: "Server error retrieving company record"});
         }
         
-        console.log(userToCreate._id+" created.");
-        res.status(200).json({username: userToCreate._id});
+        if(!company){
+            res.status(404).json({code:404, message: "company record not found"});
+        } else {
+            var userToCreate = {
+                _id: req.body.username,
+                passwordHash: passwordHash,
+                salt: salt,
+                type: req.body.type,
+                companyId: company._id,
+                email: req.body.email,
+                active: true
+            };
+            
+            console.log(userToCreate);
+            user.create(userToCreate, function(err){
+                if(err){
+                    //user creation failed
+                    console.log("failed to create user");
+                    console.log(err);
+                    res.status(500).json({code: 500, message: "Failed to create user"});
+                }
+                
+                console.log(userToCreate._id+" created.");
+                res.status(200).json({username: userToCreate._id});
+            });
+        }
     });
 };
 
@@ -46,7 +57,13 @@ exports.getUser = function(req,res){
         if(!user){
             res.status(404).json({code:404, message: "user not found"});
         } else {
-            res.status(200).json(safeUserInfo(user));
+            company.findOne({_id: user.companyId}, function(err, company){
+                if (err){
+                    res.status(500).json({code:500, message: "Get company: server error"});
+                }
+                user.company = company;
+                res.status(200).json(safeUserInfo(user, company));
+            })
         }
     });
     
@@ -75,17 +92,36 @@ exports.updateUser = function(req,res){
 };
 
 exports.getUserList = function(req,res){
-    user.find({}, '_id type email active', function(err, users){
-        if(err) {
-            res.status(500).json({code: 500, message: "failed to delete user"});
-        }
-        
-        if(!users){
-            res.status(404).json({code: 404, message: "no users found"})
-        } else {
-            res.status(200).json(users);
-        }
-    });  
+    if(req.user.type === "admin"){
+        user.find({}, '_id type email active', function(err, users){
+            if(err) {
+                res.status(500).json({code: 500, message: "failed to delete user"});
+            }
+            
+            if(!users){
+                res.status(404).json({code: 404, message: "no users found"})
+            } else {
+                res.status(200).json(users);
+            }
+        });  
+    } else {
+        //console.log(req.user);
+        getUserCompany(req.user._id, function(limitToCompany){
+            user.find({companyId: limitToCompany}, function(err, users){
+                console.log()
+                console.log(users);
+                if(err) {
+                    res.status(500).json({code: 500, message: "failed to delete user"});
+                }
+                
+                if(!users){
+                    res.status(404).json({code: 404, message: "no users found"})
+                } else {
+                    res.status(200).json(users);
+                }
+            });
+        });
+    }
 };
 
 
@@ -113,6 +149,7 @@ exports.deleteUser = function(req,res){
 exports.checkCredentials = function(userToCheck, password){
         
     var passwordHash = hash(password, userToCheck.salt);
+    //console.log(passwordHash, userToCheck.passwordHash);
     if(passwordHash === userToCheck.passwordHash){
         return true;
     } else {
@@ -120,14 +157,44 @@ exports.checkCredentials = function(userToCheck, password){
     }
 };
 
-var safeUserInfo = function(user){
+exports.getUserType = function(username){
+    user.findOne({_id: username}, function(err, user){
+        if(err){
+        return "";
+        }
+        
+        if(!user){
+            return "";
+        } else {
+            return user.type;
+        }
+    });
+};
+
+var getUserCompany = function(username, callback){
+    user.findOne({_id: username}, function(err, data){
+        if(err){
+            console.log(err);
+            return null;
+        }
+        console.log("in getUserCompany");
+        console.log(data);
+        callback(data.companyId);
+    });
+};
+
+var safeUserInfo = function(user, company){
     var cleanedUser = {};
-    
+
     cleanedUser.username = user._id;
     cleanedUser.email = user.email;
     cleanedUser.active = user.active;
     cleanedUser.type = user.type;
+    if(company){
+        cleanedUser.company = company.name;
+    }
 
+    console.log(cleanedUser)
     return cleanedUser;
 };
 

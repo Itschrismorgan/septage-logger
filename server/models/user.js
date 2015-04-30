@@ -7,6 +7,7 @@ var schema = mongoose.Schema({
     passwordHash: { type: String, required: true },
     salt: { type: String, required: true },
     type: { type: String, required: true, enum: accountTypes },
+    companyId: {type: mongoose.Schema.Types.ObjectId },
     email: { type: String, required: true },
     active: { type: Boolean, required: true }
 });

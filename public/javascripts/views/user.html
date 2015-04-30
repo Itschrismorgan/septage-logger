@@ -8,9 +8,10 @@
     <div class="row">
         <div class="btn-group col-sm-8" role="group">
           <button type="button" class="btn btn-default" ng-click="setButton(1)">User Management</button>
-          <button type="button" class="btn btn-default" ng-click="setButton(2)">Company Reports</button>
-          <button type="button" class="btn btn-default" ng-click="setButton(3)">Spread Site Reports</button>
-          <button type="button" class="btn btn-default" ng-click="setButton(4)">Spread Site Management</button>
+          <button type="button" class="btn btn-default" ng-click="setButton(2)" ng-hide="accountType != 'admin'">Company Managment</button>
+          <button type="button" class="btn btn-default" ng-click="setButton(3)">Company Reports</button>
+          <button type="button" class="btn btn-default" ng-click="setButton(4)">Spread Site Reports</button>
+          <button type="button" class="btn btn-default" ng-click="setButton(5)">Spread Site Management</button>
         </div>
     </div>
     <div ng-show="isButton(1)">
@@ -38,9 +39,16 @@
                 <label for="usertype" class="col-sm-2 control-label">User Type:</label>
                 <div class="col-sm-3">
                     <select class = "form-control input-lg" ng-model="newUser.type" required>
-                        <option value="admin">Admin</option>
+                        <option value="admin" ng-hide="accountType!='admin'">Admin</option>
                         <option value="contractor">Contractor</option>
+                        <option value="driver">Driver</option>
                     </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="company" class="col-sm-2 control-label">Company:</label>
+                <div class="col-sm-3">
+                    <select class="form-control input-lg" ng-model="selectedCompany" ng-options="company for company in companyList"></select>
                 </div>
             </div>
             <div class="form-group">
@@ -64,12 +72,49 @@
         </form>
     </div>
     <div ng-show="isButton(2)">
+        <form class="form-horizontal" novalidate>
+            <br>
+            <div class="form-group">
+                <label for="Users" class="col-sm-2 control-label">Existing Companies:</label>
+                <div class="col-sm-3">
+                    <select class="form-control input-lg" ng-model="selectedCompany" ng-options="company for company in companyList"></select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">Company Name:</label>
+                <div class="col-sm-3">
+                    <input class="form-control input-lg" type="text" name="name" ng-model="company.name" required/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="phone" class="col-sm-2 control-label">Phone Number:</label>
+                <div class="col-sm-3">
+                    <input class="form-control input-lg" type="phone" name="phone" ng-model="company.phone" required/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="active" class="col-sm-2 control-label">Active?</label>
+                <div class="col-sm-3">
+                    <select class="form-control input-lg" ng-model="company.active" required>
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="" ng-click="submitCompany()">Create/Update Company</button>
+            </div>
+        </form>
+        
+    </div>
+    <div ng-show="isButton(3)">
         {{button}}
     </div>
-        <div ng-show="isButton(3)">
+    <div ng-show="isButton(4)">
         {{button}}
     </div>
-        <div ng-show="isButton(4)">
+    <div ng-show="isButton(5)">
         {{button}}
     </div>
+
 </div>

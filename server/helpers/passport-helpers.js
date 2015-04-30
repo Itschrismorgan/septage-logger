@@ -10,17 +10,17 @@ var passport = require('passport');
 exports.localHandler = function(username, password, done){
     //console.log(username, password);
     user.findOne({_id: username}, function(err, user){
-        //console.log(user);
+        console.log(user);
         if (err) { return done(err); }
         
         //console.log("no err");
         if(!user) {
-            //console.log("nouser");
+            console.log("nouser");
             return done(null, false, { message: 'Incorrect username.'});
         }
         
         if (!userCtrl.checkCredentials(user, password)){
-            //console.log("bad pass");
+            console.log("bad pass");
             return done(null, false, { message: 'Incorrect password.' });
         }
         

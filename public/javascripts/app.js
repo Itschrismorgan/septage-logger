@@ -9,10 +9,9 @@ septageLogger.controller('IndexCtrl',['$scope',function($scope){
     
 }]);
 
-septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', function($scope, $routeParams, userService){
+septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', 'companyService', function($scope, $routeParams, userService, companyService){
     //console.log($routeParams.username);
     
-    fillInUserList();
     
     $scope.$watch('selectedUser', function(newSelectedUser){
         if(newSelectedUser === "" || newSelectedUser === undefined){
@@ -27,6 +26,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', fu
                 $scope.newUser.password = "";
                 $scope.newUser.email = returnData.data.email;
                 $scope.newUser.type = returnData.data.type;
+                $scope.selectedCompany = returnData.data.company;
                 if(returnData.data.active){
                     $scope.newUser.active = 'yes';
                 } else {
@@ -39,20 +39,61 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', fu
         }
     });
     
+    $scope.$watch('selectedCompany', function(newSelectedCompany){
+        if(newSelectedCompany === "" || newSelectedCompany === undefined){
+            // clear out the form inputs
+            $scope.company = {};
+        } else {
+            companyService.getCompany(newSelectedCompany)
+            .then(function(returnData){
+                $scope.company.name = returnData.data.name;
+                $scope.company.phone = returnData.data.phone;
+                if(returnData.data.active){
+                    $scope.company.active = 'yes';
+                } else {
+                    $scope.company.active = 'no';
+                }
+            }, function(err){
+                console.log("problem");
+            });
+            
+        }
+    });
     
     userService.getUser($routeParams.username)
         .then(function(data){
             $scope.username = data.data.username;
             $scope.accountType = data.data.type;
+            if($scope.accountType !== 'admin') {
+                fillInUserList();
+                $scope.companyList = [];
+                $scope.companyList.push(data.data.company);
+            } else {
+                fillInUserList();
+                fillCompanyList();
+            }
         }, function(error){
             console.log("problem");
         });
         
         
+    
+    $scope.submitCompany = function(){
+        companyService.createCompany($scope.company)
+            .then(function(data){
+                console.log(data);
+            }, function(error){
+                console.log("error");
+            })
+    };
+        
     $scope.createUser = function(){
         if($scope.userList.indexOf($scope.newUser.username) !== -1 ){
             //console.log("update user");
-            userService.updateUser($scope.newUser)
+            var newUser = $scope.newUser;
+            newUser.company = $scope.selectedCompany;
+            console.log(newUser);
+            userService.updateUser(newUser)
                 .then(function(data){
                     //console.log("user updated");
                 }, function(error){
@@ -62,6 +103,9 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', fu
         } else {
             //console.log("create user");
             //console.log($scope.newUser);
+            var newUser = $scope.newUser;
+            newUser.company = $scope.selectedCompany;
+            console.log(newUser);
             userService.createUser($scope.newUser)
                 .then(function(data){
                     //console.log("user created");
@@ -81,6 +125,16 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', fu
         return $scope.button === value;
     };
     
+    function fillCompanyList(){
+        $scope.companyList = [];
+        companyService.getCompanyList()
+            .then(function(res){
+                res.data.map(function(company){
+                    $scope.companyList.push(company.name);
+                });
+            }, function(error){});
+    };
+    
     function fillInUserList(){
         $scope.userList = [];
         userService.getUserList()
@@ -97,6 +151,28 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', fu
     };
 }]);
 
+
+septageLogger.service('companyService', ['$http', function($http){
+    
+    
+    this.createCompany = function(company){
+        return $http.post('/company', company)
+            .success(function(data){return data;})
+            .error(function(e){return e;});
+    };
+    
+    this.getCompanyList = function(){
+        return $http.get('/company')
+            .success(function(data){return data;})
+            .error(function(e) {return e;});
+    };
+    
+    this.getCompany = function(company){
+        return $http.get('/company/'+company)
+            .success(function(data){return data;})
+            .error(function(e){return e;});
+    };
+}]);
 
 septageLogger.service('userService', ['$http', function($http){
     this.getUser = function(username){
