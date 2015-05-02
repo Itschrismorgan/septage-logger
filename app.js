@@ -48,6 +48,7 @@ require('./server/models');
 // TODO: possibly move to external file
 var routes = require('./routes/index');
 var users = require('./routes/users');
+//var companies = require('./routes/companies.js')
 app.use('/', routes);
 app.use('/users', users);
 

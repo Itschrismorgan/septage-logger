@@ -3,7 +3,19 @@ var crypto = require('crypto');
 var user = mongoose.model('User');
 
 
-
+exports.getUserType = function(username){
+    user.findOne({_id: username}, function(err, user){
+        if(err){
+        return "";
+        }
+        
+        if(!user){
+            return "";
+        } else {
+            return user.type;
+        }
+    });
+};
 
 
 exports.createUser = function(req,res){
@@ -17,6 +29,7 @@ exports.createUser = function(req,res){
         passwordHash: passwordHash,
         salt: salt,
         type: req.body.type,
+        companyId: req.body.companyId,
         email: req.body.email,
         active: true
     };
@@ -75,7 +88,7 @@ exports.updateUser = function(req,res){
 };
 
 exports.getUserList = function(req,res){
-    user.find({}, '_id type email active', function(err, users){
+    user.find({}, '_id type email companyId active', function(err, users){
         if(err) {
             res.status(500).json({code: 500, message: "failed to delete user"});
         }
@@ -127,6 +140,7 @@ var safeUserInfo = function(user){
     cleanedUser.email = user.email;
     cleanedUser.active = user.active;
     cleanedUser.type = user.type;
+    cleanedUser.companyId = user.companyId;
 
     return cleanedUser;
 };

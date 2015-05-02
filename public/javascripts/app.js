@@ -13,6 +13,8 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', fu
     //console.log($routeParams.username);
     
     fillInUserList();
+    clearFields();
+    
     
     $scope.$watch('selectedUser', function(newSelectedUser){
         if(newSelectedUser === "" || newSelectedUser === undefined){
@@ -49,12 +51,26 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', fu
         });
         
         
+    $scope.deleteUser = function(){
+        if($scope.userList.indexOf($scope.newUser.username) !== -1){
+            // send delete request
+            userService.deleteUser($scope.newUser.username)
+                .then(function(data){
+                    fillInUserList();
+                    clearFields();
+                }, function(error){
+                    console.log("problem");
+                });
+        }
+    };
+        
     $scope.createUser = function(){
         if($scope.userList.indexOf($scope.newUser.username) !== -1 ){
             //console.log("update user");
             userService.updateUser($scope.newUser)
                 .then(function(data){
                     //console.log("user updated");
+                    clearFields();
                 }, function(error){
                     console.log("problem");
                 });
@@ -66,6 +82,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', fu
                 .then(function(data){
                     //console.log("user created");
                     fillInUserList();
+                    clearFields();
                 }, function(error){
                     console.log("problem");
                 });
@@ -94,6 +111,14 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', fu
             }, function(error){
                 console.log("no users returned");
             });
+    };
+    
+    function clearFields(){
+        $scope.newUser = {};
+        $scope.newUser.username = "";
+        $scope.newUser.password = "";
+        $scope.newUser.email = "";
+        $scope.newUser.type = "";
     };
 }]);
 
@@ -129,6 +154,17 @@ septageLogger.service('userService', ['$http', function($http){
             .error(function(e){
                 return e;
             });
+    };
+    
+    this.deleteUser = function(username){
+        return $http.delete('/users/'+username)
+            .success(function(data){
+                console.log(data);
+            })
+            .error(function(e){
+                return e;
+            });
+        
     };
     
     this.getUserList = function(){

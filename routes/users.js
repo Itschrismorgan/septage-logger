@@ -10,7 +10,7 @@ router.get('/', function(req, res, next) {
 router.post('/', function(req, res, next){
     //console.log("in user post");
     //console.log(req.user);
-    if(req.user.type === "admin"){
+    if(req.user.type === "admin" || (req.user.type === "contractor" && req.body.type === "driver")){
         //console.log("is an admin")
         user.createUser(req,res);
     } else {
@@ -29,7 +29,9 @@ router.get('/:username', function(req,res,next){
 });
 
 router.post('/:username', function(req,res,next){
-    if(req.user === req.params.username || req.user.type === 'admin'){
+    if(req.user === req.params.username || 
+        req.user.type === 'admin' || 
+        (req.user.type === 'contractor' && user.getUserType(req.params.username) === 'driver')){
         user.updateUser(req,res);
     } else {
         res.status(401).json({code: 401, message: 'not authorized for the requested action'});   
