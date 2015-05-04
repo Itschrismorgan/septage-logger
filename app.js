@@ -48,9 +48,11 @@ require('./server/models');
 // TODO: possibly move to external file
 var routes = require('./routes/index');
 var users = require('./routes/users');
-//var companies = require('./routes/companies.js')
+var company = require('./routes/company');
+
 app.use('/', routes);
 app.use('/users', users);
+app.use('/company', company);
 
 
 // catch 404 and forward to error handler
