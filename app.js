@@ -49,10 +49,12 @@ require('./server/models');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var company = require('./routes/company');
+var trucks = require('./routes/trucks');
 
 app.use('/', routes);
 app.use('/users', users);
 app.use('/company', company);
+app.use('/trucks', trucks);
 
 
 // catch 404 and forward to error handler
