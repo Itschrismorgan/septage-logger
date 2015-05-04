@@ -5,6 +5,11 @@ require('../server/models');
 
 var user = mongoose.model('User');
 
+if (process.argv.length <= 2){
+    console.log("usage:");
+    console.log("node utility/createUser.js username password email");
+    process.exit();
+}
 
 
 var username = process.argv[2];
@@ -41,7 +46,8 @@ mongoose.connect('mongodb://localhost/septage', function(err){
             console.log("Error!!!!");
         };
         
-        if (users){
+        if (users.length !== 0){
+            console.log(users);
             console.log("users exist - do not allow user creation");
             mongoose.connection.close();
         } else {
