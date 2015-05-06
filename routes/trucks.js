@@ -1,28 +1,47 @@
 var express = require('express');
 var router = express.Router();
-//var trucks = require('../server/controllers/trucks');
+var truck = require('../server/controllers/truck');
+var user = require('../server/controllers/user');
+var company = require('../server/controllers/company');
 
 
 router.get('/', function(req,res,next){
-    res.send("check");
+    if (req.user.type === 'admin' || req.user.type === 'contractor' || req.user.type === 'driver'){
+        truck.getTruckList(req,res);
+    } else {
+        res.status(401).json({code: 401, message: 'not authorized to create truck records'});
+    }
 });
 
 router.get('/:truck_id', function(req,res,next){
-    res.send("get for truck:"+req.params.truck_id);
+    if (req.user) {
+        truck.getTruck(req,res);
+    } else {
+        res.status(401).json({code: 401, message: 'not authorized'});
+    }
 });
 
 router.post('/', function(req,res,next){
     console.log(req.body);
-    res.send("check post");
+    if (req.user.type === 'admin' || (req.user.type === 'contractor' || req.user.company === req.body.companyName)){
+        truck.createTruck(req,res);
+    }
 });
 
 router.delete('/:truck_id', function(req,res,next){
-    res.send("check delete:"+req.params.truck_id);
+    if (req.user.type === 'admin' || (req.user.type === 'contractor' || req.user.company === req.body.companyName)){
+        truck.deleteTruck(req,res);
+
+    }
 });
 
 router.post('/:truck_id', function(req,res,next){
-    res.send("check update:"+req.params.truck_id);
+    if (req.user.type === 'admin' || (req.user.type === 'contractor' || req.user.company === req.body.companyName)){
+        truck.updateTruck(req,res);
+    }
 });
 
 
 module.exports = router;
+
+

@@ -9,8 +9,8 @@ septageLogger.controller('IndexCtrl',['$scope',function($scope){
     
 }]);
 
-septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', 'companyService',
-    function($scope, $routeParams, userService, companyService){
+septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', 'companyService', 'truckService',
+    function($scope, $routeParams, userService, companyService, truckService){
     //console.log($routeParams.username);
     
     
@@ -97,9 +97,20 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', 'c
                 console.log(data);
             }, function(error){
                 console.log("error");
-            })
+            });
     };
-        
+    
+    $scope.submitTruck = function(){
+        var truck = $scope.newTruck;
+        truck.company = $scope.selectedCompany;
+        truckService.createTruck(truck)
+            .then(function(data){
+                console.log(data);
+            }, function(error){
+               console.log("error"); 
+            });
+    };
+    
     $scope.createUser = function(){
         if($scope.userList.indexOf($scope.newUser.username) !== -1 ){
             //console.log("update user");
@@ -248,10 +259,59 @@ septageLogger.service('userService', ['$http', function($http){
     };
 }]);
 
+septageLogger.service('truckService', ['$http', function($http){
+    this.getTruck = function(vin){
+        //console.log('userService::getUser', username);
+        return $http.get('/trucks/'+vin)
+            .success(function(data){
+                //console.log('user returned');
+                //console.log(data);
+            })
+            .error(function(e){
+                return e;
+            });
+    };
+    
+    this.createTruck = function(truck){
+        return $http.post('/trucks',truck)
+            .success(function(data){
+                return data;
+            })
+            .error(function(e){
+                return e;
+            });
+    };
+    
+    this.updateTruck = function(truck){
+        return $http.post('/trucks/'+truck.vin, truck)
+            .success(function(data){
+                return data;
+            })
+            .error(function(e){
+                return e;
+            });
+    };
+    
+    this.deleteTruck = function(vin){
+        return $http.delete('/trucks/'+vin)
+            .success(function(data){
+                console.log(data);
+            })
+            .error(function(e){
+                return e;
+            });
+        
+    };
+    
+    this.getTruckList = function(){
+        return $http.get('/trucks')
+            .success(function(data){return data;})
+            .error(function(e) {return e;});
+    };
+}]);
+
 
 septageLogger.controller('LoginCtrl',['$scope', '$location', 'loginService', function($scope, $location, loginService){
-    
-    
     $scope.sendLogin = function(){
         loginService.login($scope.login.username, $scope.login.password)
             .then(function(data){

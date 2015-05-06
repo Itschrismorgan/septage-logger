@@ -9,7 +9,7 @@
         <div class="btn-group col-sm-8" role="group">
           <button type="button" class="btn btn-default" ng-click="setButton(1)">User Management</button>
           <button type="button" class="btn btn-default" ng-click="setButton(2)" ng-hide="accountType != 'admin'">Company Managment</button>
-          <button type="button" class="btn btn-default" ng-click="setButton(3)">Company Reports</button>
+          <button type="button" class="btn btn-default" ng-click="setButton(3)">Truck Managment</button>
           <button type="button" class="btn btn-default" ng-click="setButton(4)">Spread Site Reports</button>
           <button type="button" class="btn btn-default" ng-click="setButton(5)">Spread Site Management</button>
         </div>
@@ -110,10 +110,72 @@
                 <button type="submit" class="" ng-click="submitCompany()">Create/Update Company</button>
             </div>
         </form>
-        
     </div>
     <div ng-show="isButton(3)">
-        {{button}}
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label for="company" class="col-sm-2 control-label">Company:</label>
+                <div class="col-sm-3">
+                    <select class="form-control input-lg" ng-model="selectedCompany" ng-options="company for company in companyList"></select>
+                </div>
+            </div>
+            <div ng-repeat="truck in trucks">
+                <div>
+                    <em>{{truck.vin}}</em>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="vin" class="col-sm-2 control-label">VIN:</label>
+                <div class="col-sm-3">
+                    <input class="form-control input-lg" type="text" name="vin" ng-model="newTruck.vin" required/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="capacity" class="col-sm-2 control-label">Capacity:</label>
+                <div class="col-sm-3">
+                    <input class="form-control input-lg" type="text" name="capacity" ng-model="newTruck.capacity" required/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="tag" class="col-sm-2 control-label">License Tag:</label>
+                <div class="col-sm-3">
+                    <input class="form-control input-lg" type="text" name="tag" ng-model="newTruck.tag" required/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="nickname" class="col-sm-2 control-label">Nick Name:</label>
+                <div class="col-sm-3">
+                    <input class="form-control input-lg" type="text" name="nickname" ng-model="newTruck.nickname" required/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="make" class="col-sm-2 control-label">Make:</label>
+                <div class="col-sm-3">
+                    <input class="form-control input-lg" type="text" name="make" ng-model="newTruck.make" required/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="Model" class="col-sm-2 control-label">Model:</label>
+                <div class="col-sm-3">
+                    <input class="form-control input-lg" type="text" name="model" ng-model="newTruck.model" required/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="year" class="col-sm-2 control-label">Year:</label>
+                <div class="col-sm-3">
+                    <input class="form-control input-lg" type="text" name="year" ng-model="newTruck.year" required/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="color" class="col-sm-2 control-label">Color:</label>
+                <div class="col-sm-3">
+                    <input class="form-control input-lg" type="text" name="color" ng-model="newTruck.color" required/>
+                </div>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="" ng-click="submitTruck()">Add Truck</button>
+            </div>
+        </form>
     </div>
     <div ng-show="isButton(4)">
         {{button}}
