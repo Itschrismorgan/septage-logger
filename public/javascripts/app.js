@@ -311,14 +311,36 @@ septageLogger.service('truckService', ['$http', function($http){
 }]);
 
 
-septageLogger.controller('LoginCtrl',['$scope', '$location', 'loginService', function($scope, $location, loginService){
+septageLogger.controller('LoginCtrl',['$scope', '$location', 'loginService', 'userService', function($scope, $location, loginService, userService){
     $scope.sendLogin = function(){
         loginService.login($scope.login.username, $scope.login.password)
             .then(function(data){
                 //console.log("login good");
                 $scope.loginResult = "";
                 $scope.login.password = "";
-                $location.url("/user/"+$scope.login.username);
+                //a test
+                userService.getUser($scope.login.username)
+                    .then(function(data){
+                    $scope.username = data.data.username;
+                    $scope.accountType = data.data.type;
+                    
+                    if ($scope.accountType !== 'driver'){
+                        $location.url("/user/"+$scope.login.username);
+                    } else {
+                        $location.url("/driver/"+$scope.login.username);
+                    }
+                
+                    }, function(error){
+                        console.log("problem");
+                    });
+                
+                /*
+                if ($scope.accountType === 'driver'){
+                    $location.url("/user/"+$scope.login.username);
+                } else {
+                    $location.url("/driver/"+$scope.login.username);
+                }
+                */
             }, function(error){
                 //console.log("login bad");
                 $scope.login.username = "";
@@ -358,5 +380,10 @@ when('/user/:username',{
     templateUrl: 'javascripts/views/user.html',
     controller: 'UserCtrl'
 }).
+when('/driver/:username',{
+    templateUrl: 'javascripts/views/driver.html',
+    controller: 'UserCtrl'
+}).
 otherwise('/');
 });
+
