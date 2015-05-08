@@ -40,8 +40,34 @@ exports.createTruck = function(req, res){
 };
 
 exports.getTruckList = function(req, res){
+    console.log(req.user);
+    if(req.user.type === "admin"){
+        truck.find({}, function(err, trucks){
+            if(err) {
+                res.status(500).json({code: 500, message: "failed to retrieve trucks"});
+            }
+            
+            if(!trucks){
+                res.status(404).json({code: 404, message: "no trucks found"})
+            } else {
+                res.status(200).json(trucks);
+            }
+        });  
+    }
+    else {
+        truck.find({companyId: req.user.companyId}, function(err, trucks){
+            if(err) {
+                res.status(500).json({code: 500, message: "failed to retrieve trucks"});
+            }
+            
+            if(!trucks){
+                res.status(404).json({code: 404, message: "no trucks found"})
+            } else {
+                res.status(200).json(trucks);
+            }
+        });
+    }
     console.log('getting truck list');
-    res.status(200).json([{vin: "vin1", nickname: "truck1"}, {vin: "vin2", nickname: "truck2"}]);
 };
 
 exports.updateTruck = function(req, res){

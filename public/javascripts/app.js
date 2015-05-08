@@ -323,24 +323,14 @@ septageLogger.controller('LoginCtrl',['$scope', '$location', 'loginService', 'us
                     .then(function(data){
                     $scope.username = data.data.username;
                     $scope.accountType = data.data.type;
-                    
-                    if ($scope.accountType !== 'driver'){
-                        $location.url("/user/"+$scope.login.username);
-                    } else {
-                        $location.url("/driver/"+$scope.login.username);
-                    }
-                
+                        if ($scope.accountType !== 'driver'){
+                            $location.url("/user/"+$scope.login.username);
+                        } else {
+                            $location.url("/driver/"+$scope.login.username);
+                        }
                     }, function(error){
                         console.log("problem");
                     });
-                
-                /*
-                if ($scope.accountType === 'driver'){
-                    $location.url("/user/"+$scope.login.username);
-                } else {
-                    $location.url("/driver/"+$scope.login.username);
-                }
-                */
             }, function(error){
                 //console.log("login bad");
                 $scope.login.username = "";
