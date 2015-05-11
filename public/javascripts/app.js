@@ -61,17 +61,34 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', 'c
         }
     });
     
+        $scope.$watch('selectedTruck', function(newSelectedTruck){
+        if(newSelectedTruck === "" || newSelectedTruck === undefined){
+            // clear out the form inputs
+            $scope.truck = {};
+        } else {
+            truckService.getTruck(newSelectedTruck)
+            .then(function(returnData){
+                $scope.truck.nickname = returnData.data.nickname;
+            }, function(err){
+                console.log("problem");
+            });
+            
+        }
+    });
+    
     userService.getUser($routeParams.username)
         .then(function(data){
             $scope.username = data.data.username;
             $scope.accountType = data.data.type;
             if($scope.accountType !== 'admin') {
                 fillInUserList();
+                fillTruckList();
                 $scope.companyList = [];
                 $scope.companyList.push(data.data.company);
             } else {
                 fillInUserList();
                 fillCompanyList();
+                fillTruckList();
             }
         }, function(error){
             console.log("problem");
@@ -174,6 +191,16 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', 'c
             }, function(error){
                 console.log("no users returned");
             });
+    };
+    
+    function fillTruckList(){
+        $scope.truckList = [];
+        truckService.getTruckList()
+            .then(function(res){
+                res.data.map(function(truck){
+                    $scope.truckList.push(truck.nickname);
+                });
+            }, function(error){});
     };
     
     function clearFields(){
