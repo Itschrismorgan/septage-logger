@@ -121,7 +121,11 @@
             </div>
             <div ng-repeat="truck in trucks">
                 <div>
-                    <em>{{truck.vin}}</em>
+                    <p>Nick Name: {{truck.nickname}}   VIN: {{truck._id}}  Capacity: {{truck.capacity}}  Tag: {{truck.tag}}
+                        Make: {{truck.make}}   Model: {{truck.model}}   Year: {{truck.year}}  Color: {{truck.color}}</p>
+                </div>
+                <div>
+                    <button ng-click="deleteTruck({{truck._id}})">Delete</button>
                 </div>
             </div>
             <div class="form-group">

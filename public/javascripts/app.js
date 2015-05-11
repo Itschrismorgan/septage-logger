@@ -9,11 +9,8 @@ septageLogger.controller('IndexCtrl',['$scope',function($scope){
     
 }]);
 
-septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', 'companyService', 'truckService',
-    function($scope, $routeParams, userService, companyService, truckService){
-    //console.log($routeParams.username);
-    
-    
+septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', 'companyService', 'truckService', function($scope, $routeParams, userService, companyService, truckService){
+
     $scope.$watch('selectedUser', function(newSelectedUser){
         if(newSelectedUser === "" || newSelectedUser === undefined){
             // clear out the form inputs
@@ -67,11 +64,13 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', 'c
             $scope.accountType = data.data.type;
             if($scope.accountType !== 'admin') {
                 fillInUserList();
+                reloadTruckList();
                 $scope.companyList = [];
                 $scope.companyList.push(data.data.company);
             } else {
                 fillInUserList();
                 fillCompanyList();
+                reloadTruckList();
             }
         }, function(error){
             console.log("problem");
@@ -95,6 +94,8 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', 'c
         companyService.createCompany($scope.company)
             .then(function(data){
                 console.log(data);
+                clearCompanyFields();
+                fillCompanyList();
             }, function(error){
                 console.log("error");
             });
@@ -106,11 +107,26 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', 'c
         truckService.createTruck(truck)
             .then(function(data){
                 console.log(data);
+                clearTruckFields();
+                reloadTruckList();
             }, function(error){
                console.log("error"); 
             });
     };
-    
+
+    $scope.deleteTruck = function(vin){
+        truckService.deleteTruck(vin)
+            .then(function(data){
+                reloadTruckList();
+                clearTruckFields();
+            }, function(error){
+                console.log("problem");
+            });
+    };
+
+
+
+
     $scope.createUser = function(){
         if($scope.userList.indexOf($scope.newUser.username) !== -1 ){
             //console.log("update user");
@@ -142,15 +158,6 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', 'c
         }
     };
     
-    //Luke added button control here
-    $scope.setButton = function(value){
-        $scope.button = value;
-    };
-    
-    $scope.isButton = function(value){
-        return $scope.button === value;
-    };
-    
     function fillCompanyList(){
         $scope.companyList = [];
         companyService.getCompanyList()
@@ -158,9 +165,24 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', 'c
                 res.data.map(function(company){
                     $scope.companyList.push(company.name);
                 });
-            }, function(error){});
-    };
-    
+            }, function(error){
+                console.log(error);
+            });
+    }
+
+
+    function reloadTruckList(){
+        $scope.trucks = [];
+        truckService.getTruckList()
+            .then(function(response){
+                response.data.map(function(truck){
+                    $scope.trucks.push(truck);
+                });
+            }, function(error){
+                console.log(error);
+            });
+    }
+
     function fillInUserList(){
         $scope.userList = [];
         userService.getUserList()
@@ -174,14 +196,41 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', 'c
             }, function(error){
                 console.log("no users returned");
             });
-    };
-    
+    }
+
+    function clearCompanyFields(){
+        $scope.company = {};
+        $scope.company.name = "";
+        $scope.company.phone = "";
+        $scope.company.active = "";
+    }
+
+    function clearTruckFields(){
+        $scope.newTruck = {};
+        $scope.newTruck.vin = "";
+        $scope.newTruck.capacity = "";
+        $scope.newTruck.tag = "";
+        $scope.newTruck.nickname = "";
+        $scope.newTruck.make = "";
+        $scope.newTruck.model = "";
+        $scope.newTruck.year = "";
+    }
+
     function clearFields(){
         $scope.newUser = {};
         $scope.newUser.username = "";
         $scope.newUser.password = "";
         $scope.newUser.email = "";
         $scope.newUser.type = "";
+    }
+
+    //Luke added button control here
+    $scope.setButton = function(value){
+        $scope.button = value;
+    };
+
+    $scope.isButton = function(value){
+        return $scope.button === value;
     };
 }]);
 
