@@ -40,7 +40,7 @@ exports.createTruck = function(req, res){
 };
 
 exports.getTruckList = function(req, res){
-    console.log(req.user);
+    //console.log(req.user);
     if(req.user.type === "admin"){
         truck.find({}, function(err, trucks){
             if(err) {
@@ -48,7 +48,7 @@ exports.getTruckList = function(req, res){
             }
             
             if(!trucks){
-                res.status(404).json({code: 404, message: "no trucks found"})
+                res.status(404).json({code: 404, message: "no trucks found"});
             } else {
                 res.status(200).json(trucks);
             }
@@ -61,13 +61,13 @@ exports.getTruckList = function(req, res){
             }
             
             if(!trucks){
-                res.status(404).json({code: 404, message: "no trucks found"})
+                res.status(404).json({code: 404, message: "no trucks found"});
             } else {
                 res.status(200).json(trucks);
             }
         });
     }
-    console.log('getting truck list');
+    //console.log('getting truck list');
 };
 
 exports.updateTruck = function(req, res){

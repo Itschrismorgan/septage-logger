@@ -58,6 +58,21 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', 'c
         }
     });
     
+        $scope.$watch('selectedTruck', function(newSelectedTruck){
+        if(newSelectedTruck === "" || newSelectedTruck === undefined){
+            // clear out the form inputs
+            $scope.truck = {};
+        } else {
+            truckService.getTruck(newSelectedTruck)
+            .then(function(returnData){
+                $scope.truck.nickname = returnData.data.nickname;
+            }, function(err){
+                console.log("problem");
+            });
+            
+        }
+    });
+    
     userService.getUser($routeParams.username)
         .then(function(data){
             $scope.username = data.data.username;
@@ -128,9 +143,10 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', 'c
 
 
     $scope.createUser = function(){
+        var newUser = $scope.newUser;
+
         if($scope.userList.indexOf($scope.newUser.username) !== -1 ){
             //console.log("update user");
-            var newUser = $scope.newUser;
             newUser.company = $scope.selectedCompany;
             console.log(newUser);
             userService.updateUser(newUser)
@@ -144,7 +160,6 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', 'c
         } else {
             //console.log("create user");
             //console.log($scope.newUser);
-            var newUser = $scope.newUser;
             newUser.company = $scope.selectedCompany;
             console.log(newUser);
             userService.createUser($scope.newUser)
@@ -216,6 +231,16 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', 'c
         $scope.newTruck.year = "";
     }
 
+    function fillTruckList(){
+        $scope.truckList = [];
+        truckService.getTruckList()
+            .then(function(res){
+                res.data.map(function(truck){
+                    $scope.truckList.push(truck.nickname);
+                });
+            }, function(error){});
+    }
+    
     function clearFields(){
         $scope.newUser = {};
         $scope.newUser.username = "";
