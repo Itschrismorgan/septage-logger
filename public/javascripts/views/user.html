@@ -18,19 +18,19 @@
         <form class="form-horizontal" novalidate>
             <br>
             <div class="form-group">
-                <label for="Users" class="col-sm-2 control-label">Existing Users:</label>
+                <label for="users" class="col-sm-2 control-label">Existing Users:</label>
                 <div class="col-sm-3">
                     <select class="form-control input-lg" ng-model="selectedUser" ng-options="user for user in userList"></select>
                 </div>
             </div>
             <div class="form-group">
-                <label for="Username" class="col-sm-2 control-label">Username:</label>
+                <label for="username" class="col-sm-2 control-label">Username:</label>
                 <div class="col-sm-3">
                     <input class="form-control input-lg" type="text" name="username" ng-model="newUser.username" required/>
                 </div>
             </div>
             <div class="form-group">
-                <label for="Password" class="col-sm-2 control-label">Password:</label>
+                <label for="password" class="col-sm-2 control-label">Password:</label>
                 <div class="col-sm-3">
                     <input class="form-control input-lg" type="password" name="password" ng-model="newUser.password" required/>
                 </div>
@@ -125,7 +125,7 @@
                         Make: {{truck.make}}   Model: {{truck.model}}   Year: {{truck.year}}  Color: {{truck.color}}</p>
                 </div>
                 <div>
-                    <button ng-click="deleteTruck({{truck._id}})">Delete</button>
+                    <button ng-click="deleteTruck('{{truck._id}}')">Delete</button>
                 </div>
             </div>
             <div class="form-group">
