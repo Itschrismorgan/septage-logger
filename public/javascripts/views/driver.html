@@ -1,11 +1,11 @@
 <div>
     <div class="row">
         <div class="col-sm-8">
-            <p>Logged in as {{username | uppercase }} ({{accountType | uppercase}})</p>
+            <p>Logged in as {{username | uppercase }} driving for {{company}}</p>
         </div>
         <div class="col-sm-8">
             <label for="Trucks">Trucks:</label>
-            <select class="form-control input-lg" ng-model="selectedTruck" ng-options="truck for truck in truckList"></select>
+            <select class="form-control input-lg" ng-model="selectedTruck" ng-options="truck.nickname for truck in truckList"></select>
         </div>
     </div>
 </div>
