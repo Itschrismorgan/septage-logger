@@ -21,55 +21,42 @@ exports.getUserType = function(username){
 
 exports.createUser = function(req,res){
     //console.log("in controller:createUser");
-    var salt = genSalt();
-    console.log(req.body);
-    var passwordHash = hash(req.body.password, salt);
     
-    var userToCreate = {
-        _id: req.body.username,
-        passwordHash: passwordHash,
-        salt: salt,
-        type: req.body.type,
-        companyId: req.body.companyId,
-        email: req.body.email,
-        active: true
-    };
-    
-    
-    //console.log(userToCreate);
-    user.create(userToCreate, function(err){
-        company.findOne({name: req.body.company}, function(err, company){
-            if(err){
-                res.status(500).json({code:500, message: "Server error retrieving company record"});
-            }
-            
-            if(!company){
-                res.status(404).json({code:404, message: "company record not found"});
-            } else {
-                var userToCreate = {
-                    _id: req.body.username,
-                    passwordHash: passwordHash,
-                    salt: salt,
-                    type: req.body.type,
-                    companyId: company._id,
-                    email: req.body.email,
-                    active: true
-                };
-                
-                console.log(userToCreate);
-                user.create(userToCreate, function(err){
-                    if(err){
-                        //user creation failed
-                        console.log("failed to create user");
-                        console.log(err);
-                        res.status(500).json({code: 500, message: "Failed to create user"});
-                    }
-                    
-                    console.log(userToCreate._id+" created.");
-                    res.status(200).json({username: userToCreate._id});
-                });
-            }
-        });
+    company.findOne({name: req.body.company}, function(err, company){
+        if(err){
+            res.status(500).json({code:500, message: "Server error retrieving company record"});
+        }
+
+        if(!company){
+            res.status(404).json({code:404, message: "company record not found"});
+        } else {
+            var salt = genSalt();
+            //console.log(req.body);
+            var passwordHash = hash(req.body.password, salt);
+
+            var userToCreate = {
+                _id: req.body.username,
+                passwordHash: passwordHash,
+                salt: salt,
+                type: req.body.type,
+                companyId: company._id,
+                email: req.body.email,
+                active: true
+            };
+
+            //console.log(userToCreate);
+            user.create(userToCreate, function(err){
+                if(err){
+                    //user creation failed
+                    console.log("failed to create user");
+                    //console.log(err);
+                    res.status(500).json({code: 500, message: "Failed to create user", err: err});
+                }
+
+                console.log(userToCreate._id+" created.");
+                res.status(200).json({username: userToCreate._id});
+            });
+        }
     });
 };
 
@@ -107,7 +94,7 @@ exports.updateUser = function(req,res){
             console.log(req.body);
             var userToUpdate = req.body;
             userToUpdate.companyId = company._id;
-            console.log(userToUpdate)
+            console.log(userToUpdate);
             user.findByIdAndUpdate(req.params.username, userToUpdate , function(err, userRet){
                 if(err){
                     res.status(500).json({code:500, message: "error updating user", error: err});
