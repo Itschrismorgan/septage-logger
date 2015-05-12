@@ -14,3 +14,13 @@ a {
 .ng-dirty.ng-valid{
   border-color: green;
 }
+
+.vertical-align-middle {
+    vertical-align: middle;
+}
+
+.truck-border {
+    border: solid 1px;
+    padding: 2px;
+    margin: 2px;
+}

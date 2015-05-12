@@ -58,7 +58,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', 'c
         }
     });
     
-        $scope.$watch('selectedTruck', function(newSelectedTruck){
+    $scope.$watch('selectedTruck', function(newSelectedTruck){
         if(newSelectedTruck === "" || newSelectedTruck === undefined){
             // clear out the form inputs
             $scope.truck = {};
@@ -138,8 +138,6 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', 'c
                 console.log("problem");
             });
     };
-
-
 
 
     $scope.createUser = function(){
@@ -367,6 +365,7 @@ septageLogger.service('truckService', ['$http', function($http){
     };
     
     this.deleteTruck = function(vin){
+        console.log(vin);
         return $http.delete('/trucks/'+vin)
             .success(function(data){
                 console.log(data);

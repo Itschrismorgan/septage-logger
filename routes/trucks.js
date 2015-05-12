@@ -25,19 +25,25 @@ router.post('/', function(req,res,next){
     console.log(req.body);
     if (req.user.type === 'admin' || (req.user.type === 'contractor' || req.user.company === req.body.companyName)){
         truck.createTruck(req,res);
+    } else {
+        res.status(401).json({code: 401, message: 'not authorized'});
     }
 });
 
 router.delete('/:truck_id', function(req,res,next){
+    console.log(req.user);
     if (req.user.type === 'admin' || (req.user.type === 'contractor' || req.user.company === req.body.companyName)){
         truck.deleteTruck(req,res);
-
+    } else {
+        res.status(401).json({code: 401, message: 'not authorized'});
     }
 });
 
 router.post('/:truck_id', function(req,res,next){
     if (req.user.type === 'admin' || (req.user.type === 'contractor' || req.user.company === req.body.companyName)){
         truck.updateTruck(req,res);
+    } else {
+        res.status(401).json({code: 401, message: 'not authorized'});
     }
 });
 

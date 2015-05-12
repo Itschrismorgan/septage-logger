@@ -71,13 +71,31 @@ exports.getTruckList = function(req, res){
 };
 
 exports.updateTruck = function(req, res){
-    console.log('updating truck');
+    console.log('TODO: updating truck');
     res.status(200).json(req.body);
 };
 
 exports.deleteTruck = function(req,res){
     console.log('delete truck');
-    res.status(200).json({code: 200, message: "resource deleted"});
+    console.log(req.params);
+    //res.status(200).json({code: 200, message: "resource deleted"});
+    truck.findOne({_id: req.params.truck_id}, function(err, truck){
+        if(err) {
+            res.status(500).json({code: 500, message: "failed to delete truck"});
+        }
+
+        if(!truck){
+            res.status(404).json({code: 404, message: "truck not found"})
+        } else {
+            truck.remove({_id: req.params.truck_id}, function(err){
+                if(err) {
+                    res.status(500).json({code: 500, message: "failed to delete truck"});
+                }
+
+                res.status(200).json({code: 200, message: req.params.truck_id+" deleted"});
+            });
+        }
+    });
 };
 
 exports.getTruck = function(req,res){
