@@ -91,16 +91,16 @@ exports.updateUser = function(req,res){
             res.status(404).json({code:404, message: "company record not found"});
         } else {
             console.log("in updateUser");
-            console.log(req.body);
+            //console.log(req.body);
             var userToUpdate = req.body;
             userToUpdate.companyId = company._id;
-            console.log(userToUpdate);
+            //console.log(userToUpdate);
             user.findByIdAndUpdate(req.params.username, userToUpdate , function(err, userRet){
                 if(err){
                     res.status(500).json({code:500, message: "error updating user", error: err});
                 }
                 
-                console.log(userRet);
+                //console.log(userRet);
                 user.findOne({_id: userRet._id}, function(err,updateUser){
                     if(err){
                         res.status(500).json({code:500, message: "GetUser: Server error"});
@@ -134,8 +134,7 @@ exports.getUserList = function(req,res){
         //console.log(req.user);
         getUserCompany(req.user._id, function(limitToCompany){
             user.find({companyId: limitToCompany}, function(err, users){
-                console.log()
-                console.log(users);
+                //console.log(users);
                 if(err) {
                     res.status(500).json({code: 500, message: "failed to delete user"});
                 }
