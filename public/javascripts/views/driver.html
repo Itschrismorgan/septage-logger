@@ -3,9 +3,23 @@
         <div class="col-sm-8">
             <p>Logged in as {{username | uppercase }} driving for {{company}}</p>
         </div>
+        
         <div class="col-sm-8">
-            <label for="Trucks">Trucks:</label>
+            <label for="Trucks">Truck Selection:</label>
             <select class="form-control input-lg" ng-model="selectedTruck" ng-options="truck.nickname for truck in truckList"></select>
+        </div>
+        <br>
+        <div class="row">
+            <div class="btn-group col-sm-12" role="group">
+              <button type="button" class="btn btn-default" ng-click="setButton(1)">Waste Collection</button>
+              <button type="button" class="btn btn-default" ng-click="setButton(2)">Waste Disposal</button>
+            </div>
+        </div>
+        <div ng-show="isButton(1)">
+            <p>{{button}}</p>
+        </div>
+        <div ng-show="isButton(2)">
+            <p>{{button}}</p>
         </div>
     </div>
 </div>

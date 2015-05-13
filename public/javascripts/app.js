@@ -249,16 +249,6 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', 'c
         $scope.newTruck.model = "";
         $scope.newTruck.year = "";
     }
-
-    function fillTruckList(){
-        $scope.truckList = [];
-        truckService.getTruckList()
-            .then(function(res){
-                res.data.map(function(truck){
-                    $scope.truckList.push(truck.nickname);
-                });
-            }, function(error){});
-    }
     
     function clearFields(){
         $scope.newUser = {};
@@ -303,6 +293,16 @@ septageLogger.controller('DriverCtlr', ['$scope', '$routeParams', '$http', 'truc
                 console.log(error);
             });
     }
+    
+    //Luke added button control here
+    $scope.setButton = function(value){
+        $scope.button = value;
+    };
+
+    $scope.isButton = function(value){
+        return $scope.button === value;
+    };
+    
 }]);
 
 septageLogger.service('companyService', ['$http', function($http){
