@@ -3,7 +3,7 @@ var truck = mongoose.model('Truck');
 var company = mongoose.model('Company');
 
 exports.createTruck = function(req, res){
-    console.log(req.body);
+    //console.log(req.body);
     if (req.user.type === 'admin' || req.user.type === 'contractor'){
         var newTruck = req.body;
         company.findOne({name: req.body.company}, function(err, company){
@@ -21,7 +21,8 @@ exports.createTruck = function(req, res){
                     model: req.body.model,
                     year: req.body.year,
                     color: req.body.color,
-                    companyId: company._id
+                    companyId: company._id,
+                    approvedDrivers: req.body.approvedDrivers
                 };
                             
             truck.create(truckToCreate, function(err, truck){
@@ -76,8 +77,8 @@ exports.updateTruck = function(req, res){
 };
 
 exports.deleteTruck = function(req,res){
-    console.log('delete truck');
-    console.log(req.params);
+    //console.log('delete truck');
+    //console.log(req.params);
     //res.status(200).json({code: 200, message: "resource deleted"});
     truck.findOne({_id: req.params.truck_id}, function(err, truck){
         if(err) {

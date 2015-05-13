@@ -8,8 +8,9 @@ var schema = mongoose.Schema({
     make: {type: String, required: true },
     model: { type: String, required: true },
     year: { type: Number, required: true },
-    color: {type: String, require: true},
+    color: {type: String, required: true},
     companyId: {type: mongoose.Schema.Types.ObjectId },
+    approvedDrivers: [{type: String}]
 });
 
 

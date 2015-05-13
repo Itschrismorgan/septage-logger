@@ -22,7 +22,7 @@ router.get('/:truck_id', function(req,res,next){
 });
 
 router.post('/', function(req,res,next){
-    console.log(req.body);
+    //console.log(req.body);
     if (req.user.type === 'admin' || (req.user.type === 'contractor' || req.user.company === req.body.companyName)){
         truck.createTruck(req,res);
     } else {
@@ -31,7 +31,7 @@ router.post('/', function(req,res,next){
 });
 
 router.delete('/:truck_id', function(req,res,next){
-    console.log(req.user);
+    //console.log(req.user);
     if (req.user.type === 'admin' || (req.user.type === 'contractor' || req.user.company === req.body.companyName)){
         truck.deleteTruck(req,res);
     } else {

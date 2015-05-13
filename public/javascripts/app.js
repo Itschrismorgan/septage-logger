@@ -77,16 +77,17 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', 'c
         .then(function(data){
             $scope.username = data.data.username;
             $scope.accountType = data.data.type;
+            $scope.approvedDrivers = [];
             if($scope.accountType !== 'admin') {
-                fillInUserList();
-                reloadTruckList();
                 $scope.companyList = [];
                 $scope.companyList.push(data.data.company);
             } else {
-                fillInUserList();
                 fillCompanyList();
-                reloadTruckList();
             }
+
+            fillInUserList();
+            reloadTruckList();
+            fillApprovedDriversList();
         }, function(error){
             console.log("problem");
         });
@@ -119,9 +120,16 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', 'c
     $scope.submitTruck = function(){
         var truck = $scope.newTruck;
         truck.company = $scope.selectedCompany;
+        truck.approvedDrivers = [];
+        for(var username in $scope.approvedDrivers.usernames){
+            if($scope.approvedDrivers.usernames[username]){
+                truck.approvedDrivers.push(username);
+            }
+        }
+
         truckService.createTruck(truck)
             .then(function(data){
-                console.log(data);
+                //console.log(data);
                 clearTruckFields();
                 reloadTruckList();
             }, function(error){
@@ -170,7 +178,20 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', 'c
                 });
         }
     };
-    
+
+    function fillApprovedDriversList(){
+        $scope.drivers = [];
+        userService.getUserList()
+            .then(function(list){
+                list.data.map(function(driver){
+                    console.log(driver);
+                    $scope.drivers.push(driver._id);
+                })
+            }, function(error){
+                console.log(error);
+            });
+    }
+
     function fillCompanyList(){
         $scope.companyList = [];
         companyService.getCompanyList()

@@ -190,6 +190,14 @@
                 </div>
             </div>
             <div class="form-group">
+                <div ng-repeat="driver in drivers">
+                    <label class="checkbox" for="{{driver}">
+                        <input type="checkbox" ng-model="approvedDrivers.usernames[driver]" name="{{driver}}" id="{{driver}}" />
+                        {{driver}}
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
                 <button type="submit" class="" ng-click="submitTruck()">Add Truck</button>
             </div>
         </form>
