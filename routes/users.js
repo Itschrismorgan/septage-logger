@@ -32,7 +32,9 @@ router.post('/:username', function(req,res,next){
     if(req.user === req.params.username || 
         req.user.type === 'admin' || 
         (req.user.type === 'contractor' && user.getUserType(req.params.username) === 'driver')){
-        user.updateUser(req,res);
+            console.log(res.body);
+            console.log("ready for controller");
+            user.updateUser(req,res);
     } else {
         res.status(401).json({code: 401, message: 'not authorized for the requested action'});   
     }

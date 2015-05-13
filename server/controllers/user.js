@@ -82,37 +82,39 @@ exports.getUser = function(req,res){
 };
 
 exports.updateUser = function(req,res){
-    company.findOne({_id: req.body.company},function(err, company){
+    console.log("in controller user:updateUser");
+    console.log(req.body);
+    company.findOne({name: req.body.company},function(err, company){
         if(err){
             res.status(500).json({code:500, message: "Server error retrieving company record"});
-        }
-        
-        if(!company){
-            res.status(404).json({code:404, message: "company record not found"});
         } else {
-            console.log("in updateUser");
-            //console.log(req.body);
-            var userToUpdate = req.body;
-            userToUpdate.companyId = company._id;
-            //console.log(userToUpdate);
-            user.findByIdAndUpdate(req.params.username, userToUpdate , function(err, userRet){
-                if(err){
-                    res.status(500).json({code:500, message: "error updating user", error: err});
-                }
-                
-                //console.log(userRet);
-                user.findOne({_id: userRet._id}, function(err,updateUser){
+            if(!company){
+                res.status(404).json({code:404, message: "company record not found"});
+            } else {
+                console.log("in updateUser");
+                console.log(req.body);
+                var userToUpdate = req.body;
+                userToUpdate.companyId = company._id;
+                console.log(userToUpdate);
+                user.findByIdAndUpdate(req.params.username, userToUpdate , function(err, userRet){
                     if(err){
-                        res.status(500).json({code:500, message: "GetUser: Server error"});
+                        res.status(500).json({code:500, message: "error updating user", error: err});
                     }
                     
-                    if(!user){
-                        res.status(404).json({code:404, message: "user not found"});
-                    } else {
-                        res.status(200).json(safeUserInfo(updateUser));
-                    }
+                    console.log(userRet);
+                    user.findOne({_id: userRet._id}, function(err,updateUser){
+                        if(err){
+                            res.status(500).json({code:500, message: "GetUser: Server error"});
+                        }
+                        
+                        if(!user){
+                            res.status(404).json({code:404, message: "user not found"});
+                        } else {
+                            res.status(200).json(safeUserInfo(updateUser));
+                        }
+                    });
                 });
-            });
+            }
         }
     });
 };
