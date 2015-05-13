@@ -6,7 +6,7 @@
         
         <div class="col-sm-8">
             <label for="Trucks">Truck Selection:</label>
-            <select class="form-control input-lg" ng-model="selectedTruck" ng-options="truck.nickname for truck in truckList"></select>
+            <select class="form-control input-lg" ng-model="selectedTruck" ng-options="truck.nickname+' ('+truck._id+') ' for truck in truckList"></select>
         </div>
         <br>
         <div class="row">
