@@ -41,7 +41,7 @@ exports.createTruck = function(req, res){
 };
 
 exports.getTruckList = function(req, res){
-    //console.log(req.user);
+    console.log(req.user);
     if(req.user.type === "admin"){
         truck.find({}, function(err, trucks){
             if(err) {
@@ -55,7 +55,7 @@ exports.getTruckList = function(req, res){
             }
         });  
     }
-    else {
+    else if (req.user.type === "contractor") {
         truck.find({companyId: req.user.companyId}, function(err, trucks){
             if(err) {
                 res.status(500).json({code: 500, message: "failed to retrieve trucks"});
@@ -67,6 +67,20 @@ exports.getTruckList = function(req, res){
                 res.status(200).json(trucks);
             }
         });
+    } else if(req.user.type === "driver"){
+        truck.find({companyId: req.user.companyId, approvedDrivers: {$eq: req.user._id}}, function(err, trucks){
+            if(err) {
+                res.status(500).json({code: 500, message: "failed to retrieve trucks"});
+            }
+
+            if(!trucks){
+                res.status(404).json({code: 404, message: "no trucks found"});
+            } else {
+                res.status(200).json(trucks);
+            }
+        });
+    } else {
+        res.status(401).json({code: 401, message: 'not authorized for this resource'});
     }
     //console.log('getting truck list');
 };
