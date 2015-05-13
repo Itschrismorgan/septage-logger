@@ -127,6 +127,9 @@
                         <div class="col-sm-2"><label class="control-label">Year</label>: {{truck.year}} </div>
                         <div class="col-sm-2"><label class="control-label">Color</label>: {{truck.color}} </div>
                     </div>
+                    <div class="row">
+                        <div class="col-sm-12"><label class="control-label">Approved Drivers: </label> <span class="approved-driver" ng-repeat="driver in truck.approvedDrivers">{{driver}}</span></div>
+                    </div>
                 </div>
                 <div class="col-sm-2 vertical-align-middle">
                     <button ng-click="deleteTruck(truck._id)">Delete</button>
@@ -190,15 +193,21 @@
                 </div>
             </div>
             <div class="form-group">
-                <div ng-repeat="driver in drivers">
-                    <label class="checkbox" for="{{driver}">
-                        <input type="checkbox" ng-model="approvedDrivers.usernames[driver]" name="{{driver}}" id="{{driver}}" />
-                        {{driver}}
-                    </label>
+                <label for="driver" class="col-sm-2 control-label">Approved Drivers:</label>
+                <div class="col-sm-3">
+                    <div ng-repeat="driver in drivers">
+                        <label class="checkbox" for="{{driver}">
+                            <input type="checkbox" ng-model="approvedDrivers.usernames[driver]" name="{{driver}}" id="{{driver}}" />
+                            {{driver}}
+                        </label>
+                    </div>
+
                 </div>
             </div>
             <div class="form-group">
-                <button type="submit" class="" ng-click="submitTruck()">Add Truck</button>
+                <div class="col-sm-2">
+                    <button type="submit" class="" ng-click="submitTruck()">Add Truck</button>
+                </div>
             </div>
         </form>
     </div>
