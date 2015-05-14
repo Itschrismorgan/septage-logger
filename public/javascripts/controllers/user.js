@@ -147,7 +147,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', 'c
             console.log(newUser);
             userService.updateUser(newUser)
                 .then(function(data){
-                    //console.log("user updated");
+                    console.log("user updated");
                     clearFields();
                 }, function(error){
                     console.log("problem");
@@ -174,7 +174,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', 'c
         userService.getUserList()
             .then(function(list){
                 list.data.map(function(driver){
-                    console.log(driver);
+                    //console.log(driver);
                     $scope.drivers.push(driver._id);
                 })
             }, function(error){

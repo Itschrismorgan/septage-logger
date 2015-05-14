@@ -11,6 +11,15 @@ module.exports = function(grunt){
                 dest: 'public/dist/app.min.js'
             }
         },
+        watch: {
+            scripts: {
+                files: 'public/javascripts/**/*.js',
+                tasks: ['dev'],
+                options: {
+                    interrupt: true
+                }
+            }
+        },
         concat: {
             options: {
                 stripBanners: true,
@@ -26,6 +35,7 @@ module.exports = function(grunt){
 
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-contrib-watch');
 
     grunt.registerTask('default', ['concat','uglify']);
     grunt.registerTask('dev', ['concat']);
