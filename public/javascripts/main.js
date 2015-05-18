@@ -1,4 +1,5 @@
-var septageLogger = angular.module('septageLogger',['ngRoute']);
+var septageLogger = angular.module('septageLogger',['ngRoute', 'uiGmapgoogle-maps']);
+//var septageLogger = angular.module('septageLogger',['ngRoute']);
 
 
 septageLogger.controller('MainCtrl',['$scope', function($scope){

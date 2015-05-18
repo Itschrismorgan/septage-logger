@@ -29,3 +29,9 @@ a {
     padding: 2px;
     margin: 2px;
 }
+
+.angular-google-map-container {
+    height: 400px;
+    width: 100%;
+    margin: 10px auto;
+}

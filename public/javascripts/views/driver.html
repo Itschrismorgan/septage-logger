@@ -3,23 +3,46 @@
         <div class="col-sm-8">
             <p>Logged in as {{username | uppercase }} driving for {{company}}</p>
         </div>
-        
-        <div class="col-sm-8">
-            <label for="Trucks">Truck Selection:</label>
-            <select class="form-control input-lg" ng-model="selectedTruck" ng-options="truck.nickname+' ('+truck._id+') ' for truck in truckList"></select>
+    </div>
+
+    <div class="row">
+        <div class="btn-group col-sm-12" role="group">
+          <button type="button" class="btn btn-default" ng-click="setButton(1)">Waste Collection</button>
+          <button type="button" class="btn btn-default" ng-click="setButton(2)">Waste Disposal</button>
         </div>
-        <br>
-        <div class="row">
-            <div class="btn-group col-sm-12" role="group">
-              <button type="button" class="btn btn-default" ng-click="setButton(1)">Waste Collection</button>
-              <button type="button" class="btn btn-default" ng-click="setButton(2)">Waste Disposal</button>
+    </div>
+    <div class="row">
+        <div ng-if="isButton(1)" class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-8">
+                    <label for="Trucks">Truck Selection:</label>
+                    <select class="form-control input-lg" ng-model="selectedTruck" ng-options="truck.nickname+' ('+truck._id+') ' for truck in truckList"></select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <ui-gmap-google-map center='map.center' zoom='map.zoom' options="mapOptions">
+                        <ui-gmap-marker coords="marker.coords" options="marker.options" idkey="marker.id">
+                        </ui-gmap-marker>
+                    </ui-gmap-google-map>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <button ng-click="reloadCoordinates()">Reset Location</button>
+                </div>
+                <div class="col-sm-4">
+                    Latitude: {{map.center.latitude}}
+                </div>
+                <div class="col-sm-4">
+                    Longitude: {{map.center.longitude}}
+                </div>
             </div>
         </div>
-        <div ng-show="isButton(1)">
-            <p>{{button}}</p>
-        </div>
-        <div ng-show="isButton(2)">
-            <p>{{button}}</p>
+        <div ng-if="isButton(2)" class="col-sm-12">
+            <div class="row">
+                <p>{{button}}</p>
+            </div>
         </div>
     </div>
 </div>

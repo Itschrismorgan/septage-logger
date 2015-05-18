@@ -26,7 +26,7 @@ module.exports = function(grunt){
                 banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
             },
             dist: {
-                src: ['public/javascripts/**/*.js'],
+                src: ['public/javascripts/main.js','public/javascripts/**/*.js'],
                 dest: 'public/dist/app.js'
             }
         }
