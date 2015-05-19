@@ -4,13 +4,13 @@ var company = require('../server/controllers/company');
 
 /* GET company listing. */
 router.get('/', function(req, res, next) {
-    console.log("first test");
+    //console.log("first test");
     company.getCompanyList(req,res);
 });
 
 router.post('/', function(req, res, next){
-    console.log("in company post");
-    console.log(req.body);
+    //console.log("in company post");
+    //console.log(req.body);
     company.createCompany(req, res);
     /*if(req.user.type === "admin"){
         //console.log("is an admin")
@@ -23,7 +23,7 @@ router.post('/', function(req, res, next){
 
 router.get('/:companyname', function(req,res,next){
     //console.log(req.user);
-    console.log(decodeURIComponent(req.params.companyname));
+    //console.log(decodeURIComponent(req.params.companyname));
     if(req.user.type === "contractor" || req.user.type === "admin"){
         // user can get info on themselves or admin can see all users
         company.getCompany(req,res);

@@ -26,17 +26,18 @@ exports.localHandler = function(username, password, done){
         
         return done(null, user);
     });
-}
+};
 
 
 passport.serializeUser(function(user, done) {
-  console.log("serialize");
+  //console.log("serialize");
   done(null, user._id);
 });
 
 passport.deserializeUser(function(id, done) {
-  console.log("deserialize");
+  //console.log("deserialize");
   user.findById(id, function(err, user) {
-    done(err, user);
+      //console.log(user);
+      done(err, user);
   });
 });
