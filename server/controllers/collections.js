@@ -33,18 +33,55 @@ exports.createCollection = function(recordToCreate, cb){
     });
 };
 
-exports.getCollection = function(res,req,next){
+exports.getCollection = function(collectionId,cb){
+    console.log("in get collection");
+
+    collection.findOne({_id: collectionId}, function(err, collection){
+        if(err){
+            cb({code: 400, message: err.message}, null);
+            return;
+        }
+
+        cb(null, collection);
+    });
+};
+
+exports.updateCollection = function(id, newCollection, cb){
+    console.log("in update collection");
+
+    collection.findByIdAndUpdate(id, newCollection, function(err, data){
+        if(err){
+            cb({code:400, message: err.message}, null);
+        }
+
+        cb(null, collection);
+    });
 
 };
 
-exports.updateCollection = function(res, req, next){
+exports.listCollections = function(cb){
+    console.log("in get collection list");
+
+    collection.find({}, function(err, collections){
+        if(err){
+            cb({code: 400, message: err.message}, null);
+            return;
+        }
+
+        cb(null, collections);
+    });
 
 };
 
-exports.listCollections = function(res,req, next){
+exports.deleteCollection = function(collectionId, cb){
+    console.log("in delete collection method");
 
-};
+    collection.remove({_id: collectionId}, function(err){
+        if(err){
+            cb({code: 400, message: err.message}, null);
+            return;
+        }
 
-exports.deleteCollection = function(res,req, next){
-
+        cb(null, {_id: collectionId, message: "record deleted"});
+    });
 };

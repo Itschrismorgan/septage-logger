@@ -8,7 +8,15 @@ var collections = require('../server/controllers/collections');
 router.get('/', function(req,res,next){
     console.log("in get list route");
     if(req.user || req.user.type === "admin" || req.user.type === "contractor" || req.user.type === "driver"){
-        res.status(200).json({code: 200, message: 'test record list'});
+        collections.listCollections(function(err, data){
+            if(err){
+                console.log(err);
+                res.status(err.code).json(err.message);
+                return;
+            }
+
+            res.status(200).json(data);
+        });
     } else {
         res.status(401).json({code: 401, message: 'You are not authorized to access this resource'});
     }
@@ -17,7 +25,15 @@ router.get('/', function(req,res,next){
 router.get('/:collection_id', function(req,res,next){
     console.log("in get single rec route");
     if(req.user.type === "admin" || req.user.type === "contractor" || req.user.type === "driver"){
+        collections.getCollection(req.params.collection_id, function(err, data){
+            if (err){
+                console.log(err);
+                res.status(err.code).json(err.message);
+                return;
+            }
 
+            res.status(200).json(data);
+        });
     } else {
         res.status(401).json({code: 401, message: 'You are not authorized to access this resource'});
     }
@@ -42,17 +58,34 @@ router.post('/', function(req,res,next){
 
 router.post('/:collection_id', function(req,res,next){
     if(req.user.type === "admin" || req.user.type === "contractor" || req.user.type === "driver"){
-        res.status(200).json({code: 200, message: 'test update record'});
+        collections.updateCollection(req.params.collection_id, req.body, function(err, data){
+            if (err){
+                console.log(err);
+                res.status(err.code).json(err.message);
+                return;
+            }
+
+            res.status(200).json(data);
+        });
     } else {
         res.status(401).json({code: 401, message: 'You are not authorized to access this resource'});
     }
 });
 
 router.delete('/:collection_id', function(req,res,next){
-    if(req.user.type === "admin" || req.user.type === "contractor" || req.user.type === "driver"){
+    if(req.user.type === "admin"){
+        collections.deleteCollection(req.params.collection_id, function(err, data){
+            if(err){
+                console.log(err);
+                res.status(err.code).json(err.messsage);
+                return;
+            }
+
+            res.status(200).json(data);
+        });
         res.status(200).json({code: 200, message: 'test delete collection'});
     } else {
-        res.status(401).json({code: 401, message: 'You are not authorized to access this resource'});
+        res.status(401).json({code: 401, message: 'You are not authorized to delete this resource'});
     }
 });
 
