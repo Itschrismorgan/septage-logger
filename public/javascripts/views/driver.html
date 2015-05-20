@@ -19,6 +19,7 @@
                     <select class="form-control input-lg" ng-model="selectedTruck" ng-options="truck.nickname+' ('+truck._id+') ' for truck in truckList"></select>
                 </div>
             </div>
+            
             <div class="row">
                 <div class="col-sm-12">
                     <ui-gmap-google-map center='map.center' zoom='map.zoom' options="mapOptions">
@@ -38,10 +39,65 @@
                     Longitude: {{map.center.longitude}}
                 </div>
             </div>
+            
+            <div class="row">
+                <div class="col-sm-12">
+                    <label for="date">Date:</label>
+                    <input class="form-control input-lg" type="datetime-local" name="datetime"/>
+                </div>
+            </div>
+            
+            <div class="row">    
+                <div class="col-sm-12">
+                    <label for="volume">Estimated Volume</label>
+                    <input class="form-control input-lg" type="number" name="volume"/>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-sm-12">
+                    <label for="type">Domestic or Grease?</label>
+                    <select class="form-control input-lg">
+                        <option value="domestic">Domestic</option>
+                        <option value="grease">Grease</option>
+                    </select>
+                </div>
+            </div>
         </div>
+        
+        
         <div ng-if="isButton(2)" class="col-sm-12">
             <div class="row">
-                <p>{{button}}</p>
+                <div class="col-sm-12">
+                    <label for="Spreadsites">Spreadsite:</label>
+                    <select class="form-control input-lg"></select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <ui-gmap-google-map center='map.center' zoom='map.zoom' options="mapOptions">
+                        <ui-gmap-marker coords="marker.coords" options="marker.options" idkey="marker.id">
+                        </ui-gmap-marker>
+                    </ui-gmap-google-map>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <button ng-click="reloadCoordinates()">Reset Location</button>
+                </div>
+                <div class="col-sm-4">
+                    Latitude: {{map.center.latitude}}
+                </div>
+                <div class="col-sm-4">
+                    Longitude: {{map.center.longitude}}
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-sm-12">
+                    <label for="date">Date:</label>
+                    <input class="form-control input-lg" type="datetime-local" name="datetime"/>
+                </div>
             </div>
         </div>
     </div>
