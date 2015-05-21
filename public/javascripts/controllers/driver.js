@@ -1,4 +1,6 @@
-septageLogger.controller('DriverCtlr', ['$scope', '$routeParams', '$http', 'truckService', 'userService', function($scope, $routeParams, $http, truckService, userService){
+septageLogger.controller('DriverCtlr',
+    ['$scope', '$routeParams', '$http', 'truckService', 'userService', 'googleMapService',
+        function($scope, $routeParams, $http, truckService, userService, googleMapService){
 
 //    if ("geolocation" in navigator) {
   //      $scope.map = { center: {latitude: xx, longitude: xx), zoom: 2}};
@@ -6,6 +8,10 @@ septageLogger.controller('DriverCtlr', ['$scope', '$routeParams', '$http', 'truc
         /* geolocation IS NOT available */
     //    console.log("Geolocation is not available");
     //}
+
+
+
+    $scope.collection = {};
 
     $scope.mapOptions = {draggable: false, streeViewControl: false};
 
@@ -27,7 +33,19 @@ septageLogger.controller('DriverCtlr', ['$scope', '$routeParams', '$http', 'truc
                 labelClass: "marker-labels"
             }
         };
-        console.log($scope.map);
+        googleMapService.addressLookup(latitude, longitude)
+            .then(function(data){
+                //console.log(data);
+                data.data.results.forEach(function(record){
+                    //console.log(record);
+
+                    if(record.types.indexOf('street_address') !== -1){
+                        $scope.collection.address = record.formatted_address;
+                    }
+                });
+            }, function(error){
+                console.log(error);
+            })
     }
 
     function error() {
@@ -39,6 +57,7 @@ septageLogger.controller('DriverCtlr', ['$scope', '$routeParams', '$http', 'truc
     $scope.reloadCoordinates = function(){
         navigator.geolocation.getCurrentPosition(success, error);
     };
+
 
     userService.getUser($routeParams.username)
         .then(function(data){

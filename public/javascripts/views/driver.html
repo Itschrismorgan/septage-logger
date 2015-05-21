@@ -39,18 +39,24 @@
                     Longitude: {{map.center.longitude}}
                 </div>
             </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <label for="address">Pickup Address:</label>
+                    <input class="form-control input-lg" type="String" name="address" ng-model="collection.address"/>
+                </div>
+            </div>
             
             <div class="row">
                 <div class="col-sm-12">
                     <label for="date">Date:</label>
-                    <input class="form-control input-lg" type="datetime-local" name="datetime"/>
+                    <input class="form-control input-lg" type="datetime-local" name="datetime" ng-model="collection.date"/>
                 </div>
             </div>
             
             <div class="row">    
                 <div class="col-sm-12">
                     <label for="volume">Estimated Volume</label>
-                    <input class="form-control input-lg" type="number" name="volume"/>
+                    <input class="form-control input-lg" type="number" name="volume" ng-model="collection.volume"/>
                 </div>
             </div>
             
