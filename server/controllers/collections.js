@@ -7,12 +7,13 @@ var mongoose = require('mongoose');
 var collection = mongoose.model('Collection');
 
 
-exports.createCollection = function(recordToCreate, cb){
+exports.createCollection = function(recordToCreate,user, cb){
     console.log('in creatCollection');
-
+    console.log(user);
+    console.log(recordToCreate);
 
     var newCollection = {
-        companyId: recordToCreate.companyId,
+        companyId: user.companyId,
         driverId: recordToCreate.driverId,
         location:{
             latitude: recordToCreate.latitude,
@@ -21,10 +22,14 @@ exports.createCollection = function(recordToCreate, cb){
         },
         locationType: recordToCreate.locationType,
         truckId: recordToCreate.truckId,
+        volume: recordToCreate.volume,
+        type: recordToCreate.type
     };
 
+    console.log(newCollection);
     collection.create(newCollection, function(err, collection){
         if(err){
+            console.log(err);
             cb({code: 400, message: err.message},null);
             return;
         }

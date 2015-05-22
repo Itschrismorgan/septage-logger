@@ -15,9 +15,11 @@ var schema = mongoose.Schema({
         longitute: {type: Number, required: true},
         address: {type: String, required: true}
     },
+    type: {type: String, required: true},
     locationType: { type: String, required: true,  enum: locationTypes },
     truckId: {type: mongoose.Schema.Types.ObjectId, required: true },
     treatmentSiteId: {type: mongoose.Schema.Types.ObjectId },
+    volume: {type: Number, required: true},
     dischargeLocation: {
         latitude: {type: Number, required: false},
         longitute: {type: Number, required: false},

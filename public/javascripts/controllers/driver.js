@@ -1,15 +1,6 @@
 septageLogger.controller('DriverCtlr',
-    ['$scope', '$routeParams', '$http', 'truckService', 'userService', 'googleMapService',
-        function($scope, $routeParams, $http, truckService, userService, googleMapService){
-
-//    if ("geolocation" in navigator) {
-  //      $scope.map = { center: {latitude: xx, longitude: xx), zoom: 2}};
-    //} else {
-        /* geolocation IS NOT available */
-    //    console.log("Geolocation is not available");
-    //}
-
-
+    ['$scope', '$routeParams', '$http', 'truckService', 'userService', 'googleMapService', 'collectionService',
+        function($scope, $routeParams, $http, truckService, userService, googleMapService, collectionService){
 
     $scope.collection = {};
 
@@ -58,6 +49,32 @@ septageLogger.controller('DriverCtlr',
         navigator.geolocation.getCurrentPosition(success, error);
     };
 
+    $scope.submitPickup = function(){
+        console.log($scope);
+        var pickup = {
+            truckId: $scope.collection.selectedTruck._id,
+            location:{
+                latitude: $scope.map.center.latitude,
+                longitude: $scope.map.center.longitude,
+                address: $scope.collection.address
+            },
+            locationType: $scope.collection.addressType,
+            type: $scope.collection.type,
+            volume: $scope.collection.volume
+        };
+
+        if($scope.accountType === 'driver'){
+            pickup.driverId = $scope.username;
+        }
+
+        collectionService.submitCollection(pickup)
+            .then(function(data){
+                console.log(data);
+            }, function(error){
+                console.log("error");
+            });
+        console.log(pickup);
+    };
 
     userService.getUser($routeParams.username)
         .then(function(data){
