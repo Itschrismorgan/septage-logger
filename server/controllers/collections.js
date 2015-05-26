@@ -12,20 +12,26 @@ exports.createCollection = function(recordToCreate,user, cb){
     console.log(user);
     console.log(recordToCreate);
 
-    var newCollection = {
-        companyId: user.companyId,
-        driverId: recordToCreate.driverId,
-        location:{
-            latitude: recordToCreate.latitude,
-            longitude: recordToCreate.longitude,
-            address: recordToCreate.address
-        },
-        locationType: recordToCreate.locationType,
-        truckId: recordToCreate.truckId,
-        volume: recordToCreate.volume,
-        type: recordToCreate.type
-    };
+    try {
+        var newCollection = {
+            companyId: user.companyId.toString(),
+            driverId: recordToCreate.driverId,
+            location: {
+                latitude: recordToCreate.location.latitude,
+                longitude: recordToCreate.location.longitude,
+                address: recordToCreate.location.address
+            },
+            locationType: recordToCreate.locationType,
+            truckId: recordToCreate.truckId,
+            volume: recordToCreate.volume,
+            type: recordToCreate.type
+        };
+    } catch(e){
+        console.log(e);
+        cb({code:400, message: err.message});
+    }
 
+    console.log('ready to create record');
     console.log(newCollection);
     collection.create(newCollection, function(err, collection){
         if(err){

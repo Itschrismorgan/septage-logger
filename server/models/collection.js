@@ -6,19 +6,19 @@ var mongoose = require('mongoose');
 var locationTypes = "business residential".split(" ");
 
 var schema = mongoose.Schema({
-    companyId: {type: mongoose.Schema.Types.ObjectId, required: true },
-    driverId: {type: mongoose.Schema.Types.ObjectId, required: true },
+    companyId: {type: String, required: true },
+    driverId: {type: String, required: true },
     createdTimeStamp: { type: Date, default: Date.now },
     editedTimeStamp: { type: Date, required: false},
     location: {
         latitude: {type: Number, required: true},
-        longitute: {type: Number, required: true},
+        longitude: {type: Number, required: true},
         address: {type: String, required: true}
     },
     type: {type: String, required: true},
     locationType: { type: String, required: true,  enum: locationTypes },
-    truckId: {type: mongoose.Schema.Types.ObjectId, required: true },
-    treatmentSiteId: {type: mongoose.Schema.Types.ObjectId },
+    truckId: {type: String, required: true },
+    treatmentSiteId: {type: String },
     volume: {type: Number, required: true},
     dischargeLocation: {
         latitude: {type: Number, required: false},
