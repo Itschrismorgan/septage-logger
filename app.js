@@ -51,12 +51,14 @@ var users = require('./routes/users');
 var company = require('./routes/company');
 var trucks = require('./routes/trucks');
 var collections = require('./routes/collections');
+var spreadSites = require('./routes/spreadSites');
 
 app.use('/', routes);
 app.use('/users', users);
 app.use('/company', company);
 app.use('/trucks', trucks);
 app.use('/collections', collections);
+app.use('/spreadsites', spreadSites);
 
 
 // catch 404 and forward to error handler

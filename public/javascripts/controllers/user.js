@@ -1,5 +1,6 @@
 
-septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', 'companyService', 'truckService', function($scope, $routeParams, userService, companyService, truckService){
+septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', 'companyService', 'truckService', 'spreadSiteService',
+    function($scope, $routeParams, userService, companyService, truckService, spreadSiteService){
 
     $scope.$watch('selectedUser', function(newSelectedUser){
         if(newSelectedUser === "" || newSelectedUser === undefined){
@@ -73,6 +74,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', 'c
                 $scope.companyList.push(data.data.company);
             } else {
                 fillCompanyList();
+                reloadSpreadSiteList();
             }
 
             fillInUserList();
@@ -81,6 +83,9 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', 'c
         }, function(error){
             console.log("problem");
         });
+
+
+
 
 
     $scope.deleteUser = function(){
@@ -94,6 +99,27 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', 'c
                     console.log("problem");
                 });
         }
+    };
+
+    $scope.deleteTruck = function(vin){
+        truckService.deleteTruck(vin)
+            .then(function(data){
+                reloadTruckList();
+                clearTruckFields();
+            }, function(error){
+                console.log("problem");
+            });
+    };
+
+
+    $scope.editSpreadSite = function(id){
+        spreadSiteService.getSpreadSite(id)
+            .then(function(data){
+                console.log(data);
+               $scope.spreadSiteForm = data.data;
+            }, function(error){
+                console.log(error);
+            });
     };
 
     $scope.submitCompany = function(){
@@ -124,16 +150,6 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', 'c
                 reloadTruckList();
             }, function(error){
                 console.log("error");
-            });
-    };
-
-    $scope.deleteTruck = function(vin){
-        truckService.deleteTruck(vin)
-            .then(function(data){
-                reloadTruckList();
-                clearTruckFields();
-            }, function(error){
-                console.log("problem");
             });
     };
 
@@ -169,6 +185,25 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', 'c
         }
     };
 
+    $scope.submitSpreadSite = function(){
+        var spreadSite = $scope.speadSiteForm;
+        spreadSite.approvedCompanies = [];
+        for(var _id in $scope.approvedCompanies.companies){
+            if($scope.approvedCompanies.companies[_id]){
+                spreadSite.approvedCompanies.push(_id);
+            }
+        }
+
+        spreadSiteService.createSpreadSite(spreadSite)
+            .then(function(data){
+                //console.log(data);
+                clearSpreadSiteFields();
+                reloadSpreadSiteList();
+            }, function(error){
+                console.log("error");
+            });
+    };
+
     function fillApprovedDriversList(){
         $scope.drivers = [];
         userService.getUserList()
@@ -201,6 +236,18 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', 'c
             .then(function(response){
                 response.data.map(function(truck){
                     $scope.trucks.push(truck);
+                });
+            }, function(error){
+                console.log(error);
+            });
+    }
+
+    function reloadSpreadSiteList(){
+        $scope.spreadSites = [];
+        spreadSiteService.getSpreadSiteList()
+            .then(function(response){
+                response.data.map(function(spreadSite){
+                    $scope.spreadSites.push(spreadSite);
                 });
             }, function(error){
                 console.log(error);
@@ -246,6 +293,14 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', 'c
         $scope.newUser.password = "";
         $scope.newUser.email = "";
         $scope.newUser.type = "";
+    }
+
+    function clearSpreadSiteFields(){
+        $scope.spreadSiteForm = {};
+        $scope.spreadSiteForm.name = "";
+        $scope.spreadSiteForm.address = "";
+        $scope.spreadSiteForm.contactName = "";
+        $scope.spreadSiteForm.phone = "";
     }
 
     //Luke added button control here

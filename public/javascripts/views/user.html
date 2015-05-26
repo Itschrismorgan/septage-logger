@@ -10,8 +10,8 @@
           <button type="button" class="btn btn-default" ng-click="setButton(1)">User Management</button>
           <button type="button" class="btn btn-default" ng-click="setButton(2)" ng-hide="accountType != 'admin'">Company Managment</button>
           <button type="button" class="btn btn-default" ng-click="setButton(3)">Truck Managment</button>
-          <button type="button" class="btn btn-default" ng-click="setButton(4)">Spread Site Reports</button>
-          <button type="button" class="btn btn-default" ng-click="setButton(5)">Spread Site Management</button>
+          <button type="button" class="btn btn-default" ng-click="setButton(4)" ng-hide="accountType != 'admin'">Spread Site Management</button>
+          <button type="button" class="btn btn-default" ng-click="setButton(5)">Reports</button>
         </div>
     </div>
     <div ng-show="isButton(1)">
@@ -212,7 +212,68 @@
         </form>
     </div>
     <div ng-show="isButton(4)">
-        {{button}}
+        <div ng-repeat="spreadSite in spreadSites">
+            <div class="row truck-border">
+                <div class="col-sm-12">
+                    <div class="row">
+                        <div class="col-sm-3"><label class="control-label">Name</label>: {{spreadSite.name}}</div>
+                        <div class="col-sm-5"><label class="control-label">Address</label>: {{spreadSite.address}}</div>
+                        <div class="col-sm-2"><label class="control-label">Contact Name</label>: {{spreadSite.contactName}}</div>
+                        <div class="col-sm-2"><label class="control-label">Phone</label>: {{spreadSite.phone}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12"><label class="control-label">Approved Companies: </label> <span class="approved-driver" ng-repeat="company in spreadSite.approvedCompanies">{{company}}</span></div>
+                    </div>
+                </div>
+                <div class="col-sm-2 vertical-align-middle">
+                    <button ng-click="editSite(spreadSite._id)">Edit</button>
+                </div>
+            </div>
+        </div>
+
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">Name:</label>
+                <div class="col-sm-3">
+                    <input class="form-control input-lg" type="text" name="name" ng-model="spreadSiteForm.name" required/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="address" class="col-sm-2 control-label">Address:</label>
+                <div class="col-sm-3">
+                    <input class="form-control input-lg" type="text" name="address" ng-model="spreadSiteForm.address" required/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="contactname" class="col-sm-2 control-label">Contact Name:</label>
+                <div class="col-sm-3">
+                    <input class="form-control input-lg" type="text" name="contactname" ng-model="spreadSiteForm.contactname" required/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="phone" class="col-sm-2 control-label">Phone:</label>
+                <div class="col-sm-3">
+                    <input class="form-control input-lg" type="text" name="phone" ng-model="spreadSiteForm.phone" required/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="driver" class="col-sm-2 control-label">Approved Companies:</label>
+                <div class="col-sm-3">
+                    <div ng-repeat="company in companies">
+                        <label class="checkbox" for="{{company}}">
+                            <input type="checkbox" ng-model="approvedCompanies.companies[company]" name="{{company}}" id="{{company}}" />
+                            {{company}}
+                        </label>
+                    </div>
+
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2">
+                    <button type="submit" class="" ng-click="submitSpreadSite()">Submit</button>
+                </div>
+            </div>
+        </form>
     </div>
     <div ng-show="isButton(5)">
         {{button}}
