@@ -208,6 +208,12 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', 'c
             });
     };
 
+    $scope.editSite = function(spreadSite){
+        console.log("editSite");
+        console.log(spreadSite)
+        $scope.spreadSiteForm = spreadSite;
+    };
+
     function fillApprovedDriversList(){
         $scope.drivers = [];
         userService.getUserList()

@@ -18,7 +18,7 @@ exports.createSpredSite = function(recordToCreate,user, cb){
         var newSpreadSite = {
             name: recordToCreate.name,
             address: recordToCreate.address,
-            contactName: recordToCreate.contactname,
+            contactName: recordToCreate.contactName,
             phone: recordToCreate.phone,
             approvedCompanies: recordToCreate.approvedCompanies
         };
