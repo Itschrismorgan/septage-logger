@@ -43,6 +43,8 @@ router.post('/', function(req,res,next){
     console.log("in create route");
     if(req.user || req.user.type === "admin" || req.user.type === "contractor" || req.user.type === "driver"){
         collections.createCollection(req.body, req.user, function(err, data){
+            console.log('in callback');
+            console.log(err);
             if (err){
                 console.log(err);
                 res.status(err.code).json(err.message);

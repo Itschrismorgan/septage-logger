@@ -17,7 +17,7 @@ exports.createSpredSite = function(recordToCreate,user, cb){
         var newSpreadSite = {
             name: recordToCreate.name,
             address: recordToCreate.address,
-            contactName: recordToCreate.contactName,
+            contactName: recordToCreate.contactname,
             phone: recordToCreate.phone,
             approvedCompanies: recordToCreate.approvedCompanies
         };
@@ -28,7 +28,8 @@ exports.createSpredSite = function(recordToCreate,user, cb){
 
     console.log('ready to create record');
     console.log(newSpreadSite);
-    collection.create(newSpreadSite, function(err, spreadSite){
+
+    spreadSite.create(newSpreadSite, function(err, spreadSite){
         if(err){
             console.log(err);
             cb({code: 400, message: err.message},null);

@@ -69,12 +69,14 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', 'c
             $scope.username = data.data.username;
             $scope.accountType = data.data.type;
             $scope.approvedDrivers = [];
+            $scope.approvedCompanies = [];
             if($scope.accountType !== 'admin') {
                 $scope.companyList = [];
                 $scope.companyList.push(data.data.company);
             } else {
                 fillCompanyList();
                 reloadSpreadSiteList();
+                fillApprovedCompanyList();
             }
 
             fillInUserList();
@@ -160,7 +162,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', 'c
         if($scope.userList.indexOf($scope.newUser.username) !== -1 ){
             //console.log("update user");
             newUser.company = $scope.selectedCompany;
-            console.log(newUser);
+            //console.log(newUser);
             userService.updateUser(newUser)
                 .then(function(data){
                     console.log("user updated");
@@ -173,7 +175,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', 'c
             //console.log("create user");
             //console.log($scope.newUser);
             newUser.company = $scope.selectedCompany;
-            console.log(newUser);
+            //console.log(newUser);
             userService.createUser($scope.newUser)
                 .then(function(data){
                     //console.log("user created");
@@ -186,8 +188,10 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', 'c
     };
 
     $scope.submitSpreadSite = function(){
-        var spreadSite = $scope.speadSiteForm;
+        var spreadSite = $scope.spreadSiteForm;
+
         spreadSite.approvedCompanies = [];
+        //console.log($scope);
         for(var _id in $scope.approvedCompanies.companies){
             if($scope.approvedCompanies.companies[_id]){
                 spreadSite.approvedCompanies.push(_id);
@@ -223,6 +227,18 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', 'c
             .then(function(res){
                 res.data.map(function(company){
                     $scope.companyList.push(company.name);
+                });
+            }, function(error){
+                console.log(error);
+            });
+    }
+
+    function fillApprovedCompanyList(){
+        $scope.approvedCompaniesList = [];
+        companyService.getCompanyList()
+            .then(function(res){
+                res.data.map(function(company){
+                    $scope.approvedCompaniesList.push(company);
                 });
             }, function(error){
                 console.log(error);

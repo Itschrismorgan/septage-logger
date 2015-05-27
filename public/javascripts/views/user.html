@@ -259,10 +259,10 @@
             <div class="form-group">
                 <label for="driver" class="col-sm-2 control-label">Approved Companies:</label>
                 <div class="col-sm-3">
-                    <div ng-repeat="company in companies">
+                    <div ng-repeat="company in approvedCompaniesList">
                         <label class="checkbox" for="{{company}}">
-                            <input type="checkbox" ng-model="approvedCompanies.companies[company]" name="{{company}}" id="{{company}}" />
-                            {{company}}
+                            <input type="checkbox" ng-model="approvedCompanies.companies[company._id]" name="{{company}}" id="{{company}}" />
+                            {{company.name}}
                         </label>
                     </div>
 
