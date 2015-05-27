@@ -263,7 +263,20 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', 'c
         spreadSiteService.getSpreadSiteList()
             .then(function(response){
                 response.data.map(function(spreadSite){
-                    $scope.spreadSites.push(spreadSite);
+                    companyService.getCompanyList()
+                        .then(function(res){
+                            for(var x=0; x<spreadSite.approvedCompanies.length; x++){
+                                for(var y=0; y<res.data.length; y++){
+                                    if(spreadSite.approvedCompanies[x] === res.data[y]._id){
+                                        spreadSite.approvedCompanies[x] = res.data[y];
+                                    }
+                                }
+                            }
+
+                            $scope.spreadSites.push(spreadSite);
+                        }, function(error){
+                            console.log(error);
+                        });
                 });
             }, function(error){
                 console.log(error);

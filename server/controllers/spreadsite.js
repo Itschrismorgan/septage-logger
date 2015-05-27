@@ -6,6 +6,7 @@
 var mongoose = require('mongoose');
 
 var spreadSite = mongoose.model('SpreadSite');
+var company = mongoose.model('Company');
 
 
 exports.createSpredSite = function(recordToCreate,user, cb){
@@ -77,7 +78,6 @@ exports.listSpreadSites = function(user, cb){
 
         cb(null, spreadSites);
     });
-
 };
 
 exports.deleteSpreadSite = function(spreadSiteId, cb){
