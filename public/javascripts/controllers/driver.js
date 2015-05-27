@@ -7,15 +7,7 @@ septageLogger.controller('DriverCtlr',
     $scope.mapOptions = {draggable: false, streeViewControl: false};
     $scope.spreadSites = [];
 
-    collectionService.getCollections(true)
-        .then(function(data){
-            console.log(data);
-            data.data.forEach(function(record){
-                $scope.inprocessCollections.push(record);
-            })
-        }, function(error){
-            console.log(error);
-        });
+    reloadPendingCollections();
 
     spreadSiteService.getSpreadSiteList()
         .then(function(data){
@@ -91,6 +83,8 @@ septageLogger.controller('DriverCtlr',
         collectionService.submitCollection(pickup)
             .then(function(data){
                 console.log(data);
+                reloadPendingCollections();
+                clearCollectionFields();
             }, function(error){
                 console.log("error");
             });
@@ -113,6 +107,19 @@ septageLogger.controller('DriverCtlr',
             console.log("problem");
         });
 
+    function reloadPendingCollections(){
+        $scope.inprocessCollections = [];
+        collectionService.getCollections(true)
+        .then(function(data){
+            console.log(data);
+            data.data.forEach(function(record){
+                $scope.inprocessCollections.push(record);
+            })
+        }, function(error){
+            console.log(error);
+        });
+    }
+
 
     function reloadTruckList(){
         $scope.truckList = [];
@@ -124,6 +131,10 @@ septageLogger.controller('DriverCtlr',
             }, function(error){
                 console.log(error);
             });
+    }
+
+    function clearCollectionFields(){
+        $scope.collection = {};
     }
 
     //Luke added button control here
