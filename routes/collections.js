@@ -7,8 +7,12 @@ var collections = require('../server/controllers/collections');
 
 router.get('/', function(req,res,next){
     console.log("in get list route");
+    var inprocess = false;
+    if(req.query.inprocess){
+        inprocess = true;
+    }
     if(req.user || req.user.type === "admin" || req.user.type === "contractor" || req.user.type === "driver"){
-        collections.listCollections(function(err, data){
+        collections.listCollections(inprocess, function(err, data){
             if(err){
                 console.log(err);
                 res.status(err.code).json(err.message);

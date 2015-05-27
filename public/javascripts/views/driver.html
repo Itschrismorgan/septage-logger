@@ -91,23 +91,19 @@
         <div ng-if="isButton(2)" class="col-sm-12">
             <div class="row">
                 <div class="col-sm-12">
-                    <label for="Spreadsites">Spreadsite:</label>
-                    <select class="form-control input-lg"></select>
+                    <label for="inprocessCollections">Pending Collections:</label>
+                    <select class="form-control input-lg" ng-model="selectedPendingCollection" ng-options="col.location.address+' ('+col.volume+') ' for col in inprocessCollections"></select>
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-12">
-                    list of collections that haven't been dumped
+                    <label for="spreadSites">Approved Spread Sites:</label>
+                    <select class="form-control input-lg" ng-model="selectedSpreadSite" ng-options="spreadSite.name+' ('+spreadSite.address+') ' for spreadSite in spreadSites"></select>
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-12">
-                    list of spread sites
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-12">
-                    buttons
+                    <button ng-click="discharge(selectedPendingCollection, selectedSpreadSite)">Discharge This Collection</button>
                 </div>
             </div>
         </div>

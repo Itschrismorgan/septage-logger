@@ -14,4 +14,18 @@ septageLogger.service('collectionService', ['$http', function($http){
             });
     };
 
+    this.getCollections = function(inprocess){
+        // if inprocess then we only collections that haven't been dumped yet
+        var url = '/collections';
+        if(inprocess){
+            url = url + "?inprocess=true"
+        }
+        return $http.get('/collections')
+            .success(function(data){
+                //console.log(data);
+            })
+            .error(function(e){
+                return e;
+            });
+    };
 }]);

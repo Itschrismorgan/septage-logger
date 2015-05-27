@@ -9,8 +9,8 @@ var collection = mongoose.model('Collection');
 
 exports.createCollection = function(recordToCreate,user, cb){
     console.log('in creatCollection');
-    console.log(user);
-    console.log(recordToCreate);
+    //console.log(user);
+    //console.log(recordToCreate);
 
     try {
         var newCollection = {
@@ -31,8 +31,8 @@ exports.createCollection = function(recordToCreate,user, cb){
         cb({code:400, message: err.message});
     }
 
-    console.log('ready to create record');
-    console.log(newCollection);
+    //console.log('ready to create record');
+    //console.log(newCollection);
     collection.create(newCollection, function(err, collection){
         if(err){
             console.log(err);
@@ -70,10 +70,16 @@ exports.updateCollection = function(id, newCollection, cb){
 
 };
 
-exports.listCollections = function(cb){
+exports.listCollections = function(inprocess, cb){
     console.log("in get collection list");
 
-    collection.find({}, function(err, collections){
+    var query = {};
+
+    if(inprocess){
+        query.spreadSiteId = {$exists: false};
+    }
+    console.log(query);
+    collection.find(query, function(err, collections){
         if(err){
             cb({code: 400, message: err.message}, null);
             return;

@@ -9,7 +9,7 @@ var spreadSite = mongoose.model('SpreadSite');
 var company = mongoose.model('Company');
 
 
-exports.createSpredSite = function(recordToCreate,user, cb){
+exports.createSpreadSite = function(recordToCreate,user, cb){
     console.log('in createSpeadSite');
     console.log(user);
     console.log(recordToCreate);
@@ -69,8 +69,13 @@ exports.updateSpreadSite = function(id, newSpreadSite, cb){
 
 exports.listSpreadSites = function(user, cb){
     console.log("in get collection list");
-
-    spreadSite.find({}, function(err, spreadSites){
+    console.log(user);
+    var query = {};
+    if(user.type === 'driver'){
+        query = {approvedCompanies: user.companyId.toString()};
+    }
+    console.log(query);
+    spreadSite.find(query, function(err, spreadSites){
         if(err){
             cb({code: 400, message: err.message}, null);
             return;

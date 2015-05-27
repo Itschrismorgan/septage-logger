@@ -1,10 +1,31 @@
 septageLogger.controller('DriverCtlr',
-    ['$scope', '$routeParams', '$http', 'truckService', 'userService', 'googleMapService', 'collectionService',
-        function($scope, $routeParams, $http, truckService, userService, googleMapService, collectionService){
+    ['$scope', '$routeParams', '$http', 'truckService', 'userService', 'googleMapService', 'collectionService', 'spreadSiteService',
+        function($scope, $routeParams, $http, truckService, userService, googleMapService, collectionService, spreadSiteService){
 
     $scope.collection = {};
-
+    $scope.inprocessCollections = [];
     $scope.mapOptions = {draggable: false, streeViewControl: false};
+    $scope.spreadSites = [];
+
+    collectionService.getCollections(true)
+        .then(function(data){
+            console.log(data);
+            data.data.forEach(function(record){
+                $scope.inprocessCollections.push(record);
+            })
+        }, function(error){
+            console.log(error);
+        });
+
+    spreadSiteService.getSpreadSiteList()
+        .then(function(data){
+            console.log(data);
+            data.data.forEach(function(record){
+                $scope.spreadSites.push(record);
+            })
+        }, function(error){
+            console.log(error);
+        });
 
     function success(position) {
         var latitude  = position.coords.latitude;
@@ -74,6 +95,12 @@ septageLogger.controller('DriverCtlr',
                 console.log("error");
             });
         console.log(pickup);
+    };
+
+    $scope.discharge = function(collection, spreadSite){
+        collection.spreadSiteId = spreadSite._id;
+        collection.dischargeTimeStamp = new Date();
+        console.log(collection);
     };
 
     userService.getUser($routeParams.username)

@@ -18,7 +18,7 @@ var schema = mongoose.Schema({
     type: {type: String, required: true},
     locationType: { type: String, required: true,  enum: locationTypes },
     truckId: {type: String, required: true },
-    treatmentSiteId: {type: String },
+    spreadSiteId: {type: String },
     volume: {type: Number, required: true},
     dischargeLocation: {
         latitude: {type: Number, required: false},

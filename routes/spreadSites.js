@@ -43,7 +43,7 @@ router.get('/:spreadsite_id', function(req,res,next){
 router.post('/', function(req,res,next){
     console.log("in create route");
     if(req.user || req.user.type === "admin"){
-        spreadSites.createSpredSite(req.body, req.user, function(err, data){
+        spreadSites.createSpreadSite(req.body, req.user, function(err, data){
             if (err){
                 console.log(err);
                 res.status(err.code).json(err.message);
