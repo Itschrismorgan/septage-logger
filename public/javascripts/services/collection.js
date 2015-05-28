@@ -4,7 +4,14 @@
 septageLogger.service('collectionService', ['$http', function($http){
 
     this.submitCollection = function(pickupRec){
-        return $http.post('/collections', pickupRec)
+        
+        var url = "/collections";
+        if(pickupRec._id){
+            url = url+"/"+pickupRec._id;
+            console.log(url);
+        }
+        
+        return $http.post(url, pickupRec)
             .success(function(data){
                 //console.log('user returned');
                 console.log(data);
@@ -17,6 +24,7 @@ septageLogger.service('collectionService', ['$http', function($http){
     this.getCollections = function(inprocess){
         // if inprocess then we only collections that haven't been dumped yet
         var url = '/collections';
+    console.log(inprocess);
         if(inprocess){
             url = url + "?inprocess=true"
         }

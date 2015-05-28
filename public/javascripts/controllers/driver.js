@@ -95,6 +95,13 @@ septageLogger.controller('DriverCtlr',
         collection.spreadSiteId = spreadSite._id;
         collection.dischargeTimeStamp = new Date();
         console.log(collection);
+        collectionService.submitCollection(collection)
+            .then(function(data){
+                console.log(data)
+                reloadPendingCollections();
+            }, function(error){
+                console.log("error");
+            });
     };
 
     userService.getUser($routeParams.username)

@@ -60,7 +60,7 @@ exports.getCollection = function(collectionId,cb){
 exports.updateCollection = function(id, newCollection, cb){
     console.log("in update collection");
 
-    collection.findByIdAndUpdate(id, newCollection, function(err, data){
+    collection.findByIdAndUpdate(id, newCollection, function(err, collection){
         if(err){
             cb({code:400, message: err.message}, null);
         }
