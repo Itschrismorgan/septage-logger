@@ -22,8 +22,7 @@ var schema = mongoose.Schema({
     volume: {type: Number, required: true},
     dischargeLocation: {
         latitude: {type: Number, required: false},
-        longitute: {type: Number, required: false},
-        address: {type: String, required: false}
+        longitude: {type: Number, required: false}
     },
     dischargeTimeStamp: { type: Date, required: false }
 });

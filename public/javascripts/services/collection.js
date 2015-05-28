@@ -7,8 +7,9 @@ septageLogger.service('collectionService', ['$http', function($http){
         
         var url = "/collections";
         if(pickupRec._id){
+            //This is an update not a create new record
             url = url+"/"+pickupRec._id;
-            console.log(url);
+            //console.log(url);
         }
         
         return $http.post(url, pickupRec)
@@ -24,11 +25,12 @@ septageLogger.service('collectionService', ['$http', function($http){
     this.getCollections = function(inprocess){
         // if inprocess then we only collections that haven't been dumped yet
         var url = '/collections';
-    console.log(inprocess);
+        //console.log(inprocess);
         if(inprocess){
+            //console.log('adding inprocess');
             url = url + "?inprocess=true"
         }
-        return $http.get('/collections')
+        return $http.get(url)
             .success(function(data){
                 //console.log(data);
             })

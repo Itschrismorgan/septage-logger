@@ -62,6 +62,16 @@ septageLogger.controller('DriverCtlr',
         navigator.geolocation.getCurrentPosition(success, error);
     };
 
+    function getCurrentLocation(cb){
+        navigator.geolocation.getCurrentPosition(function(position){
+            var latitude  = position.coords.latitude;
+            var longitude = position.coords.longitude;
+            cb(null, latitude, longitude);
+        }, function(){
+            cb(error);
+        });
+    }
+
     $scope.submitPickup = function(){
         console.log($scope);
         var pickup = {
@@ -94,14 +104,26 @@ septageLogger.controller('DriverCtlr',
     $scope.discharge = function(collection, spreadSite){
         collection.spreadSiteId = spreadSite._id;
         collection.dischargeTimeStamp = new Date();
-        console.log(collection);
-        collectionService.submitCollection(collection)
-            .then(function(data){
-                console.log(data)
-                reloadPendingCollections();
-            }, function(error){
-                console.log("error");
-            });
+
+        collection.dischargeLocation = {};
+
+        getCurrentLocation(function(err, latitude, longitude){
+            if(err){
+                console.log("could not get geo location");
+            } else {
+                collection.dischargeLocation.latitude = latitude;
+                collection.dischargeLocation.longitude = longitude;
+            }
+
+            console.log(collection);
+            collectionService.submitCollection(collection)
+                .then(function(data){
+                    console.log(data);
+                    reloadPendingCollections();
+                }, function(error){
+                    console.log("error");
+                });
+        });
     };
 
     userService.getUser($routeParams.username)

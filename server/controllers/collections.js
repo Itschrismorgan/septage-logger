@@ -70,15 +70,22 @@ exports.updateCollection = function(id, newCollection, cb){
 
 };
 
-exports.listCollections = function(inprocess, cb){
-    console.log("in get collection list");
+exports.listCollections = function(user, inprocess, cb){
+    //console.log("in get controller collection::listCollections");
 
     var query = {};
 
     if(inprocess){
         query.spreadSiteId = {$exists: false};
     }
-    console.log(query);
+    if(user.type !== 'admin'){
+        query.companyId = user.companyId;
+    }
+    if(user.type === 'driver'){
+        query.driverId = user._id;
+    }
+
+    //console.log(query);
     collection.find(query, function(err, collections){
         if(err){
             cb({code: 400, message: err.message}, null);

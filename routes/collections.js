@@ -11,8 +11,9 @@ router.get('/', function(req,res,next){
     if(req.query.inprocess){
         inprocess = true;
     }
+    //console.log(inprocess);
     if(req.user || req.user.type === "admin" || req.user.type === "contractor" || req.user.type === "driver"){
-        collections.listCollections(inprocess, function(err, data){
+        collections.listCollections(req.user, inprocess, function(err, data){
             if(err){
                 console.log(err);
                 res.status(err.code).json(err.message);
