@@ -1,6 +1,6 @@
 
-septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', 'companyService', 'truckService', 'spreadSiteService',
-    function($scope, $routeParams, userService, companyService, truckService, spreadSiteService){
+septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', 'userService', 'companyService', 'truckService', 'spreadSiteService', 'logoutService',
+    function($scope, $routeParams, $location, userService, companyService, truckService, spreadSiteService, logoutService){
 
     $scope.$watch('selectedUser', function(newSelectedUser){
         if(newSelectedUser === "" || newSelectedUser === undefined){
@@ -346,4 +346,17 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', 'userService', 'c
     $scope.isButton = function(value){
         return $scope.button === value;
     };
+    
+    $scope.sendLogout = function(){
+        logoutService.logout()
+            .then(function(data){
+                //console.log("login good");
+                //a test
+                $location.url("/");
+                    }, function(error){
+                        console.log("problem");
+                    });
+            }, function(error){
+                //console.log("login bad");
+            };
 }]);

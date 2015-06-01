@@ -1,6 +1,6 @@
 septageLogger.controller('DriverCtlr',
-    ['$scope', '$routeParams', '$http', 'truckService', 'userService', 'googleMapService', 'collectionService', 'spreadSiteService',
-        function($scope, $routeParams, $http, truckService, userService, googleMapService, collectionService, spreadSiteService){
+    ['$scope', '$routeParams', '$http', '$location', 'truckService', 'userService', 'googleMapService', 'collectionService', 'spreadSiteService', 'logoutService',
+        function($scope, $routeParams, $http, $location, truckService, userService, googleMapService, collectionService, spreadSiteService, logoutService){
 
     $scope.collection = {};
     $scope.inprocessCollections = [];
@@ -175,5 +175,18 @@ septageLogger.controller('DriverCtlr',
     $scope.isButton = function(value){
         return $scope.button === value;
     };
+    
+    $scope.sendLogout = function(){
+        logoutService.logout()
+            .then(function(data){
+                //console.log("login good");
+                //a test
+                $location.url("/");
+                    }, function(error){
+                        console.log("problem");
+                    });
+            }, function(error){
+                //console.log("login bad");
+            };
 
 }]);
