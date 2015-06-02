@@ -9,8 +9,8 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', 'use
         } else {
             userService.getUser(newSelectedUser)
                 .then(function(returnData){
-                    //console.log(returnData);
-                    //console.log($scope.newUser);
+                    console.log(returnData);
+                    console.log($scope.newUser);
                     $scope.newUser.username = returnData.data.username;
                     $scope.newUser.password = "";
                     $scope.newUser.email = returnData.data.email;
@@ -112,7 +112,31 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', 'use
                 console.log("problem");
             });
     };
-
+    
+    $scope.selectTruck = function(vin){
+        $scope.newTruck = {};
+        truckService.getTruck(vin)
+                .then(function(returnData){
+                    //console.log("test");
+                    console.log(returnData);
+                    $scope.selectedCompany = returnData.data.company;
+                    $scope.newTruck.vin = returnData.data._id;
+                    $scope.newTruck.capacity = returnData.data.capacity;
+                    $scope.newTruck.tag = returnData.data.license;
+                    $scope.newTruck.nickname = returnData.data.nickname;
+                    $scope.newTruck.make = returnData.data.make;
+                    $scope.newTruck.model = returnData.data.model;
+                    $scope.newTruck.year = returnData.data.year;
+                    $scope.newTruck.color = returnData.data.color;
+                    $scope.approvedDrivers.usernames = {};
+                    for (var i=0; i < returnData.data.approvedDrivers.length ;i++){
+                        $scope.approvedDrivers.usernames[returnData.data.approvedDrivers[i]] = true;
+                    }
+                    
+                }, function(err){
+                    console.log("problem");
+                });
+    };
 
     $scope.editSpreadSite = function(id){
         spreadSiteService.getSpreadSite(id)
@@ -144,15 +168,29 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', 'use
                 truck.approvedDrivers.push(username);
             }
         }
-
-        truckService.createTruck(truck)
-            .then(function(data){
-                //console.log(data);
-                clearTruckFields();
-                reloadTruckList();
-            }, function(error){
-                console.log("error");
-            });
+        console.log($scope.approvedDrivers.usernames);
+        console.log($scope.approvedDrivers.usernames.length);
+        $scope.trucks.forEach(function(element){
+            if(element._id === $scope.newTruck.vin){
+                truckService.updateTruck(truck)
+                .then(function(data){
+                    clearTruckFields();
+                    reloadTruckList();
+                }, function(error){
+                    console.log("error");
+                });
+            }
+            else {
+                truckService.createTruck(truck)
+                .then(function(data){
+                    console.log("truck updated");
+                    clearTruckFields();
+                    reloadTruckList();
+                }, function(error){
+                    console.log("error");
+                });
+            }
+        });
     };
 
 
