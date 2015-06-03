@@ -163,6 +163,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
     };
 
     $scope.submitTruck = function(){
+        var truckVins = [];
         var truck = $scope.newTruck;
         truck.company = $scope.selectedCompany;
         truck.approvedDrivers = [];
@@ -173,27 +174,29 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
         }
         
         $scope.trucks.forEach(function(element){
-            if(element._id === $scope.newTruck.vin){
-                truckService.updateTruck(truck)
-                .then(function(data){
-                    clearTruckFields();
-                    reloadTruckList();
-                }, function(error){
-                    console.log("error");
-                });
-            }
-            else {
-                console.log("create truck");
-                truckService.createTruck(truck)
-                .then(function(data){
-                    console.log("truck created");
-                    clearTruckFields();
-                    reloadTruckList();
-                }, function(error){
-                    console.log("error");
-                });
-            }
+            truckVins.push(element._id);
         });
+        
+        if(truckVins.indexOf($scope.newTruck.vin) !== -1){
+            truckService.updateTruck(truck)
+            .then(function(data){
+                clearTruckFields();
+                reloadTruckList();
+            }, function(error){
+                console.log("error");
+            });
+        }
+        else {
+            console.log("create truck");
+            truckService.createTruck(truck)
+            .then(function(data){
+                console.log("truck created");
+                clearTruckFields();
+                reloadTruckList();
+            }, function(error){
+                console.log("error");
+            });
+        }
     };
 
 
