@@ -97,6 +97,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
                 .then(function(data){
                     fillInUserList();
                     clearFields();
+                    fillApprovedDriversList();
                 }, function(error){
                     console.log("problem");
                 });
@@ -224,6 +225,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
                 .then(function(data){
                     //console.log("user created");
                     fillInUserList();
+                    fillApprovedDriversList();
                     clearFields();
                 }, function(error){
                     console.log("problem");
