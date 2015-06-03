@@ -169,8 +169,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', 'use
                 truck.approvedDrivers.push(username);
             }
         }
-        console.log($scope.approvedDrivers.usernames);
-        console.log($scope.approvedDrivers.usernames.length);
+        
         $scope.trucks.forEach(function(element){
             if(element._id === $scope.newTruck.vin){
                 truckService.updateTruck(truck)
@@ -182,9 +181,10 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', 'use
                 });
             }
             else {
+                console.log("create truck");
                 truckService.createTruck(truck)
                 .then(function(data){
-                    console.log("truck updated");
+                    console.log("truck created");
                     clearTruckFields();
                     reloadTruckList();
                 }, function(error){
@@ -352,6 +352,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', 'use
 
     function clearTruckFields(){
         $scope.newTruck = {};
+        $scope.selectedCompany = "";
         $scope.newTruck.vin = "";
         $scope.newTruck.capacity = "";
         $scope.newTruck.tag = "";
@@ -360,6 +361,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', 'use
         $scope.newTruck.model = "";
         $scope.newTruck.year = "";
         $scope.newTruck.stat = "";
+        $scope.approvedDrivers.usernames = {};
     }
 
     function clearFields(){

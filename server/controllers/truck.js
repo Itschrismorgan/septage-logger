@@ -21,7 +21,7 @@ exports.createTruck = function(req, res){
                     model: req.body.model,
                     year: req.body.year,
                     color: req.body.color,
-                    status: req.body.stat,
+                    stat: req.body.stat,
                     companyId: company._id,
                     approvedDrivers: req.body.approvedDrivers
                 };
