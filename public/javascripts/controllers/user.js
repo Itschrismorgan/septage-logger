@@ -355,6 +355,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
         $scope.company.name = "";
         $scope.company.phone = "";
         $scope.company.active = "";
+        $scope.company_form.$setPristine();
     }
 
     function clearTruckFields(){
@@ -369,6 +370,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
         $scope.newTruck.year = "";
         $scope.newTruck.stat = "";
         $scope.approvedDrivers.usernames = {};
+        $scope.truck_form.$setPristine();
     }
 
     function clearFields(){
@@ -377,6 +379,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
         $scope.newUser.password = "";
         $scope.newUser.email = "";
         $scope.newUser.type = "";
+        $scope.user_form.$setPristine();
     }
 
     function clearSpreadSiteFields(){
@@ -385,6 +388,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
         $scope.spreadSiteForm.address = "";
         $scope.spreadSiteForm.contactName = "";
         $scope.spreadSiteForm.phone = "";
+        $scope.spreadsite_form.$setPristine();
     }
 
     //Luke added button control here
