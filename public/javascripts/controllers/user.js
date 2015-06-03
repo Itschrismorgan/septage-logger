@@ -128,6 +128,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', 'use
                     $scope.newTruck.model = returnData.data.model;
                     $scope.newTruck.year = returnData.data.year;
                     $scope.newTruck.color = returnData.data.color;
+                    $scope.newTruck.stat = returnData.data.stat;
                     $scope.approvedDrivers.usernames = {};
                     for (var i=0; i < returnData.data.approvedDrivers.length ;i++){
                         $scope.approvedDrivers.usernames[returnData.data.approvedDrivers[i]] = true;
@@ -358,6 +359,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', 'use
         $scope.newTruck.make = "";
         $scope.newTruck.model = "";
         $scope.newTruck.year = "";
+        $scope.newTruck.stat = "";
     }
 
     function clearFields(){

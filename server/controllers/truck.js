@@ -21,6 +21,7 @@ exports.createTruck = function(req, res){
                     model: req.body.model,
                     year: req.body.year,
                     color: req.body.color,
+                    status: req.body.stat,
                     companyId: company._id,
                     approvedDrivers: req.body.approvedDrivers
                 };
@@ -174,6 +175,7 @@ exports.getTruck = function(req,res){
                 gotTruck.model = truck.model;
                 gotTruck.year = truck.year;
                 gotTruck.color = truck.color;
+                gotTruck.stat = truck.stat;
                 gotTruck.approvedDrivers = truck.approvedDrivers;
             
                 res.status(200).json(gotTruck);
