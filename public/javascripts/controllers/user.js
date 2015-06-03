@@ -1,6 +1,6 @@
 
-septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', 'userService', 'companyService', 'truckService', 'spreadSiteService', 'logoutService',
-    function($scope, $routeParams, $location, userService, companyService, truckService, spreadSiteService, logoutService){
+septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$anchorScroll', 'userService', 'companyService', 'truckService', 'spreadSiteService', 'logoutService',
+    function($scope, $routeParams, $location, $anchorScroll, userService, companyService, truckService, spreadSiteService, logoutService){
 
     $scope.$watch('selectedUser', function(newSelectedUser){
         if(newSelectedUser === "" || newSelectedUser === undefined){
@@ -137,6 +137,8 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', 'use
                 }, function(err){
                     console.log("problem");
                 });
+        //$location.hash('scrollhere');
+        $anchorScroll();
     };
 
     $scope.editSpreadSite = function(id){

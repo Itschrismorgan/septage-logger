@@ -11,7 +11,7 @@ septageLogger.controller('LoginCtrl',['$scope', '$location', 'loginService', 'us
                         $scope.username = data.data.username;
                         $scope.accountType = data.data.type;
                         if ($scope.accountType !== 'driver'){
-                            $location.url("/user/"+$scope.login.username);
+                            $location.url("/user/"+$scope.login.username+'#scrollhere');
                         } else {
                             $location.url("/driver/"+$scope.login.username);
                         }
