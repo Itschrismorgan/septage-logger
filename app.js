@@ -52,6 +52,7 @@ var company = require('./routes/company');
 var trucks = require('./routes/trucks');
 var collections = require('./routes/collections');
 var spreadSites = require('./routes/spreadSites');
+var reports = require('./routes/reports');
 
 app.use('/', routes);
 app.use('/users', users);
@@ -59,6 +60,7 @@ app.use('/company', company);
 app.use('/trucks', trucks);
 app.use('/collections', collections);
 app.use('/spreadsites', spreadSites);
+app.use('/reports', reports);
 
 
 // catch 404 and forward to error handler

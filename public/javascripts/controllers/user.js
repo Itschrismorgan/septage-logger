@@ -1,6 +1,6 @@
 
-septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$anchorScroll', 'userService', 'companyService', 'truckService', 'spreadSiteService', 'logoutService',
-    function($scope, $routeParams, $location, $anchorScroll, userService, companyService, truckService, spreadSiteService, logoutService){
+septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$anchorScroll', 'userService', 'companyService', 'truckService', 'spreadSiteService', 'logoutService', 'reportService',
+    function($scope, $routeParams, $location, $anchorScroll, userService, companyService, truckService, spreadSiteService, logoutService, reportService){
 
     $scope.$watch('selectedUser', function(newSelectedUser){
         if(newSelectedUser === "" || newSelectedUser === undefined){
@@ -82,6 +82,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
             fillInUserList();
             reloadTruckList();
             fillApprovedDriversList();
+            reloadCollectionList();
         }, function(error){
             console.log("problem");
         });
@@ -347,6 +348,18 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
                 });
             }, function(error){
                 console.log("no users returned");
+            });
+    }
+
+    function reloadCollectionList(){
+        $scope.collections = [];
+        reportService.getCollectionReport()
+            .then(function(response){
+                response.data.map(function(collection){
+                    $scope.collections.push(collection);
+                });
+            }, function(error){
+                console.log(error);
             });
     }
 
