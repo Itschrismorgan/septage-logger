@@ -3,7 +3,7 @@
  */
 var mongoose = require('mongoose');
 
-var locationTypes = "business residential".split(" ");
+var locationTypes = "commercial residential".split(" ");
 
 var schema = mongoose.Schema({
     companyId: {type: String, required: true },

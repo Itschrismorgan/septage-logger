@@ -49,5 +49,5 @@ exports.listTrucksAndCollections = function(user, res){
         
         //console.log(modCollections);
         //cb(null, collections);
-    });
+    }).sort({companyId: 1});
 };
