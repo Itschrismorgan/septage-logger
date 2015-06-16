@@ -169,7 +169,9 @@ septageLogger.controller('DriverCtlr',
     //Luke added button control here
     $scope.setButton = function(value){
         $scope.button = value;
-        console.log($scope.button);
+        if (value === 1){
+            $scope.collection.date = new Date();
+        }
     };
 
     $scope.isButton = function(value){
