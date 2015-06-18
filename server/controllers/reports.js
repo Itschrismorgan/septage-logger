@@ -7,21 +7,28 @@ var truck = mongoose.model('Truck');
 var company = mongoose.model('Company');
 var collection = mongoose.model('Collection');
 
-exports.listTrucksAndCollections = function(user, res){
+exports.listTrucksAndCollections = function(user, beginDate, res){
     console.log("in get Collections list for report");
     console.log(user);
     var query = {};
     if(user.type === 'contractor'){
         query = {companyId: user.companyId.toString()};
     }
+    if(beginDate){
+        console.log(beginDate);
+        var qDate = new Date(beginDate).toISOString();
+        query.createdTimeStamp = {"$gte":  new Date(qDate)};
+    }
     console.log(query);
     collection.find(query, function(err, collections){
         if(err){
+            console.log(err);
             res.status(500).json({code:500, message: "GetUser: Server error"});
+            return;
         }
         
         var modCollections = [];
-        
+        console.log(collections.length);
         collections.forEach(function (element, index){
             var modCollection = {};
             modCollection._id = collections[index]._id;

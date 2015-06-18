@@ -70,6 +70,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
             $scope.accountType = data.data.type;
             $scope.approvedDrivers = [];
             $scope.approvedCompanies = [];
+            $scope.report = {};
             if($scope.accountType !== 'admin') {
                 $scope.companyList = [];
                 $scope.companyList.push(data.data.company);
@@ -362,6 +363,20 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
                 console.log(error);
             });
     }
+
+    $scope.refreshReport = function(){
+        $scope.collections = [];
+        console.log("launch");
+        console.log($scope.report.beginDate);
+        reportService.getCollectionReport($scope.report.beginDate.toISOString())
+            .then(function(response){
+                response.data.map(function(collection){
+                    $scope.collections.push(collection);
+                });
+            }, function(error){
+                console.log(error);
+            });
+    };
 
     function clearCompanyFields(){
         $scope.company = {};
