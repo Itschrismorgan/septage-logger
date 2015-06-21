@@ -76,6 +76,7 @@ septageLogger.controller('DriverCtlr',
         console.log($scope);
         var pickup = {
             truckId: $scope.collection.selectedTruck._id,
+            pickUpDate: $scope.collection.date,
             location:{
                 latitude: $scope.map.center.latitude,
                 longitude: $scope.map.center.longitude,

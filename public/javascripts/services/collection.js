@@ -4,7 +4,7 @@
 septageLogger.service('collectionService', ['$http', function($http){
 
     this.submitCollection = function(pickupRec){
-        
+        console.log(pickupRec);
         var url = "/collections";
         if(pickupRec._id){
             //This is an update not a create new record
