@@ -93,7 +93,7 @@ septageLogger.controller('DriverCtlr',
 
         collectionService.submitCollection(pickup)
             .then(function(data){
-                console.log(data);
+                //console.log(data);
                 reloadPendingCollections();
                 clearCollectionFields();
             }, function(error){
@@ -141,10 +141,10 @@ septageLogger.controller('DriverCtlr',
         $scope.inprocessCollections = [];
         collectionService.getCollections(true)
         .then(function(data){
-            console.log(data);
+            //console.log(data);
             data.data.forEach(function(record){
                 $scope.inprocessCollections.push(record);
-                console.log($scope.inprocessCollections);
+                //console.log($scope.inprocessCollections);
             })
         }, function(error){
             console.log(error);
@@ -171,7 +171,7 @@ septageLogger.controller('DriverCtlr',
     //Luke added button control here
     $scope.setButton = function(value){
         $scope.button = value;
-        console.log(value);
+        //console.log(value);
         if (value === 1){
             $scope.collection.date = new Date();
         }
