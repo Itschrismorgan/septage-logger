@@ -210,7 +210,7 @@
                 <label for="driver" class="col-sm-2 control-label">Approved Drivers:</label>
                 <div class="col-sm-3">
                     <div ng-repeat="driver in drivers">
-                        <label class="checkbox" for="{{driver}">
+                        <label class="checkbox" for="{{driver}}">
                             <input type="checkbox" ng-model="approvedDrivers.usernames[driver]" name="{{driver}}" id="{{driver}}" />
                             {{driver}}
                         </label>
@@ -312,7 +312,6 @@
                             <div class="row">
                                 <div class="col-sm-4"><label class="control-label">Company</label>: {{collection.companyName}}</div>
                                 <div class="col-sm-8"><label class="control-label">Address Visited</label>: {{collection.location.address}}</div>
-
                             </div>
 
                             <div class="row">
