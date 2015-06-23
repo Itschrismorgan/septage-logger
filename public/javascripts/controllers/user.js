@@ -158,6 +158,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
         companyService.createCompany($scope.company)
             .then(function(data){
                 console.log(data);
+                addFlash('company created!');
                 clearCompanyFields();
                 fillCompanyList();
             }, function(error){
@@ -183,6 +184,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
         if(truckVins.indexOf($scope.newTruck.vin) !== -1){
             truckService.updateTruck(truck)
             .then(function(data){
+                addFlash('truck updated!');
                 clearTruckFields();
                 reloadTruckList();
             }, function(error){
@@ -194,6 +196,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
             truckService.createTruck(truck)
             .then(function(data){
                 console.log("truck created");
+                addFlash('truck created!');
                 clearTruckFields();
                 reloadTruckList();
             }, function(error){
@@ -213,16 +216,8 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
             userService.updateUser(newUser)
                 .then(function(data){
                     console.log("user updated");
-                    flash('Updated User!');
-                    if (document.getElementById('flash-remove')) {
-                        document.getElementById('flash-remove').id = 'flash-messages'; 
-                    }
+                    addFlash('user updated!');
                     clearFields();
-                    setTimeout(function (){
-                        flash('');
-                        var flashEl = document.getElementById('flash-messages');
-                        flashEl.id = 'flash-remove';
-                    },3000);
                 }, function(error){
                     console.log("problem");
                 });
@@ -235,7 +230,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
             userService.createUser($scope.newUser)
                 .then(function(data){
                     //console.log("user created");
-                    flash('User Created!');
+                    addFlash('user created!');
                     fillInUserList();
                     fillApprovedDriversList();
                     clearFields();
@@ -259,6 +254,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
         spreadSiteService.createSpreadSite(spreadSite)
             .then(function(data){
                 //console.log(data);
+                addFlash('spreadsite created!');
                 clearSpreadSiteFields();
                 reloadSpreadSiteList();
             }, function(error){
@@ -427,6 +423,18 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
         $scope.spreadSiteForm.contactName = "";
         $scope.spreadSiteForm.phone = "";
         $scope.spreadsite_form.$setPristine();
+    }
+    
+    function addFlash(message){
+        flash(message);
+        if (document.getElementById('flash-remove')) {
+            document.getElementById('flash-remove').id = 'flash-messages'; 
+        }
+        setTimeout(function (){
+            flash('');
+            var flashEl = document.getElementById('flash-messages');
+            flashEl.id = 'flash-remove';
+        },3000);
     }
 
     //Luke added button control here
