@@ -8,6 +8,7 @@ var locationTypes = "commercial residential".split(" ");
 var schema = mongoose.Schema({
     companyId: {type: String, required: true },
     driverId: {type: String, required: true },
+    pickUpDate: {type: Date, required: true },
     createdTimeStamp: { type: Date, default: Date.now },
     editedTimeStamp: { type: Date, required: false},
     location: {

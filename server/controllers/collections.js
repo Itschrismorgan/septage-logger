@@ -16,6 +16,7 @@ exports.createCollection = function(recordToCreate,user, cb){
         var newCollection = {
             companyId: user.companyId.toString(),
             driverId: recordToCreate.driverId,
+            pickUpDate: recordToCreate.pickUpDate,
             location: {
                 latitude: recordToCreate.location.latitude,
                 longitude: recordToCreate.location.longitude,
@@ -32,7 +33,7 @@ exports.createCollection = function(recordToCreate,user, cb){
     }
 
     //console.log('ready to create record');
-    //console.log(newCollection);
+    console.log(newCollection);
     collection.create(newCollection, function(err, collection){
         if(err){
             console.log(err);

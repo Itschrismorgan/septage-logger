@@ -11,7 +11,7 @@ septageLogger.controller('DriverCtlr',
 
     spreadSiteService.getSpreadSiteList()
         .then(function(data){
-            console.log(data);
+            //console.log(data);
             data.data.forEach(function(record){
                 $scope.spreadSites.push(record);
             })
@@ -73,9 +73,10 @@ septageLogger.controller('DriverCtlr',
     }
 
     $scope.submitPickup = function(){
-        console.log($scope);
+        //console.log($scope);
         var pickup = {
             truckId: $scope.collection.selectedTruck._id,
+            pickUpDate: $scope.collection.date,
             location:{
                 latitude: $scope.map.center.latitude,
                 longitude: $scope.map.center.longitude,
@@ -98,7 +99,7 @@ septageLogger.controller('DriverCtlr',
             }, function(error){
                 console.log("error");
             });
-        console.log(pickup);
+        //console.log(pickup);
     };
 
     $scope.discharge = function(collection, spreadSite){
@@ -115,10 +116,10 @@ septageLogger.controller('DriverCtlr',
                 collection.dischargeLocation.longitude = longitude;
             }
 
-            console.log(collection);
+            //console.log(collection);
             collectionService.submitCollection(collection)
                 .then(function(data){
-                    console.log(data);
+                    //console.log(data);
                     reloadPendingCollections();
                 }, function(error){
                     console.log("error");
@@ -143,6 +144,7 @@ septageLogger.controller('DriverCtlr',
             console.log(data);
             data.data.forEach(function(record){
                 $scope.inprocessCollections.push(record);
+                console.log($scope.inprocessCollections);
             })
         }, function(error){
             console.log(error);
@@ -169,6 +171,7 @@ septageLogger.controller('DriverCtlr',
     //Luke added button control here
     $scope.setButton = function(value){
         $scope.button = value;
+        console.log(value);
         if (value === 1){
             $scope.collection.date = new Date();
         }
@@ -178,17 +181,16 @@ septageLogger.controller('DriverCtlr',
         return $scope.button === value;
     };
     
-    $scope.sendLogout = function(){
+    $scope.sendLogout = function() {
         logoutService.logout()
-            .then(function(data){
+            .then(function (data) {
                 //console.log("login good");
                 //a test
                 $location.url("/");
-                    }, function(error){
-                        console.log("problem");
-                    });
-            }, function(error){
+
+            }, function (error) {
                 //console.log("login bad");
-            };
+            });
+    }
 
 }]);

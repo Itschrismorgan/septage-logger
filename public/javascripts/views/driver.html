@@ -52,14 +52,15 @@
                     <label for="addressType" class="control-label">Address Type:</label>
                     <input class="input-lg vertical-align-middle" type="radio" ng-model="collection.addressType" name="addressType" value="residential" >Residential</input>
                     <input class="input-lg vertical-align-middle" type="radio" ng-model="collection.addressType" name="addressType" value="commercial" >Commercial</input>
-
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-sm-12">
-                    <label for="date">Date:</label>
-                    <input class="form-control input-lg" type="datetime-local" name="datetime" ng-model="collection.date"/>
+                    <div style="display:inline-block; min-height:290px;">
+                        <label for="date">Date:</label>
+                        <datepicker ng-model="collection.date" class="well well-sm"></datepicker>
+                    </div>
                 </div>
             </div>
             
