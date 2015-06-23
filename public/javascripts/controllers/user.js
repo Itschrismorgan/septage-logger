@@ -1,6 +1,6 @@
 
-septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$anchorScroll', 'userService', 'companyService', 'truckService', 'spreadSiteService', 'logoutService', 'reportService',
-    function($scope, $routeParams, $location, $anchorScroll, userService, companyService, truckService, spreadSiteService, logoutService, reportService){
+septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$anchorScroll', 'userService', 'companyService', 'truckService', 'spreadSiteService', 'logoutService', 'reportService','flash',
+    function($scope, $routeParams, $location, $anchorScroll, userService, companyService, truckService, spreadSiteService, logoutService, reportService, flash){
 
     $scope.$watch('selectedUser', function(newSelectedUser){
         if(newSelectedUser === "" || newSelectedUser === undefined){
@@ -213,7 +213,16 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
             userService.updateUser(newUser)
                 .then(function(data){
                     console.log("user updated");
+                    flash('Updated User!');
+                    if (document.getElementById('flash-remove')) {
+                        document.getElementById('flash-remove').id = 'flash-messages'; 
+                    }
                     clearFields();
+                    setTimeout(function (){
+                        flash('');
+                        var flashEl = document.getElementById('flash-messages');
+                        flashEl.id = 'flash-remove';
+                    },3000);
                 }, function(error){
                     console.log("problem");
                 });
@@ -226,6 +235,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
             userService.createUser($scope.newUser)
                 .then(function(data){
                     //console.log("user created");
+                    flash('User Created!');
                     fillInUserList();
                     fillApprovedDriversList();
                     clearFields();
