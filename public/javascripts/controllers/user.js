@@ -21,6 +21,9 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
                     } else {
                         $scope.newUser.active = 'no';
                     }
+                    document.getElementById('username').disabled = true;
+                    document.getElementById('company').disabled = true;
+                    
                 }, function(err){
                     console.log("problem");
                 });
