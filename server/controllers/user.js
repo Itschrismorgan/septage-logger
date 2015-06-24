@@ -30,8 +30,12 @@ exports.createUser = function(req,res){
         if(!company){
             res.status(404).json({code:404, message: "company record not found"});
         } else {
+            if(req.user.type === 'contractor' && req.body.type !== 'driver'){
+                res.status(400).json({code: 400, message: "Not authorized to create this kind of account"});
+                return;
+            }
             var salt = genSalt();
-            //console.log(req.body);
+            //console.log(req.user);
             var passwordHash = hash(req.body.password, salt);
 
             var userToCreate = {
@@ -43,7 +47,6 @@ exports.createUser = function(req,res){
                 email: req.body.email,
                 active: true
             };
-
             //console.log(userToCreate);
             user.create(userToCreate, function(err){
                 if(err){

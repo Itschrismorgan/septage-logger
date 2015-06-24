@@ -8,7 +8,7 @@ var collection = mongoose.model('Collection');
 
 
 exports.createCollection = function(recordToCreate,user, cb){
-    console.log('in creatCollection');
+    //console.log('in creatCollection');
     //console.log(user);
     //console.log(recordToCreate);
 
@@ -33,7 +33,7 @@ exports.createCollection = function(recordToCreate,user, cb){
     }
 
     //console.log('ready to create record');
-    console.log(newCollection);
+    //console.log(newCollection);
     collection.create(newCollection, function(err, collection){
         if(err){
             console.log(err);
@@ -46,7 +46,7 @@ exports.createCollection = function(recordToCreate,user, cb){
 };
 
 exports.getCollection = function(collectionId,cb){
-    console.log("in get collection");
+    //console.log("in get collection");
 
     collection.findOne({_id: collectionId}, function(err, collection){
         if(err){
@@ -59,7 +59,7 @@ exports.getCollection = function(collectionId,cb){
 };
 
 exports.updateCollection = function(id, newCollection, cb){
-    console.log("in update collection");
+    //console.log("in update collection");
 
     collection.findByIdAndUpdate(id, newCollection, function(err, collection){
         if(err){
@@ -99,7 +99,7 @@ exports.listCollections = function(user, inprocess, cb){
 };
 
 exports.deleteCollection = function(collectionId, cb){
-    console.log("in delete collection method");
+    //console.log("in delete collection method");
 
     collection.remove({_id: collectionId}, function(err){
         if(err){

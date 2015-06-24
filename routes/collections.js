@@ -6,7 +6,7 @@ var router = express.Router();
 var collections = require('../server/controllers/collections');
 
 router.get('/', function(req,res,next){
-    console.log("in get list route");
+    //console.log("in get list route");
     var inprocess = false;
     if(req.query.inprocess){
         inprocess = true;
@@ -28,7 +28,7 @@ router.get('/', function(req,res,next){
 });
 
 router.get('/:collection_id', function(req,res,next){
-    console.log("in get single rec route");
+    //console.log("in get single rec route");
     if(req.user.type === "admin" || req.user.type === "contractor" || req.user.type === "driver"){
         collections.getCollection(req.params.collection_id, function(err, data){
             if (err){
@@ -45,10 +45,10 @@ router.get('/:collection_id', function(req,res,next){
 });
 
 router.post('/', function(req,res,next){
-    console.log("in create route");
+    //console.log("in create route");
     if(req.user || req.user.type === "admin" || req.user.type === "contractor" || req.user.type === "driver"){
         collections.createCollection(req.body, req.user, function(err, data){
-            console.log('in callback');
+            //console.log('in callback');
             console.log(err);
             if (err){
                 console.log(err);

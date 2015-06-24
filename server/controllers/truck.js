@@ -42,34 +42,19 @@ exports.createTruck = function(req, res){
 };
 
 exports.getTruckList = function(req, res){
-    console.log(req.user);
-    if(req.user.type === "admin"){
-        truck.find({}, function(err, trucks){
-            if(err) {
-                res.status(500).json({code: 500, message: "failed to retrieve trucks"});
-            }
-            
-            if(!trucks){
-                res.status(404).json({code: 404, message: "no trucks found"});
-            } else {
-                res.status(200).json(trucks);
-            }
-        });  
-    }
-    else if (req.user.type === "contractor") {
-        truck.find({companyId: req.user.companyId}, function(err, trucks){
-            if(err) {
-                res.status(500).json({code: 500, message: "failed to retrieve trucks"});
-            }
-            
-            if(!trucks){
-                res.status(404).json({code: 404, message: "no trucks found"});
-            } else {
-                res.status(200).json(trucks);
-            }
-        });
-    } else if(req.user.type === "driver"){
-        truck.find({companyId: req.user.companyId, approvedDrivers: {$eq: req.user._id}}, function(err, trucks){
+    //console.log("in get TruckList");
+    //console.log(req.user);
+    if(req.user){
+        var query = {};
+        if (req.user.type === 'contractor' || req.user.type === 'driver'){
+            query.companyId = req.user.companyId;
+        }
+        if (req.user.type === 'driver'){
+            query.approvedDrivers = {$eq: req.user._id};
+        }
+        //console.log(query);
+
+        truck.find(query, function(err, trucks){
             if(err) {
                 res.status(500).json({code: 500, message: "failed to retrieve trucks"});
             }
@@ -77,17 +62,45 @@ exports.getTruckList = function(req, res){
             if(!trucks){
                 res.status(404).json({code: 404, message: "no trucks found"});
             } else {
-                res.status(200).json(trucks);
+                returnTrucks = [];
+                trucks.forEach(function (truck, index){
+                    var modTruck = {};
+                    modTruck._id = truck._id;
+                    modTruck.capacity = truck.capacity;
+                    modTruck.license = truck.license;
+                    modTruck.nickname = truck.nickname;
+                    modTruck.make = truck.make;
+                    modTruck.model = truck.model;
+                    modTruck.year = truck.year;
+                    modTruck.color = truck.color;
+                    modTruck.companyId = truck.companyId;
+                    modTruck.approvedDrivers = truck.approvedDrivers;
+
+                    company.findOne({_id: truck.companyId}, function(err, company){
+                        if (err){
+                            console.log(err);
+                        }
+                        console.log(company.name);
+                        modTruck.companyName = company.name;
+
+                        console.log(modTruck);
+                        returnTrucks.push(modTruck);
+                        if (index === trucks.length - 1) {
+                            console.log(returnTrucks);
+                            res.status(200).json(returnTrucks);
+                        }
+                    });
+                });
             }
         });
+
     } else {
         res.status(401).json({code: 401, message: 'not authorized for this resource'});
     }
-    //console.log('getting truck list');
 };
 
 exports.updateTruck = function(req, res){
-    console.log('in update truck');
+    //console.log('in update truck');
     company.findOne({name: req.body.company},function(err, company){
         if(err){
             res.status(500).json({code:500, message: "Server error retrieving company record"});
@@ -96,10 +109,10 @@ exports.updateTruck = function(req, res){
                 res.status(404).json({code:404, message: "company record not found"});
             } else {
                 //console.log("in updateTruck!!!");
-                console.log(req.body);
+                //console.log(req.body);
                 var truckToUpdate = req.body;
                 truckToUpdate.companyId = company._id;
-                console.log(truckToUpdate);
+                //console.log(truckToUpdate);
                 truck.findByIdAndUpdate(req.params.truck_id, truckToUpdate, function(err, truckRet){
                     if(err){
                         res.status(500).json({code:500, message: "error updating truck", error: err});
@@ -149,7 +162,7 @@ exports.deleteTruck = function(req,res){
 };
 
 exports.getTruck = function(req,res){
-    console.log('get truck');
+    //console.log('get truck');
     
     truck.findOne({_id: req.params.truck_id}, function(err, truck){
         if(err) {

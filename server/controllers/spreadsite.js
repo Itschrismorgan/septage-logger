@@ -10,9 +10,9 @@ var company = mongoose.model('Company');
 
 
 exports.createSpreadSite = function(recordToCreate,user, cb){
-    console.log('in createSpeadSite');
-    console.log(user);
-    console.log(recordToCreate);
+    //console.log('in createSpeadSite');
+    //console.log(user);
+    //console.log(recordToCreate);
 
     try {
         var newSpreadSite = {
@@ -27,8 +27,8 @@ exports.createSpreadSite = function(recordToCreate,user, cb){
         cb({code:400, message: err.message});
     }
 
-    console.log('ready to create record');
-    console.log(newSpreadSite);
+    //console.log('ready to create record');
+    //console.log(newSpreadSite);
 
     spreadSite.create(newSpreadSite, function(err, spreadSite){
         if(err){
@@ -42,7 +42,7 @@ exports.createSpreadSite = function(recordToCreate,user, cb){
 };
 
 exports.getSpreadSite = function(spreadSiteId,user, cb){
-    console.log("in get collection");
+    //console.log("in get collection");
 
     spreadSite.findOne({_id: spreadSiteId}, function(err, spreadSite){
         if(err){
@@ -55,7 +55,7 @@ exports.getSpreadSite = function(spreadSiteId,user, cb){
 };
 
 exports.updateSpreadSite = function(id, newSpreadSite, cb){
-    console.log("in update collection");
+    //console.log("in update collection");
 
     spreadSite.findByIdAndUpdate(id, newSpreadSite, function(err, data){
         if(err){
@@ -68,13 +68,13 @@ exports.updateSpreadSite = function(id, newSpreadSite, cb){
 };
 
 exports.listSpreadSites = function(user, cb){
-    console.log("in get collection list");
-    console.log(user);
+    //console.log("in get spreadsite list");
+    //console.log(user);
     var query = {};
     if(user.type === 'driver'){
         query = {approvedCompanies: user.companyId.toString()};
     }
-    console.log(query);
+    //console.log(query);
     spreadSite.find(query, function(err, spreadSites){
         if(err){
             cb({code: 400, message: err.message}, null);
@@ -86,7 +86,7 @@ exports.listSpreadSites = function(user, cb){
 };
 
 exports.deleteSpreadSite = function(spreadSiteId, cb){
-    console.log("in delete collection method");
+    //console.log("in delete spreadsite method");
 
     spreadSite.remove({_id: spreadSiteId}, function(err){
         if(err){
