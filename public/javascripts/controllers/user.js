@@ -266,8 +266,8 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
     };
 
     $scope.editSite = function(spreadSite){
-        console.log("editSite");
-        console.log(spreadSite)
+        //console.log("editSite");
+        //console.log(spreadSite)
         $scope.spreadSiteForm = spreadSite;
     };
 
@@ -314,7 +314,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
         truckService.getTruckList()
             .then(function(response){
                 response.data.map(function(truck){
-                    console.log(truck);
+                    //console.log(truck);
                     $scope.trucks.push(truck);
                 });
             }, function(error){
@@ -376,8 +376,8 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
 
     $scope.refreshReport = function(){
         $scope.collections = [];
-        console.log("launch");
-        console.log($scope.report.beginDate);
+        //console.log("launch");
+        //console.log($scope.report.beginDate);
         reportService.getCollectionReport($scope.report.beginDate.toISOString())
             .then(function(response){
                 response.data.map(function(collection){
@@ -456,10 +456,9 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
                 //console.log("login good");
                 //a test
                 $location.url("/");
-                    }, function(error){
-                        console.log("problem");
-                    });
             }, function(error){
                 //console.log("login bad");
-            };
+            }
+        );
+    }
 }]);
