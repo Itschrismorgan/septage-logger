@@ -314,6 +314,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
         truckService.getTruckList()
             .then(function(response){
                 response.data.map(function(truck){
+                    console.log(truck);
                     $scope.trucks.push(truck);
                 });
             }, function(error){
