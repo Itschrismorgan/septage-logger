@@ -3,14 +3,19 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
     function($scope, $routeParams, $location, $anchorScroll, userService, companyService, truckService, spreadSiteService, logoutService, reportService, flash){
 
     $scope.$watch('selectedUser', function(newSelectedUser){
-        if(newSelectedUser === "" || newSelectedUser === undefined){
+        console.log(newSelectedUser);
+        if(newSelectedUser === "" || newSelectedUser === undefined || newSelectedUser === null){
             // clear out the form inputs
             $scope.newUser = {};
+            document.getElementById('username').disabled = false;
+            document.getElementById('company').disabled = false;
+            $scope.selectedCompany = "";
         } else {
             userService.getUser(newSelectedUser)
                 .then(function(returnData){
-                    console.log(returnData);
-                    console.log($scope.newUser);
+                    //console.log("I'm here!");
+                    //console.log(returnData);
+                    //console.log($scope.newUser);
                     $scope.newUser.username = returnData.data.username;
                     $scope.newUser.password = "";
                     $scope.newUser.email = returnData.data.email;
@@ -416,6 +421,10 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
         $scope.newUser.password = "";
         $scope.newUser.email = "";
         $scope.newUser.type = "";
+        $scope.selectedCompany = "";
+        $scope.selectedUser = "";
+        document.getElementById('username').disabled = false;
+        document.getElementById('company').disabled = false;
         $scope.user_form.$setPristine();
     }
 
