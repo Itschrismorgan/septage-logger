@@ -41,7 +41,7 @@
                 <div class="col-sm-3">
                     <select class = "form-control input-lg" ng-model="newUser.type" required>
                         <option value="admin" ng-hide="accountType!='admin'">Admin</option>
-                        <option value="contractor">Contractor</option>
+                        <option value="contractor" ng-hide="accountType!='admin'">Contractor</option>
                         <option value="driver">Driver</option>
                     </select>
                 </div>
