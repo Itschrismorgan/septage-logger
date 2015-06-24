@@ -27,7 +27,7 @@
             <div class="form-group">
                 <label for="username" class="col-sm-2 control-label">Username:</label>
                 <div class="col-sm-3">
-                    <input class="form-control input-lg" type="text" name="username" ng-model="newUser.username" required/>
+                    <input class="form-control input-lg" type="text" name="username" id="username" ng-model="newUser.username" required/>
                 </div>
             </div>
             <div class="form-group">
@@ -49,7 +49,7 @@
             <div class="form-group">
                 <label for="company" class="col-sm-2 control-label">Company:</label>
                 <div class="col-sm-3">
-                    <select class="form-control input-lg" ng-model="selectedCompany" ng-options="company for company in companyList"></select>
+                    <select class="form-control input-lg" id="company" ng-model="selectedCompany" ng-options="company for company in companyList"></select>
                 </div>
             </div>
             <div class="form-group">
@@ -326,5 +326,6 @@
             </div>
         </div>
     </div>
-
+    
+    <flash:messages ng:show="messages"></flash:messages>
 </div>
