@@ -7,7 +7,7 @@ var spreadsite = mongoose.model('SpreadSite');
 var company = mongoose.model('Company');
 var collection = mongoose.model('Collection');
 
-exports.listTrucksAndCollections = function(user, beginDate, res){
+exports.listTrucksAndCollections = function(user, beginDate, endDate, res){
     console.log("in get Collections list for report");
     console.log(user);
     var query = {};
@@ -18,6 +18,10 @@ exports.listTrucksAndCollections = function(user, beginDate, res){
         console.log(beginDate);
         var qDate = new Date(beginDate).toISOString();
         query.createdTimeStamp = {"$gte":  new Date(qDate)};
+    }
+    if(endDate){
+        var qeDate = new Date(endDate).toISOString();
+        query.createdTimeStamp.$lte = new Date(qeDate);
     }
     console.log(query);
     collection.find(query, function(err, collections){
@@ -59,7 +63,7 @@ exports.listTrucksAndCollections = function(user, beginDate, res){
     }).sort({companyId: 1});
 };
 
-exports.listSpreadsiteData = function(user, beginDate, res){
+exports.listSpreadsiteData = function(user, beginDate, endDate, res){
     console.log("in get Spreadsite list for report");
     var query = {};
     if(user.type === 'contractor'){
@@ -69,6 +73,10 @@ exports.listSpreadsiteData = function(user, beginDate, res){
         console.log(beginDate);
         var qDate = new Date(beginDate).toISOString();
         query.createdTimeStamp = {"$gte":  new Date(qDate)};
+    }
+    if(endDate){
+        var qeDate = new Date(endDate).toISOString();
+        query.createdTimeStamp.$lte = new Date(qeDate);
     }
     console.log(query);
     collection.find(query, function(err, collections){

@@ -91,7 +91,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
             fillInUserList();
             reloadTruckList();
             fillApprovedDriversList();
-            reloadCollectionList();
+            //reloadCollectionList();
         }, function(error){
             console.log("problem");
         });
@@ -386,7 +386,10 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
         if (!$scope.report.beginDate){
             $scope.report.beginDate = new Date(new Date().setDate(new Date().getDate()-30));
         }
-        reportService.getCollectionReport($scope.report.beginDate.toISOString())
+        if (!$scope.report.endDate){
+            $scope.report.endDate = new Date();
+        }
+        reportService.getCollectionReport($scope.report.beginDate.toISOString(), $scope.report.endDate.toISOString())
             .then(function(response){
                 response.data.map(function(collection){
                     $scope.collections.push(collection);
@@ -403,7 +406,10 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
         if (!$scope.report.beginDate){
             $scope.report.beginDate = new Date(new Date().setDate(new Date().getDate()-30));
         }
-        reportService.getSpreadsiteReport($scope.report.beginDate.toISOString())
+        if (!$scope.report.endDate){
+            $scope.report.endDate = new Date();
+        }
+        reportService.getSpreadsiteReport($scope.report.beginDate.toISOString(), $scope.report.endDate.toISOString())
             .then(function(response){
                 response.data.map(function(collection){
                     $scope.spreadCollections.push(collection);
