@@ -383,10 +383,30 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
         $scope.collections = [];
         //console.log("launch");
         //console.log($scope.report.beginDate);
+        if (!$scope.report.beginDate){
+            $scope.report.beginDate = new Date(new Date().setDate(new Date().getDate()-30));
+        }
         reportService.getCollectionReport($scope.report.beginDate.toISOString())
             .then(function(response){
                 response.data.map(function(collection){
                     $scope.collections.push(collection);
+                });
+            }, function(error){
+                console.log(error);
+            });
+    };
+
+    $scope.spreadsiteReport = function(){
+        $scope.spreadCollections = [];
+        //console.log("launch");
+        //console.log($scope.report.beginDate);
+        if (!$scope.report.beginDate){
+            $scope.report.beginDate = new Date(new Date().setDate(new Date().getDate()-30));
+        }
+        reportService.getSpreadsiteReport($scope.report.beginDate.toISOString())
+            .then(function(response){
+                response.data.map(function(collection){
+                    $scope.spreadCollections.push(collection);
                 });
             }, function(error){
                 console.log(error);

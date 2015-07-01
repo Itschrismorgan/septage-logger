@@ -16,4 +16,20 @@ septageLogger.service('reportService', [ '$http', function($http){
                 return e;
             });
     }
+    
+    this.getSpreadsiteReport = function (beginDate) {
+        var url = '/reports/spreadsite-history';
+        if(beginDate){
+            url = url + '?beginDate='+beginDate;
+        }
+        console.log(url);
+
+        return $http.get(url)
+            .success(function(data){
+                //console.log(data);
+            })
+            .error(function(e){
+                return e;
+            });
+    }
 }]);
