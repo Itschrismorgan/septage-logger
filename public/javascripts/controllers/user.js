@@ -208,7 +208,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
                 clearTruckFields();
                 reloadTruckList();
             }, function(error){
-                console.log("error");
+                console.log("error:" + error);
             });
         }
     };
