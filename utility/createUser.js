@@ -31,8 +31,9 @@ var userToCreate = {
     active: true
 };
 
-console.log(userToCreate);
-mongoose.connect('mongodb://localhost/septage', function(err){
+//console.log(userToCreate);
+var mongodb_uri=process.env.MONGODB_URI+'/septage';
+mongoose.connect(mongodb_uri, function(err){
 
     if(err){
         console.log("Error connecting to MongoDB!");
@@ -44,7 +45,7 @@ mongoose.connect('mongodb://localhost/septage', function(err){
     user.find({}, '_id', function(err,users){
         if(err){
             console.log("Error!!!!");
-        };
+        }
         
         if (users.length !== 0){
             console.log(users);
@@ -72,7 +73,7 @@ function hash(pass, salt) {
     hash.update(pass, 'utf8');
     hash.update(salt, 'utf8');
     return hash.digest('base64');
-};
+}
 
 
 function genSalt(){
@@ -83,4 +84,4 @@ function genSalt(){
         salt += possible.charAt(Math.floor(Math.random() * possible.length));
 
     return salt;
-};
+}
