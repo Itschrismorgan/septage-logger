@@ -25,15 +25,17 @@ var server = http.createServer(app);
 /**
  * Listen on provided port, on all network interfaces.
  */
-
-mongoose.connect('mongodb://localhost/septage', function(err){
+//'mongodb://localhost/septage'
+var mongodb_uri=process.env.MONGODB_URI+'/septage';
+mongoose.connect(mongodb_uri, function(err){
 
   if(err){
     console.log("Error connecting to MongoDB!");
+    console.log(err);
     throw(err);
   }  
   
-  console.log("connected to DB.");
+  console.log("connected to DB: "+mongodb_uri);
   server.listen(port);
   
 });
