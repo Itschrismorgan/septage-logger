@@ -91,7 +91,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
             fillInUserList();
             reloadTruckList();
             fillApprovedDriversList();
-            reloadCollectionList();
+            //reloadCollectionList();
         }, function(error){
             console.log("problem");
         });
@@ -208,7 +208,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
                 clearTruckFields();
                 reloadTruckList();
             }, function(error){
-                console.log("error");
+                console.log("error:" + error);
             });
         }
     };
@@ -383,10 +383,36 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
         $scope.collections = [];
         //console.log("launch");
         //console.log($scope.report.beginDate);
-        reportService.getCollectionReport($scope.report.beginDate.toISOString())
+        if (!$scope.report.beginDate){
+            $scope.report.beginDate = new Date(new Date().setDate(new Date().getDate()-30));
+        }
+        if (!$scope.report.endDate){
+            $scope.report.endDate = new Date();
+        }
+        reportService.getCollectionReport($scope.report.beginDate.toISOString(), $scope.report.endDate.toISOString())
             .then(function(response){
                 response.data.map(function(collection){
                     $scope.collections.push(collection);
+                });
+            }, function(error){
+                console.log(error);
+            });
+    };
+
+    $scope.spreadsiteReport = function(){
+        $scope.spreadCollections = [];
+        //console.log("launch");
+        //console.log($scope.report.beginDate);
+        if (!$scope.report.beginDate){
+            $scope.report.beginDate = new Date(new Date().setDate(new Date().getDate()-30));
+        }
+        if (!$scope.report.endDate){
+            $scope.report.endDate = new Date();
+        }
+        reportService.getSpreadsiteReport($scope.report.beginDate.toISOString(), $scope.report.endDate.toISOString())
+            .then(function(response){
+                response.data.map(function(collection){
+                    $scope.spreadCollections.push(collection);
                 });
             }, function(error){
                 console.log(error);
