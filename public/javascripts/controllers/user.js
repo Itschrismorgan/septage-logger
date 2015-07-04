@@ -252,13 +252,24 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
         var spreadSite = $scope.spreadSiteForm;
 
         spreadSite.approvedCompanies = [];
-        //console.log($scope);
+        console.log($scope.approvedCompanies);
         for(var _id in $scope.approvedCompanies.companies){
             if($scope.approvedCompanies.companies[_id]){
                 spreadSite.approvedCompanies.push(_id);
             }
         }
-
+        if (spreadSite._id){
+            spreadSiteService.updateSpreadSite(spreadSite)
+            .then(function(data){
+                //console.log(data);
+                addFlash('spreadsite updated!');
+                clearSpreadSiteFields();
+                reloadSpreadSiteList();
+            }, function(error){
+                console.log("error");
+            });
+        } else {
+        
         spreadSiteService.createSpreadSite(spreadSite)
             .then(function(data){
                 //console.log(data);
@@ -268,12 +279,18 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
             }, function(error){
                 console.log("error");
             });
+        }
     };
 
     $scope.editSite = function(spreadSite){
         //console.log("editSite");
         //console.log(spreadSite)
         $scope.spreadSiteForm = spreadSite;
+        $scope.approvedCompanies.companies = {};
+        for (var i=0; i < spreadSite.approvedCompanies.length; i++){
+            console.log(spreadSite.approvedCompanies[i]);
+                $scope.approvedCompanies.companies[spreadSite.approvedCompanies[i]._id] = true;
+            }
     };
 
     function fillApprovedDriversList(){
