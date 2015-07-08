@@ -95,16 +95,24 @@ exports.updateUser = function(req,res){
                 res.status(404).json({code:404, message: "company record not found"});
             } else {
                 console.log("in updateUser");
-                console.log(req.body);
+                //console.log(req.body);
                 var userToUpdate = req.body;
                 userToUpdate.companyId = company._id;
                 console.log(userToUpdate);
+                if (req.body.password){
+                    var salt = genSalt();
+                    //console.log(req.user);
+                    var passwordHash = hash(req.body.password, salt);
+                    userToUpdate.passwordHash = passwordHash;
+                    userToUpdate.salt = salt;
+                }
+                
                 user.findByIdAndUpdate(req.params.username, userToUpdate , function(err, userRet){
                     if(err){
                         res.status(500).json({code:500, message: "error updating user", error: err});
                     }
                     
-                    console.log(userRet);
+                    //console.log(userRet);
                     user.findOne({_id: userRet._id}, function(err,updateUser){
                         if(err){
                             res.status(500).json({code:500, message: "GetUser: Server error"});
