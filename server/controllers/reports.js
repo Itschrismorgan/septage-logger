@@ -109,7 +109,9 @@ exports.listSpreadsiteData = function(user, beginDate, endDate, res){
                     if (err){
                         console.log(err);
                     }
-                    modCollection.spreadsiteName = spreadsite.name;  
+                    if(spreadsite !== null){
+                        modCollection.spreadsiteName = spreadsite.name;
+                    }
                     modCollections.push(modCollection);
                     if (index === collections.length - 1) {
                     res.status(200).json(modCollections);

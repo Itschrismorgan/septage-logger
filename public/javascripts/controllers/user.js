@@ -436,6 +436,83 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
             });
     };
 
+    $scope.genPDF = function(reportName, records){
+        //http://mrrio.github.io/jsPDF/doc/symbols/jsPDF.html
+        var doc = new jsPDF('p','pt', 'letter');
+
+        /*
+        Max Width is 612
+         */
+        var curY = 0;
+
+        var repName = reportName;
+        if (reportName === "collectionsReport"){
+            repName = "Collections Report";
+        } else if (reportName === "spreadCollections"){
+            repName = "Spread Site Totals"
+        }
+
+        curY=curY+15;
+        doc.text(repName,curY,20);
+        doc.setLineWidth(1);
+        curY=curY+15;
+        doc.line(30,curY,580,curY);
+
+        records.forEach(function(record,index,records){
+            if(reportName ==="collectionsReport"){
+                curY = formatCollectionRec(doc,record, curY);
+            } else if (reportName === "spreadCollections"){
+                curY = formatSpreadSiteRec(doc,record,curY);
+            }
+            if(curY > 700){
+                doc.addPage();
+                curY=20;
+            } else {
+                doc.setLineWidth(1);
+                doc.line(30,curY,580,curY);
+            }
+        });
+
+        doc.output("dataurlnewwindow");
+    };
+
+    function formatCollectionRec(doc, record, curY){
+        curY=curY+20;
+        doc.text("Company: "+record.companyName,20,curY);
+        curY=curY+20;
+        doc.text("Truck VIN: "+record.truckId,20,curY);
+        doc.text("Volume: "+record.volume,350,curY);
+        curY=curY+20;
+        doc.text("GIS Coordinates: Lat="+record.location.latitude+" Lon="+record.location.longitude,20,curY);
+        curY=curY+20;
+        doc.text("Address: "+record.location.address,20,curY);
+        curY=curY+20;
+        doc.text("Type: "+record.type,20,curY);
+        doc.text("Date/Time: "+record.createdTimeStamp,200,curY);
+        curY=curY+20;
+        return curY;
+    }
+
+    function formatSpreadSiteRec(doc, record, curY){
+        curY=curY+20;
+        doc.text("Spread Site: "+record.spreadsiteName,20,curY);
+        curY=curY+20;
+        doc.text("Company: "+record.companyName,20,curY);
+        curY=curY+20;
+        doc.text("Truck VIN: "+record.truckId,20,curY);
+        doc.text("Volume: "+record.volume,350,curY);
+        curY=curY+20;
+        if(record.dischargeLocation !== null){
+            doc.text("GIS Coordinates: Lat="+record.dischargeLocation.latitude+" Lon="+record.dischargeLocation.longitude,20,curY);
+            curY=curY+20;
+        }
+        doc.text("Type: "+record.type,20,curY);
+        doc.text("Date/Time: "+record.dischargeTimeStamp,200,curY);
+        curY=curY+20;
+        return curY;
+    }
+
+
     function clearCompanyFields(){
         $scope.company = {};
         $scope.company.name = "";

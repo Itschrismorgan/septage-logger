@@ -309,30 +309,34 @@
                 <div>
                     <button type="submit" ng-click="refreshReport()">Get Collection Report</button>
                 </div>
+                <div>
+                    <button type="button" ng-click="genPDF('collectionReport', collections)">Export PDF</button>
+                </div>
             </div>
             <div class="col-sm-8">
-                <div ng-repeat="collection in collections">
-                    <div class="row truck-border">
-                        <div class="col-sm-10">
-                            <div class="row">
-                                <div class="col-sm-4"><label class="control-label">Truck VIN</label>: {{collection.truckId}}</div>
-                                <div class="col-sm-8"><label class="control-label">Location</label>: Latitude: {{collection.location.latitude}} Longitude: {{collection.location.longitude}}</div>
+                <div id="collectionReport">
+                    <div ng-repeat="collection in collections">
+                        <div class="row truck-border">
+                            <div class="col-sm-10">
+                                <div class="row">
+                                    <div class="col-sm-4"><label class="control-label">Truck VIN</label>: {{collection.truckId}}</div>
+                                    <div class="col-sm-8"><label class="control-label">Location</label>: Latitude: {{collection.location.latitude}} Longitude: {{collection.location.longitude}}</div>
 
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-4"><label class="control-label">Company</label>: {{collection.companyName}}</div>
-                                <div class="col-sm-8"><label class="control-label">Address Visited</label>: {{collection.location.address}}</div>
-                            </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-4"><label class="control-label">Company</label>: {{collection.companyName}}</div>
+                                    <div class="col-sm-8"><label class="control-label">Address Visited</label>: {{collection.location.address}}</div>
+                                </div>
 
-                            <div class="row">
-                                <div class="col-sm-2"><label class="control-label">Volume</label>: {{collection.volume}}</div>
-                                <div class="col-sm-2"><label class="control-label">Type</label>: {{collection.type}} </div>
-                                <div class="col-sm-8"><label class="control-label">Time</label>: {{collection.createdTimeStamp | date : 'medium' }} </div>
+                                <div class="row">
+                                    <div class="col-sm-2"><label class="control-label">Volume</label>: {{collection.volume}}</div>
+                                    <div class="col-sm-2"><label class="control-label">Type</label>: {{collection.type}} </div>
+                                    <div class="col-sm-8"><label class="control-label">Time</label>: {{collection.createdTimeStamp | date : 'medium' }} </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -351,30 +355,34 @@
                 <div>
                     <button type="submit" ng-click="spreadsiteReport()">Get Spreadsite Report</button>
                 </div>
+                <div>
+                    <button type="button" ng-click="genPDF('spreadCollections', spreadCollections)">Export PDF</button>
+                </div>
             </div>
             <div class="col-sm-8">
-                <div ng-repeat="collection in spreadCollections">
-                    <div class="row truck-border">
-                        <div class="col-sm-10">
-                            <div class="row">
-                                <div class="col-sm-4"><label class="control-label">Spreadsite Name</label>: {{collection.spreadsiteName}}</div>
-                                <div class="col-sm-8"><label class="control-label">Location</label>: Latitude: {{collection.dischargeLocation.latitude}} Longitude: {{collection.dischargeLocation.longitude}}</div>
+                <div id="spreadReport">
+                    <div ng-repeat="collection in spreadCollections">
+                        <div class="row truck-border">
+                            <div class="col-sm-10">
+                                <div class="row">
+                                    <div class="col-sm-4"><label class="control-label">Spreadsite Name</label>: {{collection.spreadsiteName}}</div>
+                                    <div class="col-sm-8"><label class="control-label">Location</label>: Latitude: {{collection.dischargeLocation.latitude}} Longitude: {{collection.dischargeLocation.longitude}}</div>
 
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-4"><label class="control-label">Company</label>: {{collection.companyName}}</div>
-                                <div class="col-sm-8"><label class="control-label">Truck VIN</label>: {{collection.truckId}}</div>
-                            </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-4"><label class="control-label">Company</label>: {{collection.companyName}}</div>
+                                    <div class="col-sm-8"><label class="control-label">Truck VIN</label>: {{collection.truckId}}</div>
+                                </div>
 
-                            <div class="row">
-                                <div class="col-sm-3"><label class="control-label">Volume</label>: {{collection.volume}}</div>
-                                <div class="col-sm-3"><label class="control-label">Type</label>: {{collection.type}} </div>
-                                <div class="col-sm-6"><label class="control-label">Time</label>: {{collection.dischargeTimeStamp | date : 'medium' }} </div>
+                                <div class="row">
+                                    <div class="col-sm-3"><label class="control-label">Volume</label>: {{collection.volume}}</div>
+                                    <div class="col-sm-3"><label class="control-label">Type</label>: {{collection.type}} </div>
+                                    <div class="col-sm-6"><label class="control-label">Time</label>: {{collection.dischargeTimeStamp | date : 'medium' }} </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
