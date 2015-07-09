@@ -108,6 +108,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
                     fillInUserList();
                     clearFields();
                     fillApprovedDriversList();
+                    addFlash('user deleted!');
                 }, function(error){
                     console.log("problem");
                 });
@@ -119,6 +120,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
             .then(function(data){
                 reloadTruckList();
                 clearTruckFields();
+                addFlash('truck deleted!');
             }, function(error){
                 console.log("problem");
             });
