@@ -66,6 +66,7 @@ exports.listTrucksAndCollections = function(user, beginDate, endDate, res){
 exports.listSpreadsiteData = function(user, beginDate, endDate, res){
     console.log("in get Spreadsite list for report");
     var query = {};
+    query.spreadSiteId = {"$ne": undefined}
     if(user.type === 'contractor'){
         query = {companyId: user.companyId.toString()};
     }
