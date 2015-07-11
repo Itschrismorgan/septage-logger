@@ -28,7 +28,7 @@ router.get('/:username', function(req,res,next){
 });
 
 router.post('/:username', function(req,res,next){
-    if(req.user === req.params.username || 
+    if(req.user._id === req.params.username || 
         req.user.type === 'admin' || 
         (req.user.type === 'contractor' && user.getUserType(req.params.username) === 'driver')){
             console.log(res.body);
