@@ -90,4 +90,5 @@ For first time server setup run the following to setup the seed user:
     ~ $ node utility/createUser.js username password email
     
     
- 
+There is a 'Beta' Heroku instance that will be updated on every push to master on Github. 
+    septage-beta.herokuapp.com
