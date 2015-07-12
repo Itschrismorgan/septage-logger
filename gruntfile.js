@@ -4,6 +4,7 @@ module.exports = function(grunt){
         pkg: grunt.file.readJSON('package.json'),
         uglify: {
             options: {
+                sourceMap: true,
                 banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
             },
             build: {
@@ -26,7 +27,7 @@ module.exports = function(grunt){
                 banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
             },
             dist: {
-                src: ['public/javascripts/main.js','public/javascripts/**/*.js'],
+                src: ['public/javascripts/main.js','public/javascripts/libs/jspdf.js','public/javascripts/**/*.js'],
                 dest: 'public/dist/app.js'
             }
         },
