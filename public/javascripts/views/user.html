@@ -116,120 +116,128 @@
         </form>
     </div>
     <div ng-show="isButton(3)">
-        <div ng-repeat="truck in trucks">
-            <div class="row truck-border">
-                <div class="col-sm-10">
-                    <div class="row">
-                        <div class="col-sm-12"><label class="control-label">Company</label>: {{truck.companyName}}</div>
+        <div class="row">
+            <div class="col-sm-3">
+                <form class="form-horizontal" name="truck_form">
+                    <div class="form-group" id="scrollhere">
+                        <label for="company" class="control-label">Company:</label>
+                        <div>
+                            <select class="form-control input-lg" ng-model="selectedCompany" ng-options="company for company in companyList"></select>
+                        </div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-3"><label class="control-label">Nick Name</label>: {{truck.nickname}}</div>
-                        <div class="col-sm-5"><label class="control-label">VIN</label>: {{truck._id}}</div>
-                        <div class="col-sm-2"><label class="control-label">Capacity</label>: {{truck.capacity}}</div>
-                        <div class="col-sm-2"><label class="control-label">Tag</label>: {{truck.license}}</div>
+                    <div class="form-group">
+                        <label for="vin" class="control-label">VIN:</label>
+                        <div>
+                            <input class="form-control input-lg" type="text" name="vin" ng-model="newTruck.vin" required/>
+                        </div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-3"><label class="control-label">Make</label>: {{truck.make}} </div>
-                        <div class="col-sm-5"><label class="control-label">Model</label>: {{truck.model}} </div>
-                        <div class="col-sm-2"><label class="control-label">Year</label>: {{truck.year}} </div>
-                        <div class="col-sm-2"><label class="control-label">Color</label>: {{truck.color}} </div>
+                    <div class="form-group">
+                        <label for="capacity" class="control-label">Capacity:</label>
+                        <div>
+                            <input class="form-control input-lg" type="text" name="capacity" ng-model="newTruck.capacity" required/>
+                        </div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-3"><label class="control-label">Status</label>: {{truck.stat}}</div>
-                        <div class="col-sm-9"><label class="control-label">Approved Drivers: </label> <span class="approved-driver" ng-repeat="driver in truck.approvedDrivers">{{driver}}</span></div>
+                    <div class="form-group">
+                        <label for="tag" class="control-label">License Tag:</label>
+                        <div>
+                            <input class="form-control input-lg" type="text" name="tag" ng-model="newTruck.tag" required/>
+                        </div>
                     </div>
+                    <div class="form-group">
+                        <label for="nickname" class="control-label">Nick Name:</label>
+                        <div>
+                            <input class="form-control input-lg" type="text" name="nickname" ng-model="newTruck.nickname" required/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="make" class="control-label">Make:</label>
+                        <div>
+                            <input class="form-control input-lg" type="text" name="make" ng-model="newTruck.make" required/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Model" class="control-label">Model:</label>
+                        <div>
+                            <input class="form-control input-lg" type="text" name="model" ng-model="newTruck.model" required/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="year" class="control-label">Year:</label>
+                        <div>
+                            <input class="form-control input-lg" type="text" name="year" ng-model="newTruck.year" required/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="color" class="control-label">Color:</label>
+                        <div>
+                            <input class="form-control input-lg" type="text" name="color" ng-model="newTruck.color" required/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="status" class="control-label">Status:</label>
+                        <div>
+                            <select class="form-control input-lg" ng-model="newTruck.stat">
+                                <option value="active">Active</option>
+                                <option value="out of service">Out of Service</option>
+                                <option value="backup">Backup</option>
+                                <option value="sold">Sold</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="driver" class="control-label">Approved Drivers:</label>
+                        <div>
+                            <div ng-repeat="driver in drivers">
+                                <label class="checkbox" for="{{driver}}">
+                                    <input type="checkbox" ng-model="approvedDrivers.usernames[driver]" name="{{driver}}" id="{{driver}}" />
+                                    {{driver}}
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            <button type="submit" class="" ng-click="submitTruck()">Add/Update Truck</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-sm-9">
+                <div>
+                    <input ng-model="truckFilter" type="text" placeholder="Filter by Company Name">
                 </div>
-                <div class="col-sm-2 vertical-align-middle">
-                    <button ng-click="deleteTruck(truck._id)">Delete</button>
-                    <button ng-click="selectTruck(truck._id)">Select</button>
+                <div ng-repeat="truck in trucks | filter:{ companyName:truckFilter} | orderBy: 'nickname'">
+                    <div class="row truck-border">
+                        <div class="col-sm-10">
+                            <div class="row">
+                                <div class="col-sm-12"><label class="control-label">Company</label>: {{truck.companyName}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3"><label class="control-label">Nick Name</label>: {{truck.nickname}}</div>
+                                <div class="col-sm-5"><label class="control-label">VIN</label>: {{truck._id}}</div>
+                                <div class="col-sm-2"><label class="control-label">Capacity</label>: {{truck.capacity}}</div>
+                                <div class="col-sm-2"><label class="control-label">Tag</label>: {{truck.license}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3"><label class="control-label">Make</label>: {{truck.make}} </div>
+                                <div class="col-sm-5"><label class="control-label">Model</label>: {{truck.model}} </div>
+                                <div class="col-sm-2"><label class="control-label">Year</label>: {{truck.year}} </div>
+                                <div class="col-sm-2"><label class="control-label">Color</label>: {{truck.color}} </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3"><label class="control-label">Status</label>: {{truck.stat}}</div>
+                                <div class="col-sm-9"><label class="control-label">Approved Drivers: </label> <span class="approved-driver" ng-repeat="driver in truck.approvedDrivers">{{driver}}</span></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2 vertical-align-middle">
+                            <button ng-click="deleteTruck(truck._id)">Delete</button>
+                            <button ng-click="selectTruck(truck._id)">Select</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-
-        <form class="form-horizontal" name="truck_form">
-            <div class="form-group" id="scrollhere">
-                <label for="company" class="col-sm-2 control-label">Company:</label>
-                <div class="col-sm-3">
-                    <select class="form-control input-lg" ng-model="selectedCompany" ng-options="company for company in companyList"></select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="vin" class="col-sm-2 control-label">VIN:</label>
-                <div class="col-sm-3">
-                    <input class="form-control input-lg" type="text" name="vin" ng-model="newTruck.vin" required/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="capacity" class="col-sm-2 control-label">Capacity:</label>
-                <div class="col-sm-3">
-                    <input class="form-control input-lg" type="text" name="capacity" ng-model="newTruck.capacity" required/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="tag" class="col-sm-2 control-label">License Tag:</label>
-                <div class="col-sm-3">
-                    <input class="form-control input-lg" type="text" name="tag" ng-model="newTruck.tag" required/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="nickname" class="col-sm-2 control-label">Nick Name:</label>
-                <div class="col-sm-3">
-                    <input class="form-control input-lg" type="text" name="nickname" ng-model="newTruck.nickname" required/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="make" class="col-sm-2 control-label">Make:</label>
-                <div class="col-sm-3">
-                    <input class="form-control input-lg" type="text" name="make" ng-model="newTruck.make" required/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="Model" class="col-sm-2 control-label">Model:</label>
-                <div class="col-sm-3">
-                    <input class="form-control input-lg" type="text" name="model" ng-model="newTruck.model" required/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="year" class="col-sm-2 control-label">Year:</label>
-                <div class="col-sm-3">
-                    <input class="form-control input-lg" type="text" name="year" ng-model="newTruck.year" required/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="color" class="col-sm-2 control-label">Color:</label>
-                <div class="col-sm-3">
-                    <input class="form-control input-lg" type="text" name="color" ng-model="newTruck.color" required/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="status" class="col-sm-2 control-label">Status:</label>
-                <div class="col-sm-3">
-                    <select class="form-control input-lg" ng-model="newTruck.stat">
-                        <option value="active">Active</option>
-                        <option value="out of service">Out of Service</option>
-                        <option value="backup">Backup</option>
-                        <option value="sold">Sold</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="driver" class="col-sm-2 control-label">Approved Drivers:</label>
-                <div class="col-sm-3">
-                    <div ng-repeat="driver in drivers">
-                        <label class="checkbox" for="{{driver}}">
-                            <input type="checkbox" ng-model="approvedDrivers.usernames[driver]" name="{{driver}}" id="{{driver}}" />
-                            {{driver}}
-                        </label>
-                    </div>
-
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-2">
-                    <button type="submit" class="" ng-click="submitTruck()">Add/Update Truck</button>
-                </div>
-            </div>
-        </form>
     </div>
     <div ng-show="isButton(4)">
         <div ng-repeat="spreadSite in spreadSites">
