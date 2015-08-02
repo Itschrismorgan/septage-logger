@@ -133,6 +133,7 @@ septageLogger.controller('DriverCtlr',
             $scope.accountType = data.data.type;
             $scope.company = data.data.company;
             reloadTruckList();
+
         }, function(error){
             console.log("problem");
         });
@@ -156,16 +157,21 @@ septageLogger.controller('DriverCtlr',
         $scope.truckList = [];
         truckService.getTruckList()
             .then(function(response){
-                response.data.map(function(truck){
+                response.data.forEach(function(truck){
                     $scope.truckList.push(truck);
                 });
+                console.log($scope.truckList);
+                $scope.collection.selectedTruck = $scope.truckList[0];
             }, function(error){
                 console.log(error);
             });
     }
 
     function clearCollectionFields(){
+        var oldCollection = $scope.collection;
         $scope.collection = {};
+        $scope.collection.selectedTruck = oldCollection.selectedTruck;
+        $scope.collection.date = new Date();
     }
 
     //Luke added button control here
