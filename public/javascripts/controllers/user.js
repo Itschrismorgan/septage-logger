@@ -485,7 +485,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
         doc.text("Truck VIN: "+record.truckId,20,curY);
         doc.text("Volume: "+record.volume,350,curY);
         curY=curY+20;
-        doc.text("GIS Coordinates: Lat="+record.location.latitude+" Lon="+record.location.longitude,20,curY);
+        doc.text("Collection Coordinates: Lat="+record.location.latitude+" Lon="+record.location.longitude,20,curY);
         curY=curY+20;
         doc.text("Address: "+record.location.address,20,curY);
         curY=curY+20;
@@ -505,7 +505,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
         doc.text("Volume: "+record.volume,350,curY);
         curY=curY+20;
         if(record.dischargeLocation !== null){
-            doc.text("GIS Coordinates: Lat="+record.dischargeLocation.latitude+" Lon="+record.dischargeLocation.longitude,20,curY);
+            doc.text("Discharge Coordinates: Lat="+record.dischargeLocation.latitude+" Lon="+record.dischargeLocation.longitude,20,curY);
             curY=curY+20;
         }
         doc.text("Type: "+record.type,20,curY);
