@@ -8,8 +8,8 @@
 
     <div class="row">
         <div class="btn-group col-sm-12" role="group">
-          <button type="button" class="btn btn-default" ng-click="setButton(1)">Waste Collection</button>
-          <button type="button" class="btn btn-default" ng-click="setButton(2)">Waste Disposal</button>
+          <button type="button" class="btn btn-primary btn-block" ng-click="setButton(1)">Waste Collection</button>
+          <button type="button" class="btn btn-primary btn-block" ng-click="setButton(2)">Waste Disposal</button>
         </div>
     </div>
     <div class="row">
@@ -64,11 +64,13 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-12">
-                    <div style="display:inline-block; min-height:290px;">
-                        <label for="date">Date:</label>
-                        <datepicker ng-model="collection.date" class="well well-sm"></datepicker>
-                    </div>
+                <div class="col-md-6">
+                    <p class="input-group">
+                        <input class="form-control" datepicker-popup ng-model="collection.date" is-open="opened" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+                        <span class="input-group-btn">
+                            <button ng-click="open($event)" type="button" class="btn btn-default"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                    </p>
                 </div>
             </div>
             
@@ -90,7 +92,7 @@
             </div>
             <div class="row">
                 <div class="col-sm-12">
-                    <button ng-click="submitPickup()">
+                    <button class="btn btn-primary btn-block" ng-click="submitPickup()">
                         Log Pickup
                     </button>
                 </div>
@@ -113,7 +115,7 @@
             </div>
             <div class="row">
                 <div class="col-sm-12">
-                    <button ng-click="discharge(selectedPendingCollection, selectedSpreadSite)">Discharge This Collection</button>
+                    <button  class="btn btn-primary btn-block" ng-click="discharge(selectedPendingCollection, selectedSpreadSite)">Discharge This Collection</button>
                 </div>
             </div>
         </div>
