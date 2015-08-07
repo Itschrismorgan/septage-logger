@@ -209,10 +209,6 @@ septageLogger.controller('DriverCtlr',
         $scope.dt = null;
     };
 
-    // Disable weekend selection
-    $scope.disabled = function(date, mode) {
-        return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
-    };
 
     $scope.toggleMin = function() {
         $scope.minDate = $scope.minDate ? null : new Date();
@@ -220,15 +216,14 @@ septageLogger.controller('DriverCtlr',
     $scope.toggleMin();
 
     $scope.open = function($event) {
-        console.log('date picker button click');
-        //console.log($event.target);
         $scope.opened = true;
     };
 
 
     $scope.dateOptions = {
         formatYear: 'yy',
-        startingDay: 1
+        startingDay: 1,
+        showButtonBar: false
     };
 
     $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
