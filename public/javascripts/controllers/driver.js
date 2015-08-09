@@ -1,6 +1,6 @@
 septageLogger.controller('DriverCtlr',
-    ['$scope', '$routeParams', '$http', '$location', 'truckService', 'userService', 'googleMapService', 'collectionService', 'spreadSiteService', 'logoutService',
-        function($scope, $routeParams, $http, $location, truckService, userService, googleMapService, collectionService, spreadSiteService, logoutService){
+    ['$scope', '$routeParams', '$http', '$location', 'truckService', 'userService', 'googleMapService', 'collectionService', 'spreadSiteService', 'logoutService', 'flash',
+        function($scope, $routeParams, $http, $location, truckService, userService, googleMapService, collectionService, spreadSiteService, logoutService, flash){
 
     $scope.collection = {};
     $scope.inprocessCollections = [];
@@ -101,10 +101,37 @@ septageLogger.controller('DriverCtlr',
                 console.log("error");
             });
         //console.log(pickup);
+        addFlash('Septage Pickup Logged!');
     };
 
     $scope.discharge = function(collection, spreadSite){
-        collection.spreadSiteId = spreadSite._id;
+        $scope.inprocessCollections.forEach(function(element){
+           element.spreadSiteId = spreadSite._id;
+           element.dischargeTimeStamp = new Date();
+
+           element.dischargeLocation = {};
+
+           getCurrentLocation(function(err, latitude, longitude){
+               if(err){
+                   console.log("could not get geo location");
+               } else {
+                   element.dischargeLocation.latitude = latitude;
+                   element.dischargeLocation.longitude = longitude;
+               }
+
+               //console.log(collection);
+               collectionService.submitCollection(element)
+                   .then(function(data){
+                       //console.log(data);
+                       reloadPendingCollections();
+                   }, function(error){
+                       console.log("error");
+                   });
+           });
+        });
+        
+        addFlash('Septage Pickups Discharged!');
+        /*collection.spreadSiteId = spreadSite._id;
         collection.dischargeTimeStamp = new Date();
 
         collection.dischargeLocation = {};
@@ -125,7 +152,7 @@ septageLogger.controller('DriverCtlr',
                 }, function(error){
                     console.log("error");
                 });
-        });
+        });*/
     };
 
     userService.getUser($routeParams.username)
@@ -261,5 +288,17 @@ septageLogger.controller('DriverCtlr',
 
         return '';
     };
+    
+    function addFlash(message){
+        flash(message);
+        if (document.getElementById('flash-remove')) {
+            document.getElementById('flash-remove').id = 'flash-messages'; 
+        }
+        setTimeout(function (){
+            flash('');
+            var flashEl = document.getElementById('flash-messages');
+            flashEl.id = 'flash-remove';
+        },3000);
+    }
 
 }]);

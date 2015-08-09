@@ -101,7 +101,9 @@
             <div class="row">
                 <div class="col-sm-12">
                     <label for="inprocessCollections">Pending Collections:</label>
-                    <select class="form-control input-lg" ng-model="selectedPendingCollection" ng-options="col.location.address+' ('+col.volume+') ' for col in inprocessCollections"></select>
+                    <div class="form-control input-lg" ng-model="selectedPendingCollection" ng-repeat="col in inprocessCollections">
+                        {{col.location.address}} {{col.volume}} 
+                    </div>
                 </div>
             </div>
             <div class="row">
@@ -112,9 +114,10 @@
             </div>
             <div class="row">
                 <div class="col-sm-12">
-                    <button  class="btn btn-success btn-block" ng-click="discharge(selectedPendingCollection, selectedSpreadSite)">Discharge This Collection</button>
+                    <button  class="btn btn-success btn-block" ng-click="discharge(selectedPendingCollection, selectedSpreadSite)">Discharge Septage Pickups</button>
                 </div>
             </div>
         </div>
     </div>
+    <flash:messages ng:show="messages"></flash:messages>
 </div>
