@@ -31,7 +31,7 @@
             </div>
             <div class="row">
                 <div class="col-sm-4">
-                    <button ng-click="reloadCoordinates()">Reset Location</button>
+                    <button class="btn btn-warning" ng-click="reloadCoordinates()">Reset Location</button>
                 </div>
                 <div class="col-sm-4">
                     Latitude: {{map.center.latitude}}
@@ -89,7 +89,7 @@
             </div>
             <div class="row">
                 <div class="col-sm-12">
-                    <button class="btn btn-primary btn-block" ng-click="submitPickup()">
+                    <button class="btn btn-success btn-block" ng-click="submitPickup()">
                         Log Pickup
                     </button>
                 </div>
@@ -112,7 +112,7 @@
             </div>
             <div class="row">
                 <div class="col-sm-12">
-                    <button  class="btn btn-primary btn-block" ng-click="discharge(selectedPendingCollection, selectedSpreadSite)">Discharge This Collection</button>
+                    <button  class="btn btn-success btn-block" ng-click="discharge(selectedPendingCollection, selectedSpreadSite)">Discharge This Collection</button>
                 </div>
             </div>
         </div>
