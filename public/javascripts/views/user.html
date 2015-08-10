@@ -204,7 +204,7 @@
                 </form>
             </div>
             <div class="col-sm-9">
-                <div>
+                <div ng-hide="accountType != 'admin'">
                     <input ng-model="truckFilter" type="text" placeholder="Filter by Company Name">
                 </div>
                 <div ng-repeat="truck in trucks | filter:{ companyName:truckFilter} | orderBy: 'nickname'">
