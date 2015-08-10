@@ -8,12 +8,12 @@
 
     <div class="row">
         <div class="btn-group col-sm-12" role="group">
-          <button type="button" class="btn btn-default" ng-click="setButton(1)">User Management</button>
-          <button type="button" class="btn btn-default" ng-click="setButton(2)" ng-hide="accountType != 'admin'">Company Managment</button>
-          <button type="button" class="btn btn-default" ng-click="setButton(3)">Truck Managment</button>
-          <button type="button" class="btn btn-default" ng-click="setButton(4)" ng-hide="accountType != 'admin'">Spread Site Management</button>
-          <button type="button" class="btn btn-default" ng-click="setButton(5)">Collection Report</button>
-          <button type="button" class="btn btn-default" ng-click="setButton(6)">Spreadsite Report</button>
+          <button type="button" class="btn btn-primary" ng-click="setButton(1)">User Management</button>
+          <button type="button" class="btn btn-primary" ng-click="setButton(2)" ng-hide="accountType != 'admin'">Company Managment</button>
+          <button type="button" class="btn btn-primary" ng-click="setButton(3)">Truck Managment</button>
+          <button type="button" class="btn btn-primary" ng-click="setButton(4)" ng-hide="accountType != 'admin'">Spread Site Management</button>
+          <button type="button" class="btn btn-primary" ng-click="setButton(5)">Collection Report</button>
+          <button type="button" class="btn btn-primary" ng-click="setButton(6)">Spreadsite Report</button>
         </div>
     </div>
     <div ng-show="isButton(1)">
@@ -72,10 +72,10 @@
             </div>
             <div class="form-group">
                 <div class="col-sm-3">
-                    <button type="submit" class="btn btn-default" ng-click="createUser()">Create/Update User</button>
+                    <button type="submit" class="btn btn-success" ng-click="createUser()">Create/Update User</button>
                 </div>
                 <div class="col-sm-3">
-                    <button class="btn btn-default" ng-click="deleteUser()">Delete User</button>
+                    <button class="btn btn-danger" ng-click="deleteUser()">Delete User</button>
                 </div>
             </div>
         </form>
@@ -111,7 +111,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <button type="submit" class="" ng-click="submitCompany()">Create/Update Company</button>
+                <button type="submit" class="btn btn-success" ng-click="submitCompany()">Create/Update Company</button>
             </div>
         </form>
     </div>
@@ -198,7 +198,7 @@
                     </div>
                     <div class="form-group">
                         <div>
-                            <button type="submit" class="" ng-click="submitTruck()">Add/Update Truck</button>
+                            <button type="submit" class="btn btn-success" ng-click="submitTruck()">Add/Update Truck</button>
                         </div>
                     </div>
                 </form>
@@ -231,8 +231,8 @@
                             </div>
                         </div>
                         <div class="col-sm-2 vertical-align-middle">
-                            <button ng-click="deleteTruck(truck._id)">Delete</button>
-                            <button ng-click="selectTruck(truck._id)">Select</button>
+                            <button class="btn btn-danger" ng-click="deleteTruck(truck._id)">Delete</button>
+                            <button class="btn btn-info" ng-click="selectTruck(truck._id)">Select</button>
                         </div>
                     </div>
                 </div>
@@ -254,7 +254,7 @@
                     </div>
                 </div>
                 <div class="col-sm-2 vertical-align-middle">
-                    <button ng-click="editSite(spreadSite)">Edit</button>
+                    <button class="btn btn-info" ng-click="editSite(spreadSite)">Edit</button>
                 </div>
             </div>
         </div>
@@ -298,7 +298,7 @@
             </div>
             <div class="form-group">
                 <div class="col-sm-2">
-                    <button type="submit" class="" ng-click="submitSpreadSite()">Submit</button>
+                    <button type="submit" class="btn btn-success" ng-click="submitSpreadSite()">Submit</button>
                 </div>
             </div>
         </form>
@@ -315,10 +315,10 @@
                     <datepicker ng-model="report.endDate" class="well well-sm"></datepicker>
                 </div>
                 <div>
-                    <button type="submit" ng-click="refreshReport()">Get Collection Report</button>
+                    <button class="btn btn-success" type="submit" ng-click="refreshReport()">Get Collection Report</button>
                 </div>
                 <div>
-                    <button type="button" ng-click="genPDF('collectionReport', collections)">Export PDF</button>
+                    <button class="btn btn-success" type="button" ng-click="genPDF('collectionReport', collections)">Export PDF</button>
                 </div>
             </div>
             <div class="col-sm-8">
@@ -361,10 +361,10 @@
                     <datepicker ng-model="report.endDate" class="well well-sm"></datepicker>
                 </div>
                 <div>
-                    <button type="submit" ng-click="spreadsiteReport()">Get Spreadsite Report</button>
+                    <button class="btn btn-success" type="submit" ng-click="spreadsiteReport()">Get Spreadsite Report</button>
                 </div>
                 <div>
-                    <button type="button" ng-click="genPDF('spreadCollections', spreadCollections)">Export PDF</button>
+                    <button class="btn btn-success" type="button" ng-click="genPDF('spreadCollections', spreadCollections)">Export PDF</button>
                 </div>
             </div>
             <div class="col-sm-8">
