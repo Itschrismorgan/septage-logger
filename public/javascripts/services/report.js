@@ -18,7 +18,7 @@ septageLogger.service('reportService', [ '$http', function($http){
             .error(function(e){
                 return e;
             });
-    }
+    };
     
     this.getSpreadsiteReport = function (beginDate, endDate) {
         var url = '/reports/spreadsite-history';

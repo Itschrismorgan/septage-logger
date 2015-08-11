@@ -40,7 +40,7 @@ router.post('/:username', function(req,res,next){
 });
 
 router.delete('/:username', function(req, res, next){
-    user.deleteUser(req,res);
-})
+    res.status(401).json({code: 401, message: "Users can not be deleted."});
+});
 
 module.exports = router;

@@ -217,12 +217,18 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
 
 
     $scope.createUser = function(){
-        var newUser = $scope.newUser;
+        var newUser = {};
+        newUser = $scope.newUser;
 
+        if($scope.newUser.active === 'yes'){
+            newUser.active = true;
+        } else {
+            newUser.active = false;
+        }
         if($scope.userList.indexOf($scope.newUser.username) !== -1 ){
-            //console.log("update user");
             newUser.company = $scope.selectedCompany;
-            //console.log(newUser);
+            console.log(newUser);
+
             userService.updateUser(newUser)
                 .then(function(data){
                     console.log("user updated");
@@ -233,13 +239,9 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
                 });
 
         } else {
-            //console.log("create user");
-            //console.log($scope.newUser);
             newUser.company = $scope.selectedCompany;
-            //console.log(newUser);
             userService.createUser($scope.newUser)
                 .then(function(data){
-                    //console.log("user created");
                     addFlash('user created!');
                     fillInUserList();
                     fillApprovedDriversList();

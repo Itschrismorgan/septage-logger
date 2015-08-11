@@ -14,6 +14,9 @@ router.post('/login', function(req, res, next){
     if (!user) {
       return res.status(404).json({code: 404, message: 'User not found'});
     }
+    if(!user.active){
+        return res.status(401).json({code: 401, message: 'User is not active.'});
+    }
     req.logIn(user, function(err) {
       //console.log("in logIn callback");
       //console.log(err);
