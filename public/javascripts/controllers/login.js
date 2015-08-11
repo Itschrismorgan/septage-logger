@@ -1,4 +1,5 @@
 septageLogger.controller('LoginCtrl',['$scope', '$location', 'loginService', 'userService', function($scope, $location, loginService, userService){
+    $scope.showMessage = false;
     $scope.sendLogin = function(){
         loginService.login($scope.login.username, $scope.login.password)
             .then(function(data){
@@ -6,6 +7,9 @@ septageLogger.controller('LoginCtrl',['$scope', '$location', 'loginService', 'us
                 $scope.loginResult = "";
                 $scope.login.password = "";
                 //a test
+                $scope.loginStatus = true;
+                $scope.showMessage = true;
+                $scope.loginResult = 'Success, redirecting . . .';
                 userService.getUser($scope.login.username)
                     .then(function(data){
                         $scope.username = data.data.username;
@@ -19,10 +23,13 @@ septageLogger.controller('LoginCtrl',['$scope', '$location', 'loginService', 'us
                         console.log("problem");
                     });
             }, function(error){
-                //console.log("login bad");
+                console.log("login bad");
+                console.log(error);
                 $scope.login.username = "";
                 $scope.login.password = "";
-                $scope.loginResult = "has-error";
+                $scope.loginStatus = false;
+                $scope.showMessage = true;
+                $scope.loginResult = error.data.message;
             });
     };
 }]);

@@ -227,7 +227,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
         }
         if($scope.userList.indexOf($scope.newUser.username) !== -1 ){
             newUser.company = $scope.selectedCompany;
-            console.log(newUser);
+            //console.log(newUser);
 
             userService.updateUser(newUser)
                 .then(function(data){

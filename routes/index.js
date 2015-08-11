@@ -9,8 +9,12 @@ router.get('/', function(req, res, next) {
 
 router.post('/login', function(req, res, next){
     passport.authenticate('local', function(err, user, info) {
-    //console.log("check index.js", err, "--", user, "--", info);
+    console.log("check index.js", err, "--", user, "--", info);
     if (err) {console.log("top err"); return next(err)}
+    if(typeof info !== 'undefined' && info && info.code === 401) {
+        return res.status(401).json(info);
+    }
+
     if (!user) {
       return res.status(404).json({code: 404, message: 'User not found'});
     }
