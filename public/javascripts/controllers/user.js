@@ -3,6 +3,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
     function($scope, $routeParams, $location, $anchorScroll, userService, companyService, truckService, spreadSiteService, logoutService, reportService, flash){
     
     $scope.yearList = ['2015', '2016', '2017', '2018', '2019', '2020'];
+    $scope.selectedYear = new Date().getFullYear().toString()
     
     $scope.$watch('selectedUser', function(newSelectedUser){
         console.log(newSelectedUser);
@@ -213,7 +214,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
                 clearTruckFields();
                 reloadTruckList();
             }, function(error){
-                console.log("error:" + error);
+                console.log(error);
             });
         }
     };
@@ -427,7 +428,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
     $scope.spreadsiteReport = function(){
         $scope.spreadCollections = [];
         if (!$scope.selectedYear){
-            $scope.selectedYear = '2015';
+            $scope.selectedYear = new Date().getFullYear().toString();
         }
         if (!$scope.selectedSpreadsite._id){
             $scope.selectedSpreadsite._id = null;
