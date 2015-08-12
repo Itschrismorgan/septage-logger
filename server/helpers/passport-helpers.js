@@ -16,12 +16,12 @@ exports.localHandler = function(username, password, done){
         //console.log("no err");
         if(!user) {
             console.log("nouser");
-            return done(null, false, { message: 'Incorrect username.'});
+            return done(null, false, { code: 404, message: 'Incorrect username.'});
         }
         
         if (!userCtrl.checkCredentials(user, password)){
             console.log("bad pass");
-            return done(null, false, { message: 'Incorrect password.' });
+            return done(null, false, { code: 401, message: 'Incorrect password.' });
         }
         
         return done(null, user);

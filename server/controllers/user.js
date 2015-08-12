@@ -85,8 +85,8 @@ exports.getUser = function(req,res){
 };
 
 exports.updateUser = function(req,res){
-    console.log("in controller user:updateUser");
-    console.log(req.body);
+    //console.log("in controller user:updateUser");
+    //console.log(req.body);
     company.findOne({name: req.body.company},function(err, company){
         if(err){
             res.status(500).json({code:500, message: "Server error retrieving company record"});
@@ -94,11 +94,11 @@ exports.updateUser = function(req,res){
             if(!company){
                 res.status(404).json({code:404, message: "company record not found"});
             } else {
-                console.log("in updateUser");
+                //console.log("in updateUser");
                 //console.log(req.body);
                 var userToUpdate = req.body;
                 userToUpdate.companyId = company._id;
-                console.log(userToUpdate);
+                //console.log(userToUpdate);
                 if (req.body.password){
                     var salt = genSalt();
                     //console.log(req.user);
