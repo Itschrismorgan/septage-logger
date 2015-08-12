@@ -1,7 +1,9 @@
 
 septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$anchorScroll', 'userService', 'companyService', 'truckService', 'spreadSiteService', 'logoutService', 'reportService','flash',
     function($scope, $routeParams, $location, $anchorScroll, userService, companyService, truckService, spreadSiteService, logoutService, reportService, flash){
-
+    
+    $scope.yearList = ['2015', '2016', '2017', '2018', '2019', '2020'];
+    
     $scope.$watch('selectedUser', function(newSelectedUser){
         console.log(newSelectedUser);
         if(newSelectedUser === "" || newSelectedUser === undefined || newSelectedUser === null){
@@ -420,19 +422,94 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
 
     $scope.spreadsiteReport = function(){
         $scope.spreadCollections = [];
-        //console.log("launch");
-        //console.log($scope.report.beginDate);
-        if (!$scope.report.beginDate){
-            $scope.report.beginDate = new Date(new Date().setDate(new Date().getDate()-30));
+        if (!$scope.selectedYear){
+            $scope.selectedYear = '2015';
         }
-        if (!$scope.report.endDate){
-            $scope.report.endDate = new Date();
+        if (!$scope.selectedSpreadsite._id){
+            $scope.selectedSpreadsite._id = null;
         }
-        reportService.getSpreadsiteReport($scope.report.beginDate.toISOString(), $scope.report.endDate.toISOString())
+        $scope.spreadTotals = [];
+        var total = {
+            total: 0,
+            Jan: 0,
+            Feb: 0,
+            Mar: 0,
+            Q1: 0,
+            Apr: 0,
+            May: 0,
+            Jun: 0,
+            Q2: 0,
+            Jul: 0,
+            Aug: 0,
+            Sep: 0,
+            Q3: 0,
+            Oct: 0,
+            Nov: 0,
+            Dec: 0,
+            Q4: 0,
+        };
+        reportService.getSpreadsiteReport($scope.selectedYear, $scope.selectedSpreadsite._id)
             .then(function(response){
-                response.data.map(function(collection){
-                    $scope.spreadCollections.push(collection);
-                });
+                for(var i=0;i<response.data.length;i++){
+                    $scope.spreadCollections.push(response.data[i]);
+                    //Start gathering total for spreadsite
+                    total.total += response.data[i].volume;
+                    
+                    //Gather montly and quarterly inf
+                    var discharge  = response.data[i].dischargeTimeStamp;
+                    var year = $scope.selectedYear;
+                    
+                    if (discharge >= new Date('January 1, ' + year).toISOString() && discharge < new Date('February 1, ' + year).toISOString()) {
+                        total.Jan += response.data[i].volume;
+                        total.Q1 += response.data[i].volume;
+                    }
+                    else if (discharge >= new Date('Februrary 1, ' + year).toISOString() && discharge < new Date('March 1, ' + year).toISOString()) {
+                        total.Feb += response.data[i].volume;
+                        total.Q1 += response.data[i].volume;
+                    }
+                    else if (discharge >= new Date('March 1, ' + year).toISOString() && discharge < new Date('April 1, ' + year).toISOString()) {
+                        total.Mar += response.data[i].volume;
+                        total.Q1 += response.data[i].volume;
+                    }
+                    else if (discharge >= new Date('April 1, ' + year).toISOString() && discharge < new Date('May 1, ' + year).toISOString()) {
+                        total.Apr += response.data[i].volume;
+                        total.Q2 += response.data[i].volume;
+                    }
+                    else if (discharge >= new Date('May 1, ' + year).toISOString() && discharge < new Date('June 1, ' + year).toISOString()) {
+                        total.May += response.data[i].volume;
+                        total.Q2 += response.data[i].volume;
+                    }
+                    else if (discharge >= new Date('June 1, ' + year).toISOString() && discharge < new Date('July 1, ' + year).toISOString()) {
+                        total.Jun += response.data[i].volume;
+                        total.Q2 += response.data[i].volume;
+                    }
+                    else if (discharge >= new Date('July 1, ' + year).toISOString() && discharge < new Date('August 1, ' + year).toISOString()) {
+                        total.Jul += response.data[i].volume;
+                        total.Q3 += response.data[i].volume;
+                    }
+                    else if (discharge >= new Date('August 1, ' + year).toISOString() && discharge < new Date('September 1, ' + year).toISOString()) {
+                        total.Aug += response.data[i].volume;
+                        total.Q3 += response.data[i].volume;
+                    }
+                    else if (discharge >= new Date('September 1, ' + year).toISOString() && discharge < new Date('October 1, ' + year).toISOString()) {
+                        total.Sep += response.data[i].volume;
+                        total.Q3 += response.data[i].volume;
+                    }
+                    else if (discharge >= new Date('October 1, ' + year).toISOString() && discharge < new Date('November 1, ' + year).toISOString()) {
+                        total.Oct += response.data[i].volume;
+                        total.Q4 += response.data[i].volume;
+                    }
+                    else if (discharge >= new Date('November 1, ' + year).toISOString() && discharge < new Date('December 1, ' + year).toISOString()) {
+                        total.Nov += response.data[i].volume;
+                        total.Q4 += response.data[i].volume;
+                    }
+                    else if (discharge >= new Date('December 1, ' + year).toISOString() && discharge <= new Date('December 31, ' + year).toISOString()) {
+                        total.Dec += response.data[i].volume;
+                        total.Q4 += response.data[i].volume;
+                    }
+                }
+                    $scope.spreadTotals.push(total);
+                    //console.log(total);
             }, function(error){
                 console.log(error);
             });

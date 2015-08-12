@@ -352,14 +352,18 @@
     <div ng-show="isButton(6)">
         <div class="row">
             <div class="col-sm-4">
-                <div style="display:inline-block; min-height:290px;">
-                    <label>Begin Date:</label>
-                    <datepicker ng-model="report.beginDate" class="well well-sm"></datepicker>
+                <div>
+                    <label>Year</label>
+                    <select class="form-control input-lg" ng-model="selectedYear" ng-options="year for year in yearList">
+                    </select>
                 </div>
-                <div style="display:inline-block; min-height:290px;">
-                    <label>End Date:</label>
-                    <datepicker ng-model="report.endDate" class="well well-sm"></datepicker>
+                <div>
+                    <label>Spreadsite:</label>
+                    <select class="form-control input-lg" ng-model="selectedSpreadsite" ng-options="spreadsite.name for spreadsite in spreadSites">
+                        <option value=""></option>
+                    </select>
                 </div>
+                <br/>
                 <div>
                     <button class="btn btn-success" type="submit" ng-click="spreadsiteReport()">Get Spreadsite Report</button>
                 </div>
@@ -369,6 +373,52 @@
             </div>
             <div class="col-sm-8">
                 <div id="spreadReport">
+                    <div ng-repeat="total in spreadTotals">
+                        <div class="row">
+                            <div class="col-sm-1"><label class="control-label">Total</label></div>
+                            <div class="col-sm-1"><label class="control-label">Jan</label></div>
+                            <div class="col-sm-1"><label class="control-label">Feb</label></div>
+                            <div class="col-sm-1"><label class="control-label">March</label></div>
+                            <div class="col-sm-1"><label class="control-label">Q1</label></div>
+                            <div class="col-sm-1"><label class="control-label">April</label></div>
+                            <div class="col-sm-1"><label class="control-label">May</label></div>
+                            <div class="col-sm-1"><label class="control-label">June</label></div>
+                            <div class="col-sm-1"><label class="control-label">Q2</label></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-1">{{total.total}}</div>
+                            <div class="col-sm-1">{{total.Jan}}</div>
+                            <div class="col-sm-1">{{total.Feb}}</div>
+                            <div class="col-sm-1">{{total.Mar}}</div>
+                            <div class="col-sm-1">{{total.Q1}}</div>
+                            <div class="col-sm-1">{{total.Apr}}</div>
+                            <div class="col-sm-1">{{total.May}}</div>
+                            <div class="col-sm-1">{{total.Jun}}</div>
+                            <div class="col-sm-1">{{total.Q2}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-1"><label class="control-label"></label></div>
+                            <div class="col-sm-1"><label class="control-label">July</label></div>
+                            <div class="col-sm-1"><label class="control-label">Aug</label></div>
+                            <div class="col-sm-1"><label class="control-label">Sept</label></div>
+                            <div class="col-sm-1"><label class="control-label">Q3</label></div>
+                            <div class="col-sm-1"><label class="control-label">Oct</label></div>
+                            <div class="col-sm-1"><label class="control-label">Nov</label></div>
+                            <div class="col-sm-1"><label class="control-label">Dec</label></div>
+                            <div class="col-sm-1"><label class="control-label">Q4</label></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-1"></div>
+                            <div class="col-sm-1">{{total.Jul}}</div>
+                            <div class="col-sm-1">{{total.Aug}}</div>
+                            <div class="col-sm-1">{{total.Sep}}</div>
+                            <div class="col-sm-1">{{total.Q3}}</div>
+                            <div class="col-sm-1">{{total.Oct}}</div>
+                            <div class="col-sm-1">{{total.Nov}}</div>
+                            <div class="col-sm-1">{{total.Dec}}</div>
+                            <div class="col-sm-1">{{total.Q4}}</div>
+                        </div>
+                    </div>
                     <div ng-repeat="collection in spreadCollections">
                         <div class="row truck-border">
                             <div class="col-sm-10">

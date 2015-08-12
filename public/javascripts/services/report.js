@@ -20,13 +20,13 @@ septageLogger.service('reportService', [ '$http', function($http){
             });
     }
     
-    this.getSpreadsiteReport = function (beginDate, endDate) {
+    this.getSpreadsiteReport = function (year, spreadsite) {
         var url = '/reports/spreadsite-history';
-        if(beginDate){
-            url = url + '?parameters=dates&dates[beginDate]='+beginDate;
+        if(year){
+            url = url + '?parameters=dates&dates[year]='+year;
         }
-        if(endDate){
-            url = url + '&dates[endDate]='+endDate;
+        if(spreadsite){
+            url = url + '&dates[spreadsite]='+spreadsite;
         }
         console.log(url);
 

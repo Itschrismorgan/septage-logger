@@ -51,7 +51,7 @@ exports.listTrucksAndCollections = function(user, beginDate, endDate, res){
                 }
                 modCollection.companyName = company.name;  
                 modCollections.push(modCollection);
-                if (index === collections.length - 1) {
+                if (modCollections.length === collections.length) {
                     res.status(200).json(modCollections);
                 }
             });
@@ -63,24 +63,26 @@ exports.listTrucksAndCollections = function(user, beginDate, endDate, res){
     }).sort({companyId: 1});
 };
 
-exports.listSpreadsiteData = function(user, beginDate, endDate, res){
+exports.listSpreadsiteData = function(user, year, spreadS, cb){
     console.log("in get Spreadsite list for report");
     var query = {};
-    query.spreadSiteId = {"$ne": undefined}
+    query.spreadSiteId = spreadS;
     if(user.type === 'contractor'){
         query = {companyId: user.companyId.toString()};
     }
-    if(beginDate){
-        console.log(beginDate);
-        var qDate = new Date(beginDate).toISOString();
-        query.createdTimeStamp = {"$gte":  new Date(qDate)};
+    if(year){
+        //console.log(beginDate);
+        var qDate = new Date('January 1, '+ year).toISOString();
+        query.dischargeTimeStamp = {"$gte":  new Date(qDate)};
     }
-    if(endDate){
-        var qeDate = new Date(endDate).toISOString();
-        query.createdTimeStamp.$lte = new Date(qeDate);
+    if(year){
+        var qeDate = new Date('December 31, '+ year).toISOString();
+        query.dischargeTimeStamp.$lte = new Date(qeDate);
     }
     console.log(query);
     collection.find(query, function(err, collections){
+        //console.log(query);
+        console.log(collections.length);
         if(err){
             console.log(err);
             res.status(500).json({code:500, message: "GetSpreadsite Report Error: Server error"});
@@ -88,7 +90,8 @@ exports.listSpreadsiteData = function(user, beginDate, endDate, res){
         }
         
         var modCollections = [];
-        console.log(collections.length);
+        //console.log(collections.length);
+        //console.log(collections);
         collections.forEach(function (element, index){
             var modCollection = {};
             modCollection._id = collections[index]._id;
@@ -114,13 +117,16 @@ exports.listSpreadsiteData = function(user, beginDate, endDate, res){
                         modCollection.spreadsiteName = spreadsite.name;
                     }
                     modCollections.push(modCollection);
-                    if (index === collections.length - 1) {
-                    res.status(200).json(modCollections);
+                    if (modCollections.length === collections.length) {
+                        console.log("Start MODCOLLECTIONS");
+                        console.log(modCollections);
+                        console.log("end MODCOLLECTIONS");
+                        cb(null, modCollections);
+                    //res.status(200).json(modCollections);
                     }
                 });
             });
         });
-        
         
         //console.log(modCollections);
         //cb(null, collections);
