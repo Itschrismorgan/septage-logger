@@ -84,6 +84,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
             if($scope.accountType !== 'admin') {
                 $scope.companyList = [];
                 $scope.companyList.push(data.data.company);
+                reloadSpreadSiteList();
             } else {
                 fillCompanyList();
                 reloadSpreadSiteList();
@@ -352,6 +353,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
 
     function reloadSpreadSiteList(){
         $scope.spreadSites = [];
+        console.log('spreadsite list is loading');
         spreadSiteService.getSpreadSiteList()
             .then(function(response){
                 response.data.map(function(spreadSite){

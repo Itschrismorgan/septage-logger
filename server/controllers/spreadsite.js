@@ -71,7 +71,7 @@ exports.listSpreadSites = function(user, cb){
     //console.log("in get spreadsite list");
     //console.log(user);
     var query = {};
-    if(user.type === 'driver'){
+    if(user.type === 'driver' || user.type === 'contractor'){
         query = {approvedCompanies: user.companyId.toString()};
     }
     //console.log(query);
