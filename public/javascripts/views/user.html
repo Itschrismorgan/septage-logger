@@ -119,7 +119,7 @@
                     <div class="form-group" id="scrollhere">
                         <label for="company" class="control-label">Company:</label>
                         <div>
-                            <select class="form-control input-lg" ng-model="selectedCompany" ng-options="company for company in companyList"></select>
+                            <select class="form-control input-lg" ng-model="selectedCompany" ng-options="company for company in companyList" required></select>
                         </div>
                     </div>
                     <div class="form-group">
@@ -131,7 +131,7 @@
                     <div class="form-group">
                         <label for="capacity" class="control-label">Capacity:</label>
                         <div>
-                            <input class="form-control input-lg" type="text" name="capacity" ng-model="newTruck.capacity" required/>
+                            <input class="form-control input-lg" type="number" name="capacity" ng-model="newTruck.capacity" required/>
                         </div>
                     </div>
                     <div class="form-group">
@@ -161,7 +161,7 @@
                     <div class="form-group">
                         <label for="year" class="control-label">Year:</label>
                         <div>
-                            <input class="form-control input-lg" type="text" name="year" ng-model="newTruck.year" required/>
+                            <input class="form-control input-lg" type="number" name="year" ng-model="newTruck.year" required/>
                         </div>
                     </div>
                     <div class="form-group">
@@ -173,7 +173,7 @@
                     <div class="form-group">
                         <label for="status" class="control-label">Status:</label>
                         <div>
-                            <select class="form-control input-lg" ng-model="newTruck.stat">
+                            <select class="form-control input-lg" ng-model="newTruck.stat" required>
                                 <option value="active">Active</option>
                                 <option value="out of service">Out of Service</option>
                                 <option value="backup">Backup</option>
@@ -186,7 +186,7 @@
                         <div>
                             <div ng-repeat="driver in drivers">
                                 <label class="checkbox" for="{{driver}}">
-                                    <input type="checkbox" ng-model="approvedDrivers.usernames[driver]" name="{{driver}}" id="{{driver}}" />
+                                    <input type="checkbox" ng-model="approvedDrivers.usernames[driver]" name="{{driver}}" id="{{driver}}" required />
                                     {{driver}}
                                 </label>
                             </div>
@@ -372,48 +372,60 @@
                 <div id="spreadReport">
                     <div ng-repeat="total in spreadTotals">
                         <div class="row">
-                            <div class="col-sm-1 border"><label class="control-label">Total</label></div>
-                            <div class="col-sm-1 border"><label class="control-label">Jan</label></div>
-                            <div class="col-sm-1 border"><label class="control-label">Feb</label></div>
-                            <div class="col-sm-1 border"><label class="control-label">March</label></div>
-                            <div class="col-sm-1 border"><label class="control-label">Q1</label></div>
-                            <div class="col-sm-1 border"><label class="control-label">April</label></div>
-                            <div class="col-sm-1 border"><label class="control-label">May</label></div>
-                            <div class="col-sm-1 border"><label class="control-label">June</label></div>
-                            <div class="col-sm-1 border"><label class="control-label">Q2</label></div>
+                            <div class="col-sm-2 border"><label class="control-label">Total</label></div>
+                            <div class="col-sm-2 border"><label class="control-label">Jan</label></div>
+                            <div class="col-sm-2 border"><label class="control-label">Feb</label></div>
+                            <div class="col-sm-2 border"><label class="control-label">March</label></div>
+                            <div class="col-sm-2 border"><label class="control-label">Q1</label></div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-1 border">{{total.total}}</div>
-                            <div class="col-sm-1 border">{{total.Jan}}</div>
-                            <div class="col-sm-1 border">{{total.Feb}}</div>
-                            <div class="col-sm-1 border">{{total.Mar}}</div>
-                            <div class="col-sm-1 border">{{total.Q1}}</div>
-                            <div class="col-sm-1 border">{{total.Apr}}</div>
-                            <div class="col-sm-1 border">{{total.May}}</div>
-                            <div class="col-sm-1 border">{{total.Jun}}</div>
-                            <div class="col-sm-1 border">{{total.Q2}}</div>
+                            <div class="col-sm-2 border offset">{{total.total}}</div>
+                            <div class="col-sm-2 border offset">{{total.Jan}}</div>
+                            <div class="col-sm-2 border offset">{{total.Feb}}</div>
+                            <div class="col-sm-2 border offset">{{total.Mar}}</div>
+                            <div class="col-sm-2 border offset">{{total.Q1}}</div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-1"><label class="control-label"></label></div>
-                            <div class="col-sm-1 border"><label class="control-label">July</label></div>
-                            <div class="col-sm-1 border"><label class="control-label">Aug</label></div>
-                            <div class="col-sm-1 border"><label class="control-label">Sept</label></div>
-                            <div class="col-sm-1 border"><label class="control-label">Q3</label></div>
-                            <div class="col-sm-1 border"><label class="control-label">Oct</label></div>
-                            <div class="col-sm-1 border"><label class="control-label">Nov</label></div>
-                            <div class="col-sm-1 border"><label class="control-label">Dec</label></div>
-                            <div class="col-sm-1 border"><label class="control-label">Q4</label></div>
+                            <div class="col-sm-2"><label class="control-label"></label></div>
+                            <div class="col-sm-2 border"><label class="control-label">April</label></div>
+                            <div class="col-sm-2 border"><label class="control-label">May</label></div>
+                            <div class="col-sm-2 border"><label class="control-label">June</label></div>
+                            <div class="col-sm-2 border"><label class="control-label">Q2</label></div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-1"></div>
-                            <div class="col-sm-1 border">{{total.Jul}}</div>
-                            <div class="col-sm-1 border">{{total.Aug}}</div>
-                            <div class="col-sm-1 border">{{total.Sep}}</div>
-                            <div class="col-sm-1 border">{{total.Q3}}</div>
-                            <div class="col-sm-1 border">{{total.Oct}}</div>
-                            <div class="col-sm-1 border">{{total.Nov}}</div>
-                            <div class="col-sm-1 border">{{total.Dec}}</div>
-                            <div class="col-sm-1 border">{{total.Q4}}</div>
+                            <div class="col-sm-2"></div>
+                            <div class="col-sm-2 border offset">{{total.Apr}}</div>
+                            <div class="col-sm-2 border offset">{{total.May}}</div>
+                            <div class="col-sm-2 border offset">{{total.Jun}}</div>
+                            <div class="col-sm-2 border offset">{{total.Q2}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-2"><label class="control-label"></label></div>
+                            <div class="col-sm-2 border"><label class="control-label">July</label></div>
+                            <div class="col-sm-2 border"><label class="control-label">Aug</label></div>
+                            <div class="col-sm-2 border"><label class="control-label">Sept</label></div>
+                            <div class="col-sm-2 border"><label class="control-label">Q3</label></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-2"></div>
+                            <div class="col-sm-2 border offset">{{total.Jul}}</div>
+                            <div class="col-sm-2 border offset">{{total.Aug}}</div>
+                            <div class="col-sm-2 border offset">{{total.Sep}}</div>
+                            <div class="col-sm-2 border offset">{{total.Q3}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-2"><label class="control-label"></label></div>
+                            <div class="col-sm-2 border"><label class="control-label">Oct</label></div>
+                            <div class="col-sm-2 border"><label class="control-label">Nov</label></div>
+                            <div class="col-sm-2 border"><label class="control-label">Dec</label></div>
+                            <div class="col-sm-2 border"><label class="control-label">Q4</label></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-2"></div>
+                            <div class="col-sm-2 border offset">{{total.Oct}}</div>
+                            <div class="col-sm-2 border offset">{{total.Nov}}</div>
+                            <div class="col-sm-2 border offset">{{total.Dec}}</div>
+                            <div class="col-sm-2 border offset">{{total.Q4}}</div>
                         </div>
                     </div>
                     <div ng-repeat="collection in spreadCollections">
