@@ -540,10 +540,11 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
                     }
                 }
                 
-                $scope.spreadTotals.push(total);
                 var remainTotal = total.cap - prevYearSum;
                 total.perLeft = ((remainTotal / total.cap) * 100).toFixed() + '%';
                 formatTotal(total);
+                total.spreadsiteName = response.data[0].spreadsiteName;
+                $scope.spreadTotals.push(total);
             }, function(error){
                 console.log(error);
             });
@@ -609,19 +610,37 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
     function formatSpreadSiteRec(doc, record, curY){
         curY=curY+20;
         doc.text("Spread Site: "+record.spreadsiteName,20,curY);
+        curY=curY+40;
+        doc.text("Total: "+record.total,20,curY);
+        doc.text("Jan: "+record.Jan,185,curY);
+        doc.text("May: "+record.May,285,curY);
+        doc.text("Sep: "+record.Sep,405,curY);
+        doc.text("Q1: "+record.Q1,515,curY);
         curY=curY+20;
-        doc.text("Company: "+record.companyName,20,curY);
+        doc.text("Capacity: "+record.cap,20,curY);
+        doc.text("Feb: "+record.Feb,185,curY);
+        doc.text("Jun: "+record.Jun,285,curY);
+        doc.text("Oct: "+record.Oct,405,curY);
+        doc.text("Q2: "+record.Q2,515,curY);
         curY=curY+20;
-        doc.text("Truck VIN: "+record.truckId,20,curY);
-        doc.text("Volume: "+record.volume,350,curY);
+        doc.text("Percent Left: "+record.perLeft,20,curY);
+        doc.text("Mar: "+record.Mar,185,curY);
+        doc.text("Jul: "+record.Jul,285,curY);
+        doc.text("Nov: "+record.Nov,405,curY);
+        doc.text("Q3: "+record.Q3,515,curY);
         curY=curY+20;
-        if(record.dischargeLocation !== null){
+        doc.text("Apr: "+record.Apr,185,curY);
+        doc.text("Aug: "+record.Aug,285,curY);
+        doc.text("Dec: "+record.Dec,405,curY);
+        doc.text("Q4: "+record.Q4,515,curY);
+        curY=curY+20;
+        /*if(record.dischargeLocation !== null){
             doc.text("Discharge Coordinates: Lat="+record.dischargeLocation.latitude+" Lon="+record.dischargeLocation.longitude,20,curY);
             curY=curY+20;
         }
         doc.text("Type: "+record.type,20,curY);
         doc.text("Date/Time: "+record.dischargeTimeStamp,200,curY);
-        curY=curY+20;
+        curY=curY+20;*/
         return curY;
     }
 
