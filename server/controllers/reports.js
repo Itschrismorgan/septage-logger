@@ -70,22 +70,26 @@ exports.listSpreadsiteData = function(user, year, spreadS, cb){
     if(user.type === 'contractor'){
         query = {companyId: user.companyId.toString()};
     }
-    if(year){
-        //console.log(beginDate);
+    if (year == new Date().getFullYear().toString()){
+        var tDate = new Date();
+        var qDate = new Date(tDate.getFullYear()-1, tDate.getMonth(), tDate.getDate()).toISOString();
+        query.dischargeTimeStamp = {"$gte":  new Date(qDate)};
+        var qeDate = new Date('December 31, '+ year).toISOString();
+        query.dischargeTimeStamp.$lte = new Date(qeDate);
+    } else {
         var qDate = new Date('January 1, '+ year).toISOString();
         query.dischargeTimeStamp = {"$gte":  new Date(qDate)};
-    }
-    if(year){
         var qeDate = new Date('December 31, '+ year).toISOString();
         query.dischargeTimeStamp.$lte = new Date(qeDate);
     }
+    console.log("My Query is:");
     console.log(query);
     collection.find(query, function(err, collections){
         //console.log(query);
         console.log(collections.length);
         if(err){
             console.log(err);
-            res.status(500).json({code:500, message: "GetSpreadsite Report Error: Server error"});
+            cb({code: 400, message: err.message}, null);
             return;
         }
         
@@ -115,12 +119,11 @@ exports.listSpreadsiteData = function(user, year, spreadS, cb){
                     }
                     if(spreadsite !== null){
                         modCollection.spreadsiteName = spreadsite.name;
+                        modCollection.nitro = spreadsite.nitro;
+                        modCollection.acres = spreadsite.acres;
                     }
                     modCollections.push(modCollection);
                     if (modCollections.length === collections.length) {
-                        console.log("Start MODCOLLECTIONS");
-                        console.log(modCollections);
-                        console.log("end MODCOLLECTIONS");
                         cb(null, modCollections);
                     //res.status(200).json(modCollections);
                     }

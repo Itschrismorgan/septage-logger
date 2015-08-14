@@ -247,6 +247,10 @@
                         <div class="col-sm-2"><label class="control-label">Phone</label>: {{spreadSite.phone}}</div>
                     </div>
                     <div class="row">
+                        <div class="col-sm-3"><label class="control-label">Nitrogen Demand</label>: {{spreadSite.nitro}}</div>
+                        <div class="col-sm-5"><label class="control-label">Acreage</label>: {{spreadSite.acres}}</div>
+                    </div>
+                    <div class="row">
                         <div class="col-sm-12"><label class="control-label">Approved Companies: </label> <span class="approved-driver" ng-repeat="company in spreadSite.approvedCompanies">{{company.name}}</span></div>
                     </div>
                 </div>
@@ -279,6 +283,18 @@
                 <label for="phone" class="col-sm-2 control-label">Phone:</label>
                 <div class="col-sm-3">
                     <input class="form-control input-lg" type="text" name="phone" ng-model="spreadSiteForm.phone" required/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="nitro" class="col-sm-2 control-label">Nitrogen Demand:</label>
+                <div class="col-sm-3">
+                    <input class="form-control input-lg" type="text" name="nitro" ng-model="spreadSiteForm.nitro" required/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="acres" class="col-sm-2 control-label">Acreage:</label>
+                <div class="col-sm-3">
+                    <input class="form-control input-lg" type="text" name="acres" ng-model="spreadSiteForm.acres" required/>
                 </div>
             </div>
             <div class="form-group">
@@ -386,28 +402,28 @@
                             <div class="col-sm-2 border offset">{{total.Q1}}</div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-2"><label class="control-label"></label></div>
+                            <div class="col-sm-2 border"><label class="control-label">Capacity</label></div>
                             <div class="col-sm-2 border"><label class="control-label">April</label></div>
                             <div class="col-sm-2 border"><label class="control-label">May</label></div>
                             <div class="col-sm-2 border"><label class="control-label">June</label></div>
                             <div class="col-sm-2 border"><label class="control-label">Q2</label></div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-2"></div>
+                            <div class="col-sm-2 border offset">{{total.cap}}</div>
                             <div class="col-sm-2 border offset">{{total.Apr}}</div>
                             <div class="col-sm-2 border offset">{{total.May}}</div>
                             <div class="col-sm-2 border offset">{{total.Jun}}</div>
                             <div class="col-sm-2 border offset">{{total.Q2}}</div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-2"><label class="control-label"></label></div>
+                            <div class="col-sm-2 border"><label class="control-label">Percent Left</label></div>
                             <div class="col-sm-2 border"><label class="control-label">July</label></div>
                             <div class="col-sm-2 border"><label class="control-label">Aug</label></div>
                             <div class="col-sm-2 border"><label class="control-label">Sept</label></div>
                             <div class="col-sm-2 border"><label class="control-label">Q3</label></div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-2"></div>
+                            <div class="col-sm-2 border offset">{{total.perLeft}}</div>
                             <div class="col-sm-2 border offset">{{total.Jul}}</div>
                             <div class="col-sm-2 border offset">{{total.Aug}}</div>
                             <div class="col-sm-2 border offset">{{total.Sep}}</div>
