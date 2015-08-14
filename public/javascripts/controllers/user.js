@@ -466,7 +466,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
                     
                     var discharge  = response.data[i].dischargeTimeStamp;
                     
-                    if (discharge >= new Date('January 1, ' + year).toISOString() && discharge < new Date('January 1, ' + (Number(year)-1)).toISOString()){
+                    if (discharge >= new Date('January 1, ' + year).toISOString() && discharge < new Date('January 1, ' + (Number(year)+1)).toISOString()){
                         $scope.spreadCollections.push(response.data[i]);
                     }
                     
@@ -543,6 +543,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
                 $scope.spreadTotals.push(total);
                 var remainTotal = total.cap - prevYearSum;
                 total.perLeft = ((remainTotal / total.cap) * 100).toFixed() + '%';
+                formatTotal(total);
             }, function(error){
                 console.log(error);
             });
@@ -680,6 +681,52 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
             var flashEl = document.getElementById('flash-messages');
             flashEl.id = 'flash-remove';
         },3000);
+    }
+    
+    function numFormat(num1){
+        var newNum = num1.toString();
+        newNum = newNum.split('');
+        newNum = newNum.reverse();
+        var newNum2 = [];
+  
+        newNum.forEach(function(element){
+            newNum2.push(element);
+        });
+  
+        var inc = 1;
+        for(var i=0;i<newNum.length;i++){
+
+            if( (i+1) % 3 === 0 && newNum[i+1]){
+            newNum2.splice(i+inc, 0, ',');
+            inc++;
+            }
+    
+        }
+        newNum2 = newNum2.reverse();
+        newNum2 = newNum2.join('');
+        return newNum2;
+
+    }
+    
+    function formatTotal(total){
+        total.total = numFormat(total.total);
+        total.cap = numFormat(total.cap);
+        total.Q1 = numFormat(total.Q1);
+        total.Q2 = numFormat(total.Q2);
+        total.Q3 = numFormat(total.Q3);
+        total.Q4 = numFormat(total.Q4);
+        total.Jan = numFormat(total.Jan);
+        total.Feb = numFormat(total.Feb);
+        total.Mar = numFormat(total.Mar);
+        total.Apr = numFormat(total.Apr);
+        total.May = numFormat(total.May);
+        total.Jun = numFormat(total.Jun);
+        total.Jul = numFormat(total.Jul);
+        total.Aug = numFormat(total.Aug);
+        total.Sep = numFormat(total.Sep);
+        total.Oct = numFormat(total.Oct);
+        total.Nov = numFormat(total.Nov);
+        total.Dec = numFormat(total.Dec);
     }
 
     //Luke added button control here
