@@ -20,7 +20,9 @@ exports.createSpreadSite = function(recordToCreate,user, cb){
             address: recordToCreate.address,
             contactName: recordToCreate.contactName,
             phone: recordToCreate.phone,
-            approvedCompanies: recordToCreate.approvedCompanies
+            approvedCompanies: recordToCreate.approvedCompanies,
+            nitro: recordToCreate.nitro,
+            acres: recordToCreate.acres
         };
     } catch(e){
         console.log(e);
