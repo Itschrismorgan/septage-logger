@@ -687,6 +687,8 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
         $scope.spreadSiteForm.address = "";
         $scope.spreadSiteForm.contactName = "";
         $scope.spreadSiteForm.phone = "";
+        $scope.spreadSiteForm.nitro = "";
+        $scope.spreadSiteForm.acres = "";
         $scope.spreadsite_form.$setPristine();
     }
     
