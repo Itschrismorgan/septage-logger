@@ -1,7 +1,10 @@
 
 septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$anchorScroll', 'userService', 'companyService', 'truckService', 'spreadSiteService', 'logoutService', 'reportService','flash',
     function($scope, $routeParams, $location, $anchorScroll, userService, companyService, truckService, spreadSiteService, logoutService, reportService, flash){
-
+    
+    $scope.yearList = ['2015', '2016', '2017', '2018', '2019', '2020'];
+    $scope.selectedYear = new Date().getFullYear().toString()
+    
     $scope.$watch('selectedUser', function(newSelectedUser){
         console.log(newSelectedUser);
         if(newSelectedUser === "" || newSelectedUser === undefined || newSelectedUser === null){
@@ -82,6 +85,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
             if($scope.accountType !== 'admin') {
                 $scope.companyList = [];
                 $scope.companyList.push(data.data.company);
+                reloadSpreadSiteList();
             } else {
                 fillCompanyList();
                 reloadSpreadSiteList();
@@ -229,7 +233,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
                 clearTruckFields();
                 reloadTruckList();
             }, function(error){
-                console.log("error:" + error);
+                console.log(error);
             });
         }
     };
@@ -369,6 +373,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
 
     function reloadSpreadSiteList(){
         $scope.spreadSites = [];
+        console.log('spreadsite list is loading');
         spreadSiteService.getSpreadSiteList()
             .then(function(response){
                 response.data.map(function(spreadSite){
@@ -441,19 +446,124 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
 
     $scope.spreadsiteReport = function(){
         $scope.spreadCollections = [];
-        //console.log("launch");
-        //console.log($scope.report.beginDate);
-        if (!$scope.report.beginDate){
-            $scope.report.beginDate = new Date(new Date().setDate(new Date().getDate()-30));
+        if (!$scope.selectedYear){
+            $scope.selectedYear = new Date().getFullYear().toString();
         }
-        if (!$scope.report.endDate){
-            $scope.report.endDate = new Date();
+        if (!$scope.selectedSpreadsite._id){
+            $scope.selectedSpreadsite._id = null;
         }
-        reportService.getSpreadsiteReport($scope.report.beginDate.toISOString(), $scope.report.endDate.toISOString())
+        $scope.spreadTotals = [];
+        var total = {
+            total: 0,
+            perLeft: '',
+            cap: 0,
+            Jan: 0,
+            Feb: 0,
+            Mar: 0,
+            Q1: 0,
+            Apr: 0,
+            May: 0,
+            Jun: 0,
+            Q2: 0,
+            Jul: 0,
+            Aug: 0,
+            Sep: 0,
+            Q3: 0,
+            Oct: 0,
+            Nov: 0,
+            Dec: 0,
+            Q4: 0,
+        };
+        reportService.getSpreadsiteReport($scope.selectedYear, $scope.selectedSpreadsite._id)
             .then(function(response){
-                response.data.map(function(collection){
-                    $scope.spreadCollections.push(collection);
-                });
+                var AAR = response.data[0].nitro / 0.0026;
+                total.cap = (AAR * response.data[0].acres).toFixed();
+                var prevYearSum = 0;
+                var year = $scope.selectedYear;
+                    
+                for(var i=0;i<response.data.length;i++){
+                    
+                    var discharge  = response.data[i].dischargeTimeStamp;
+                    
+                    if (discharge >= new Date('January 1, ' + year).toISOString() && discharge < new Date('January 1, ' + (Number(year)+1)).toISOString()){
+                        $scope.spreadCollections.push(response.data[i]);
+                    }
+                    
+                    //Getting percent used
+                    if (year == new Date().getFullYear()){
+                        if (discharge >= new Date( new Date().getFullYear()-1, new Date().getMonth(), new Date().getDate() ).toISOString() && discharge < new Date().toISOString()){
+                            prevYearSum += response.data[i].volume;
+                        }
+                    }
+                    
+                    //Gather total, montly and quarterly inf
+                    if (discharge >= new Date('January 1, ' + year).toISOString() && discharge < new Date('February 1, ' + year).toISOString()) {
+                        total.Jan += response.data[i].volume;
+                        total.Q1 += response.data[i].volume;
+                        total.total += response.data[i].volume;
+                    }
+                    else if (discharge >= new Date('Februrary 1, ' + year).toISOString() && discharge < new Date('March 1, ' + year).toISOString()) {
+                        total.Feb += response.data[i].volume;
+                        total.Q1 += response.data[i].volume;
+                        total.total += response.data[i].volume;
+                    }
+                    else if (discharge >= new Date('March 1, ' + year).toISOString() && discharge < new Date('April 1, ' + year).toISOString()) {
+                        total.Mar += response.data[i].volume;
+                        total.Q1 += response.data[i].volume;
+                        total.total += response.data[i].volume;
+                    }
+                    else if (discharge >= new Date('April 1, ' + year).toISOString() && discharge < new Date('May 1, ' + year).toISOString()) {
+                        total.Apr += response.data[i].volume;
+                        total.Q2 += response.data[i].volume;
+                        total.total += response.data[i].volume;
+                    }
+                    else if (discharge >= new Date('May 1, ' + year).toISOString() && discharge < new Date('June 1, ' + year).toISOString()) {
+                        total.May += response.data[i].volume;
+                        total.Q2 += response.data[i].volume;
+                        total.total += response.data[i].volume;
+                    }
+                    else if (discharge >= new Date('June 1, ' + year).toISOString() && discharge < new Date('July 1, ' + year).toISOString()) {
+                        total.Jun += response.data[i].volume;
+                        total.Q2 += response.data[i].volume;
+                        total.total += response.data[i].volume;
+                    }
+                    else if (discharge >= new Date('July 1, ' + year).toISOString() && discharge < new Date('August 1, ' + year).toISOString()) {
+                        total.Jul += response.data[i].volume;
+                        total.Q3 += response.data[i].volume;
+                        total.total += response.data[i].volume;
+                    }
+                    else if (discharge >= new Date('August 1, ' + year).toISOString() && discharge < new Date('September 1, ' + year).toISOString()) {
+                        total.Aug += response.data[i].volume;
+                        total.Q3 += response.data[i].volume;
+                        total.total += response.data[i].volume;
+                    }
+                    else if (discharge >= new Date('September 1, ' + year).toISOString() && discharge < new Date('October 1, ' + year).toISOString()) {
+                        total.Sep += response.data[i].volume;
+                        total.Q3 += response.data[i].volume;
+                        total.total += response.data[i].volume;
+                    }
+                    else if (discharge >= new Date('October 1, ' + year).toISOString() && discharge < new Date('November 1, ' + year).toISOString()) {
+                        total.Oct += response.data[i].volume;
+                        total.Q4 += response.data[i].volume;
+                        total.total += response.data[i].volume;
+                    }
+                    else if (discharge >= new Date('November 1, ' + year).toISOString() && discharge < new Date('December 1, ' + year).toISOString()) {
+                        total.Nov += response.data[i].volume;
+                        total.Q4 += response.data[i].volume;
+                        total.total += response.data[i].volume;
+                    }
+                    else if (discharge >= new Date('December 1, ' + year).toISOString() && discharge <= new Date('December 31, ' + year).toISOString()) {
+                        total.Dec += response.data[i].volume;
+                        total.Q4 += response.data[i].volume;
+                        total.total += response.data[i].volume;
+                    }
+                }
+                
+                var remainTotal = total.cap - prevYearSum;
+                total.perLeft = ((remainTotal / total.cap) * 100).toFixed() + '%';
+                formatTotal(total);
+                total.spreadsiteName = response.data[0].spreadsiteName;
+                $scope.spreadTotals.push(total);
             }, function(error){
                 console.log(error);
             });
@@ -511,7 +621,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
         doc.text("Address: "+record.location.address,20,curY);
         curY=curY+20;
         doc.text("Type: "+record.type,20,curY);
-        doc.text("Date/Time: "+record.createdTimeStamp,200,curY);
+        doc.text("Date/Time: "+ new Date(record.createdTimeStamp).toDateString() + " " + new Date(record.createdTimeStamp).toLocaleTimeString(),200,curY);
         curY=curY+20;
         return curY;
     }
@@ -519,19 +629,37 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
     function formatSpreadSiteRec(doc, record, curY){
         curY=curY+20;
         doc.text("Spread Site: "+record.spreadsiteName,20,curY);
+        curY=curY+40;
+        doc.text("Total: "+record.total,20,curY);
+        doc.text("Jan: "+record.Jan,185,curY);
+        doc.text("May: "+record.May,285,curY);
+        doc.text("Sep: "+record.Sep,405,curY);
+        doc.text("Q1: "+record.Q1,515,curY);
         curY=curY+20;
-        doc.text("Company: "+record.companyName,20,curY);
+        doc.text("Capacity: "+record.cap,20,curY);
+        doc.text("Feb: "+record.Feb,185,curY);
+        doc.text("Jun: "+record.Jun,285,curY);
+        doc.text("Oct: "+record.Oct,405,curY);
+        doc.text("Q2: "+record.Q2,515,curY);
         curY=curY+20;
-        doc.text("Truck VIN: "+record.truckId,20,curY);
-        doc.text("Volume: "+record.volume,350,curY);
+        doc.text("Percent Left: "+record.perLeft,20,curY);
+        doc.text("Mar: "+record.Mar,185,curY);
+        doc.text("Jul: "+record.Jul,285,curY);
+        doc.text("Nov: "+record.Nov,405,curY);
+        doc.text("Q3: "+record.Q3,515,curY);
         curY=curY+20;
-        if(record.dischargeLocation !== null){
+        doc.text("Apr: "+record.Apr,185,curY);
+        doc.text("Aug: "+record.Aug,285,curY);
+        doc.text("Dec: "+record.Dec,405,curY);
+        doc.text("Q4: "+record.Q4,515,curY);
+        curY=curY+20;
+        /*if(record.dischargeLocation !== null){
             doc.text("Discharge Coordinates: Lat="+record.dischargeLocation.latitude+" Lon="+record.dischargeLocation.longitude,20,curY);
             curY=curY+20;
         }
         doc.text("Type: "+record.type,20,curY);
         doc.text("Date/Time: "+record.dischargeTimeStamp,200,curY);
-        curY=curY+20;
+        curY=curY+20;*/
         return curY;
     }
 
@@ -578,6 +706,8 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
         $scope.spreadSiteForm.address = "";
         $scope.spreadSiteForm.contactName = "";
         $scope.spreadSiteForm.phone = "";
+        $scope.spreadSiteForm.nitro = "";
+        $scope.spreadSiteForm.acres = "";
         $scope.spreadsite_form.$setPristine();
     }
     
@@ -591,6 +721,52 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
             var flashEl = document.getElementById('flash-messages');
             flashEl.id = 'flash-remove';
         },3000);
+    }
+    
+    function numFormat(num1){
+        var newNum = num1.toString();
+        newNum = newNum.split('');
+        newNum = newNum.reverse();
+        var newNum2 = [];
+  
+        newNum.forEach(function(element){
+            newNum2.push(element);
+        });
+  
+        var inc = 1;
+        for(var i=0;i<newNum.length;i++){
+
+            if( (i+1) % 3 === 0 && newNum[i+1]){
+            newNum2.splice(i+inc, 0, ',');
+            inc++;
+            }
+    
+        }
+        newNum2 = newNum2.reverse();
+        newNum2 = newNum2.join('');
+        return newNum2;
+
+    }
+    
+    function formatTotal(total){
+        total.total = numFormat(total.total);
+        total.cap = numFormat(total.cap);
+        total.Q1 = numFormat(total.Q1);
+        total.Q2 = numFormat(total.Q2);
+        total.Q3 = numFormat(total.Q3);
+        total.Q4 = numFormat(total.Q4);
+        total.Jan = numFormat(total.Jan);
+        total.Feb = numFormat(total.Feb);
+        total.Mar = numFormat(total.Mar);
+        total.Apr = numFormat(total.Apr);
+        total.May = numFormat(total.May);
+        total.Jun = numFormat(total.Jun);
+        total.Jul = numFormat(total.Jul);
+        total.Aug = numFormat(total.Aug);
+        total.Sep = numFormat(total.Sep);
+        total.Oct = numFormat(total.Oct);
+        total.Nov = numFormat(total.Nov);
+        total.Dec = numFormat(total.Dec);
     }
 
     //Luke added button control here

@@ -8,6 +8,8 @@ var schema = mongoose.Schema({
     address: { type: String, required: true },
     contactName: {type: String, required: true},
     phone: {type: String, required: true},
+    nitro: {type: Number, required: true},
+    acres: {type: Number, required: true},
     approvedCompanies: [{ type: String }]
 });
 

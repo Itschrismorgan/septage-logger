@@ -119,5 +119,5 @@ exports.getCompanyList = function(req,res){
         } else {
             res.status(200).json(companies);
         }
-    });  
+    }).sort({name: 1}); 
 };

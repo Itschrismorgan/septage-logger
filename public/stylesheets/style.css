@@ -27,6 +27,15 @@ a {
     margin: 2px;
 }
 
+.border {
+    border: solid 1px;
+    text-align: center;
+}
+
+.offset {
+    background-color: #d3d3d3;
+}
+
 .approved-driver {
     padding: 2px;
     margin: 2px;
