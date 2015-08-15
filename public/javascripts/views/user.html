@@ -83,7 +83,9 @@
             <div class="form-group">
                 <label for="Users" class="col-sm-2 control-label">Existing Companies:</label>
                 <div class="col-sm-3">
-                    <select class="form-control input-lg" ng-model="selectedCompany" ng-options="company for company in companyList"></select>
+                    <select class="form-control input-lg" ng-model="selectedCompany" ng-options="company for company in companyList">
+                        <option value=""></option>
+                    </select>
                 </div>
             </div>
             <div class="form-group">
@@ -186,7 +188,7 @@
                         <div>
                             <div ng-repeat="driver in drivers">
                                 <label class="checkbox" for="{{driver}}">
-                                    <input type="checkbox" ng-model="approvedDrivers.usernames[driver]" name="{{driver}}" id="{{driver}}" required />
+                                    <input type="checkbox" ng-model="approvedDrivers.usernames[driver]" name="{{driver}}" id="{{driver}}" />
                                     {{driver}}
                                 </label>
                             </div>

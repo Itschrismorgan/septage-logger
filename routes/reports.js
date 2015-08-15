@@ -66,7 +66,7 @@ router.get('/spreadsite-history', function(req,res,next){
         //console.log('qp: '+req.query.dates.year);
         year = req.query.dates.year;
     } else {
-        year = new Date();
+        year = new Date().getFullYear();
     }
     if(req.query.dates.spreadsite){
         //console.log('qp: '+req.query.dates.spreadsite);
