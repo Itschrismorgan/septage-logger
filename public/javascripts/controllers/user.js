@@ -172,7 +172,26 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
                 clearCompanyFields();
                 fillCompanyList();
             }, function(error){
+                console.log(error);
                 console.log("error");
+                addFlash(error.data.message);
+                clearCompanyFields();
+                fillCompanyList();
+            });
+    };
+
+    $scope.updateCompany = function(){
+        console.log("Update company");
+        console.log($scope.company);
+        companyService.updateCompany($scope.company)
+            .then(function(data){
+                console.log(data);
+                addFlash('Company updated.');
+                clearCompanyFields();
+                fillCompanyList();
+            }, function(error){
+                console.log("error");
+                console.log(error);
             });
     };
 

@@ -215,8 +215,8 @@ var getUserCompany = function(username, callback){
             console.log(err);
             return null;
         }
-        console.log("in getUserCompany");
-        console.log(data);
+        //console.log("in getUserCompany");
+        //console.log(data);
         callback(data.companyId);
     });
 };
@@ -232,7 +232,7 @@ var safeUserInfo = function(user, company){
         cleanedUser.company = company.name;
     }
 
-    console.log(cleanedUser)
+    //console.log(cleanedUser)
     return cleanedUser;
 };
 

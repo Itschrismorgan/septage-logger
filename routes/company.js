@@ -25,22 +25,22 @@ router.get('/:companyname', function(req,res,next){
     //console.log(req.user);
     //console.log(decodeURIComponent(req.params.companyname));
     if(req.user.type === "contractor" || req.user.type === "admin"){
-        // user can get info on themselves or admin can see all users
+        // user can get info on themselves or admin can see all companies
         company.getCompany(req,res);
     } else {
         res.status(401).json({code: 401, message: 'not authorized for requested info'});        
     }
 });
 
-/*
+
 router.post('/:companyname', function(req,res,next){
     if(req.user === req.params.username || req.user.type === 'admin'){
-        company.updateUser(req,res);
+        company.updateCompany(req,res);
     } else {
         res.status(401).json({code: 401, message: 'not authorized for the requested action'});   
     }
 });
-
+/*
 
 router.delete('/:companyname', function(req, res, next){
     company.deleteUser(req,res);
