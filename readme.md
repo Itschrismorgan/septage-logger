@@ -40,13 +40,13 @@
 
 *Heroku Deployment*
 
-The current app name on Heroku is whispering-beach-6783
+The current app name on Heroku is septage-fl
 
 Get the Heroku tookbelt from here: https://toolbelt.heroku.com/
 
 Use the following command to add a git remote that is attached to the Heroku app
 
-    heroku git:remote -a whispering-beach-6783
+    heroku git:remote -a septage-fl
 
 To verify that the above command work type the following command:
 
@@ -55,8 +55,8 @@ To verify that the above command work type the following command:
 
 Which should so the following remotes:
 
-    heroku  https://git.heroku.com/whispering-beach-6783.git (fetch)
-    heroku  https://git.heroku.com/whispering-beach-6783.git (push)
+    heroku  https://git.heroku.com/septage-fl.git (fetch)
+    heroku  https://git.heroku.com/septage-fl.git (push)
 
 Deploy the app to Heroku with the following command:
 
