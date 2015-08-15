@@ -602,7 +602,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
         doc.text("Address: "+record.location.address,20,curY);
         curY=curY+20;
         doc.text("Type: "+record.type,20,curY);
-        doc.text("Date/Time: "+record.createdTimeStamp,200,curY);
+        doc.text("Date/Time: "+ new Date(record.createdTimeStamp).toDateString() + " " + new Date(record.createdTimeStamp).toLocaleTimeString(),200,curY);
         curY=curY+20;
         return curY;
     }
