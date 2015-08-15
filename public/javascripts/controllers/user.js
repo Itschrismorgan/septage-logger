@@ -173,13 +173,13 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
             .then(function(data){
                 console.log(data);
                 addFlash('company created!');
-                clearCompanyFields();
+                $scope.clearCompanyFields();
                 fillCompanyList();
             }, function(error){
                 console.log(error);
                 console.log("error");
                 addFlash(error.data.message);
-                clearCompanyFields();
+                $scope.clearCompanyFields();
                 fillCompanyList();
             });
     };
@@ -191,7 +191,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
             .then(function(data){
                 console.log(data);
                 addFlash('Company updated.');
-                clearCompanyFields();
+                $scope.clearCompanyFields();
                 fillCompanyList();
             }, function(error){
                 console.log("error");
@@ -664,13 +664,13 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
     }
 
 
-    function clearCompanyFields(){
+    $scope.clearCompanyFields = function(){
         $scope.company = {};
         $scope.company.name = "";
         $scope.company.phone = "";
         $scope.company.active = "";
         $scope.company_form.$setPristine();
-    }
+    };
 
     function clearTruckFields(){
         $scope.newTruck = {};
