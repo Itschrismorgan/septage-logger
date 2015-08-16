@@ -18,4 +18,10 @@ septageLogger.service('companyService', ['$http', function($http){
             .success(function(data){return data;})
             .error(function(e){return e;});
     };
+
+    this.updateCompany = function(company){
+        return $http.post('/company/'+company.name, company)
+            .success(function(data){return data;})
+            .error(function(e){return e;});
+    }
 }]);
