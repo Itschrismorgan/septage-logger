@@ -1,7 +1,7 @@
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
 
 body {
-  padding: 50px;
+  padding: 60px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
