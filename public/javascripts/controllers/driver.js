@@ -105,6 +105,9 @@ septageLogger.controller('DriverCtlr',
     };
 
     $scope.discharge = function(collection, spreadSite){
+        if (!spreadSite){
+            addFlashWarn('Please select a spreadsite');
+        }
         $scope.inprocessCollections.forEach(function(element){
            element.spreadSiteId = spreadSite._id;
            element.dischargeTimeStamp = new Date();
@@ -123,14 +126,13 @@ septageLogger.controller('DriverCtlr',
                collectionService.submitCollection(element)
                    .then(function(data){
                        //console.log(data);
+                       addFlash('Septage Pickups Discharged!');
                        reloadPendingCollections();
                    }, function(error){
                        console.log("error");
                    });
            });
         });
-        
-        addFlash('Septage Pickups Discharged!');
         /*collection.spreadSiteId = spreadSite._id;
         collection.dischargeTimeStamp = new Date();
 
@@ -297,6 +299,20 @@ septageLogger.controller('DriverCtlr',
         setTimeout(function (){
             flash('');
             var flashEl = document.getElementById('flash-messages');
+            flashEl.id = 'flash-remove';
+        },3000);
+    }
+    
+    function addFlashWarn(message){
+        flash(message);
+        if (document.getElementById('flash-remove')) {
+            document.getElementById('flash-remove').id = 'flash-warn'; 
+        } else if (document.getElementById('flash-messages')){
+            document.getElementById('flash-messages').id = 'flash-warn';
+        }
+        setTimeout(function (){
+            flash('');
+            var flashEl = document.getElementById('flash-warn');
             flashEl.id = 'flash-remove';
         },3000);
     }
