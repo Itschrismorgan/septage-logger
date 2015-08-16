@@ -339,7 +339,7 @@
                     <button id="collectionPDF" class="btn btn-success" type="button" ng-click="genPDF('collectionsReport', collections)" disabled>Export PDF</button>
                 </div>
                 <div>
-                    <button id="collectionCSV" class="btn btn-success" type="button" ng-csv="collectionExport" csv-header="['Truck VIN','Latitude','Longitude','Company','Address','Volume','Type','Time']" filename="collectionReport.csv" disabled>Export to CSV</button>
+                    <button id="collectionCSV" class="btn btn-success" type="button" ng-csv="collectionExport" csv-header="['Truck VIN','Latitude','Longitude','Company','Address','Volume','Type','Time']" filename="collectionReport.csv" ng-hide="accountType != 'admin'" disabled>Export to CSV</button>
                 </div>
             </div>
             <div class="col-sm-8">
