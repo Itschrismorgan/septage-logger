@@ -426,6 +426,8 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
 
     $scope.refreshReport = function(){
         $scope.collections = [];
+        document.getElementById('collectionPDF').disabled = false;
+        document.getElementById('collectionCSV').disabled = false;
         //console.log("launch");
         //console.log($scope.report.beginDate);
         if (!$scope.report.beginDate){
@@ -439,6 +441,25 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
                 response.data.map(function(collection){
                     $scope.collections.push(collection);
                 });
+                var destroy = true;
+                while (destroy){
+                    if (response.data.length === $scope.collections.length) {
+                        destroy = false;
+                        $scope.collectionExport = [];
+                        $scope.collections.forEach(function(element){
+                            var pusher = {};
+                            pusher.vin = element.truckId;
+                            pusher.lat = element.location.latitude;
+                            pusher.lon = element.location.longitude;
+                            pusher.company = element.companyName;
+                            pusher.address = element.location.address;
+                            pusher.volume = element.volume;
+                            pusher.type = element.type;
+                            pusher.time = new Date(element.createdTimeStamp).toDateString() + " " + new Date(element.createdTimeStamp).toLocaleTimeString();
+                            $scope.collectionExport.push(pusher);
+                        });
+                    }
+                }
             }, function(error){
                 console.log(error);
             });
@@ -446,6 +467,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
 
     $scope.spreadsiteReport = function(){
         $scope.spreadCollections = [];
+        document.getElementById('spreadsitePDF').disabled = false;
         if (!$scope.selectedYear){
             $scope.selectedYear = new Date().getFullYear().toString();
         }
