@@ -66,8 +66,9 @@
             </div>
             <div class="row">
                 <div class="col-sm-12">
-                    <p class="input-group">
-                        <input ng-click="dp.opened = true" class="form-control" datepicker-popup ng-model="collection.date" is-open="dp.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+                    <label for="date">Date Pumped:</label>
+                    <p>
+                        <input ng-click="dp.opened = true" class="form-control input-lg" datepicker-popup ng-model="collection.date" is-open="dp.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
                     </p>
                 </div>
             </div>
