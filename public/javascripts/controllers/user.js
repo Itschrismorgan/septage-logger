@@ -582,7 +582,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
                 }
                 
                 var remainTotal = total.cap - prevYearSum;
-                total.perLeft = ((remainTotal / total.cap) * 100).toFixed() + '%';
+                total.perLeft = (Math.floor(((remainTotal / total.cap) * 100) * 100) / 100) + '%';
                 formatTotal(total);
                 total.spreadsiteName = response.data[0].spreadsiteName;
                 $scope.spreadTotals.push(total);
