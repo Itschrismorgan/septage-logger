@@ -624,6 +624,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
         var curY = 0;
 
         var repName = reportName;
+        var compName = $scope.companyList[0];
         if (reportName === "collectionsReport"){
             repName = "Collections Report";
         } else if (reportName === "spreadCollections"){
@@ -631,7 +632,11 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
         }
 
         curY=curY+15;
-        doc.text(repName,curY,20);
+        if($scope.accountType === 'contractor'){
+            doc.text(repName + '   Company: ' + compName,curY,20);
+        } else {
+            doc.text(repName,curY,20);
+        }
         doc.setLineWidth(1);
         curY=curY+15;
         doc.line(30,curY,580,curY);
