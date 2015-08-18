@@ -112,14 +112,14 @@ septageLogger.controller('DriverCtlr',
             addFlashWarn('Please select a spreadsite');
         }
         if(spreadSite){
-            addFlash('Submitting...',5000);
+            addFlash('Submitting...',300000);
         }
         $scope.inprocessCollections.forEach(function(element){
            element.spreadSiteId = spreadSite._id;
            element.dischargeTimeStamp = new Date();
 
            element.dischargeLocation = {};
-
+           
            getCurrentLocation(function(err, latitude, longitude){
                if(err){
                    console.log("could not get geo location");
@@ -132,8 +132,8 @@ septageLogger.controller('DriverCtlr',
                collectionService.submitCollection(element)
                    .then(function(data){
                        //console.log(data);
-                       addFlash('Septage Pickups Discharged!');
                        reloadPendingCollections();
+                       addFlash('Septage Pickups Discharged!');
                    }, function(error){
                        console.log("error");
                    });
