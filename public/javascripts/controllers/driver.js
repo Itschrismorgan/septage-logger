@@ -222,6 +222,7 @@ septageLogger.controller('DriverCtlr',
             $scope.collection.volume = "1000";
             $scope.collection.type = "domestic";
             $scope.collection.addressType = "residential";
+            $scope.reloadCoordinates();
         }
     };
 
