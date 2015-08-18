@@ -111,6 +111,9 @@ septageLogger.controller('DriverCtlr',
         if (!spreadSite){
             addFlashWarn('Please select a spreadsite');
         }
+        if(spreadSite){
+            addFlash('Submitting...',5000);
+        }
         $scope.inprocessCollections.forEach(function(element){
            element.spreadSiteId = spreadSite._id;
            element.dischargeTimeStamp = new Date();
@@ -300,7 +303,10 @@ septageLogger.controller('DriverCtlr',
         return '';
     };
     
-    function addFlash(message){
+    function addFlash(message, time){
+        if (!time){
+            time = 3000;
+        }
         flash(message);
         if (document.getElementById('flash-remove')) {
             document.getElementById('flash-remove').id = 'flash-messages'; 
@@ -309,10 +315,13 @@ septageLogger.controller('DriverCtlr',
             flash('');
             var flashEl = document.getElementById('flash-messages');
             flashEl.id = 'flash-remove';
-        },3000);
+        },time);
     }
     
-    function addFlashWarn(message){
+    function addFlashWarn(message, time){
+        if (!time){
+            time = 3000;
+        }
         flash(message);
         if (document.getElementById('flash-remove')) {
             document.getElementById('flash-remove').id = 'flash-warn'; 
@@ -323,7 +332,7 @@ septageLogger.controller('DriverCtlr',
             flash('');
             var flashEl = document.getElementById('flash-warn');
             flashEl.id = 'flash-remove';
-        },3000);
+        },time);
     }
 
 }]);
