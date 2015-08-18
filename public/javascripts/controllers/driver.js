@@ -87,21 +87,24 @@ septageLogger.controller('DriverCtlr',
             type: $scope.collection.type,
             volume: $scope.collection.volume
         };
-
+        
         if($scope.accountType === 'driver'){
             pickup.driverId = $scope.username;
         }
-
+        
+        if($scope.collection.address === undefined || $scope.collection.address === ""){
+            addFlashWarn('Please Reset Location');
+        }
         collectionService.submitCollection(pickup)
             .then(function(data){
                 //console.log(data);
                 reloadPendingCollections();
                 clearCollectionFields();
+                addFlash('Septage Pickup Logged!');
             }, function(error){
                 console.log("error");
             });
         //console.log(pickup);
-        addFlash('Septage Pickup Logged!');
     };
 
     $scope.discharge = function(collection, spreadSite){
