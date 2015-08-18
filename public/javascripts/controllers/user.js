@@ -168,6 +168,24 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
             });
     };
 
+    $scope.selectCompany = function(newSelectedCompany){
+        $scope.clearCompanyFields();
+        document.getElementById('updateCompany').disabled = false;
+        document.getElementById('createCompany').disabled = true;
+        companyService.getCompany(newSelectedCompany)
+                .then(function(returnData){
+                    $scope.company.name = returnData.data.name;
+                    $scope.company.phone = returnData.data.phone;
+                    if(returnData.data.active){
+                        $scope.company.active = 'yes';
+                    } else {
+                        $scope.company.active = 'no';
+                    }
+                }, function(err){
+                    console.log("problem");
+                });
+    };
+
     $scope.submitCompany = function(){
         companyService.createCompany($scope.company)
             .then(function(data){
@@ -335,10 +353,12 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
 
     function fillCompanyList(){
         $scope.companyList = [];
+        $scope.companyList2 = [];
         companyService.getCompanyList()
             .then(function(res){
                 res.data.map(function(company){
                     $scope.companyList.push(company.name);
+                    $scope.companyList2.push(company);
                 });
             }, function(error){
                 console.log(error);
@@ -696,6 +716,8 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
         $scope.company.phone = "";
         $scope.company.active = "";
         $scope.company_form.$setPristine();
+        document.getElementById('updateCompany').disabled = true;
+        document.getElementById('createCompany').disabled = false;
     };
 
     function clearTruckFields(){

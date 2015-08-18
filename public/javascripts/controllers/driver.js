@@ -202,6 +202,9 @@ septageLogger.controller('DriverCtlr',
         $scope.collection = {};
         $scope.collection.selectedTruck = oldCollection.selectedTruck;
         $scope.collection.date = new Date();
+        $scope.collection.volume = "1000";
+        $scope.collection.type = "domestic";
+        $scope.collection.addressType = "residential";
     }
 
     //Luke added button control here
@@ -210,6 +213,9 @@ septageLogger.controller('DriverCtlr',
         //console.log(value);
         if (value === 1){
             $scope.collection.date = new Date();
+            $scope.collection.volume = "1000";
+            $scope.collection.type = "domestic";
+            $scope.collection.addressType = "residential";
         }
     };
 

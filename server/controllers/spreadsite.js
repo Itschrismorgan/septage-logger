@@ -84,7 +84,7 @@ exports.listSpreadSites = function(user, cb){
         }
 
         cb(null, spreadSites);
-    });
+    }).sort({name: 1});
 };
 
 exports.deleteSpreadSite = function(spreadSiteId, cb){
