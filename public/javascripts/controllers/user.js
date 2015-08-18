@@ -120,14 +120,17 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
     };
 
     $scope.deleteTruck = function(vin){
-        truckService.deleteTruck(vin)
-            .then(function(data){
-                reloadTruckList();
-                clearTruckFields();
-                addFlash('truck deleted!');
-            }, function(error){
-                console.log("problem");
-            });
+        if(confirm('Are you sure you want to delete this truck?')){
+            truckService.deleteTruck(vin)
+                .then(function(data){
+                    reloadTruckList();
+                    clearTruckFields();
+                    addFlashWarn('truck deleted!');
+                }, function(error){
+                    console.log("problem");
+                });
+        }
+        
     };
     
     $scope.selectTruck = function(vin){
@@ -759,7 +762,10 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
         $scope.spreadsite_form.$setPristine();
     }
     
-    function addFlash(message){
+    function addFlash(message, time){
+        if (!time){
+            time = 3000;
+        }
         flash(message);
         if (document.getElementById('flash-remove')) {
             document.getElementById('flash-remove').id = 'flash-messages'; 
@@ -769,6 +775,23 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
             var flashEl = document.getElementById('flash-messages');
             flashEl.id = 'flash-remove';
         },3000);
+    }
+    
+    function addFlashWarn(message, time){
+        if (!time){
+            time = 3000;
+        }
+        flash(message);
+        if (document.getElementById('flash-remove')) {
+            document.getElementById('flash-remove').id = 'flash-warn'; 
+        } else if (document.getElementById('flash-messages')){
+            document.getElementById('flash-messages').id = 'flash-warn';
+        }
+        setTimeout(function (){
+            flash('');
+            var flashEl = document.getElementById('flash-warn');
+            flashEl.id = 'flash-remove';
+        },time);
     }
     
     function numFormat(num1){
