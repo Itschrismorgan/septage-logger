@@ -1,7 +1,7 @@
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
 
 body {
-  padding: 110px 50px 50px 50px;
+  padding: 110px 20px 50px 20px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
@@ -39,6 +39,10 @@ a {
 .approved-driver {
     padding: 2px;
     margin: 2px;
+}
+
+.spacer {
+    margin-bottom: 5px;
 }
 
 .angular-google-map-container {
@@ -351,6 +355,6 @@ a {
 }
 @media only screen and (min-device-width: 768px){
     body {
-        padding: 50px;
+        padding: 60px;
     }
 }
