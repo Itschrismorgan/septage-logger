@@ -7,7 +7,7 @@ var company = mongoose.model('Company');
 
 
 exports.createCompany = function(req,res){
-    console.log("in controller:createUser");
+    //console.log("in controller:createUser");
     
     var companyToCreate = {
         name: req.body.name,
@@ -19,7 +19,7 @@ exports.createCompany = function(req,res){
     //console.log(userToCreate);
     company.findOne({name: req.body.name},function(err, companyRec){
         if(err){
-            console.log("failed to create company");
+            //console.log("failed to create company");
             console.log(err);
             res.status(500).json({code: 500, message: "Failed to create company"});
         }
@@ -27,16 +27,16 @@ exports.createCompany = function(req,res){
             company.create(companyToCreate, function(err){
                 if(err){
                     //user creation failed
-                    console.log("failed to create company");
+                    //console.log("failed to create company");
                     console.log(err);
                     res.status(500).json({code: 500, message: "Failed to create company"});
                 }
 
-                console.log(companyToCreate.name+" created.");
+                //console.log(companyToCreate.name+" created.");
                 res.status(200).json({name: companyToCreate.name});
             });
         } else {
-            console.log("duplicate company");
+            //console.log("duplicate company");
             res.status(400).json({code: 400, message: "That company already exist."});
         }
     });
@@ -44,9 +44,9 @@ exports.createCompany = function(req,res){
 
 
 exports.updateCompany = function(req,res){
-    console.log("in controller:updateCompany");
+    //console.log("in controller:updateCompany");
 
-    console.log(req.body);
+    //console.log(req.body);
 
 
     company.findOne({name: req.body.name},function(err, companyRec){
@@ -65,11 +65,11 @@ exports.updateCompany = function(req,res){
                 } else {
                     companyToUpdate.active = true;
                 }
-                console.log(companyToUpdate);
+                //console.log(companyToUpdate);
 
-                company.findByIdAndUpdate(companyRec._id, companyToUpdate , function(err, companyRet){
-                    console.log(err);
-                    console.log(companyRet);
+                company.findByIdAndUpdate(companyRec._id, companyToUpdate , {new: true}, function(err, companyRet){
+                    //console.log(err);
+                    //console.log(companyRet);
                     if(err){
                         console.log(err);
                         res.status(500).json({code:500, message: "error updating company", error: err});
@@ -80,9 +80,9 @@ exports.updateCompany = function(req,res){
                     if(!companyRet){
                         res.status(404).json({code:404, message: "company not found"});
                     } else {
-                        console.log('check1');
+                        //console.log('check1');
                         res.status(200).json(companyRet);
-                        console.log('check2');
+                        //console.log('check2');
                     }
                 });
             }

@@ -101,7 +101,7 @@ exports.getTruckList = function(req, res){
 };
 
 exports.updateTruck = function(req, res){
-    console.log('in update truck');
+    //console.log('in update truck');
     company.findOne({name: req.body.company},function(err, company){
         if(err){
             res.status(500).json({code:500, message: "Server error retrieving company record"});
@@ -119,8 +119,8 @@ exports.updateTruck = function(req, res){
                         res.status(500).json({code:500, message: "error updating truck", error: err});
                     }
 
-                    console.log("I'm gonna find one!");
-                    console.log(truckRet);
+                    //console.log("I'm gonna find one!");
+                    //console.log(truckRet);
                     if(!truckRet){
                         res.status(404).json({code:404, message: "truck not found"});
                     } else {

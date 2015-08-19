@@ -51,12 +51,12 @@ exports.createUser = function(req,res){
             user.create(userToCreate, function(err){
                 if(err){
                     //user creation failed
-                    console.log("failed to create user");
+                    //console.log("failed to create user");
                     //console.log(err);
                     res.status(500).json({code: 500, message: "Failed to create user", err: err});
                 }
 
-                console.log(userToCreate._id+" created.");
+                //console.log(userToCreate._id+" created.");
                 res.status(200).json({username: userToCreate._id});
             });
         }

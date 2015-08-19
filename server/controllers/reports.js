@@ -8,14 +8,14 @@ var company = mongoose.model('Company');
 var collection = mongoose.model('Collection');
 
 exports.listTrucksAndCollections = function(user, beginDate, endDate, res){
-    console.log("in get Collections list for report");
-    console.log(user);
+    //console.log("in get Collections list for report");
+    //console.log(user);
     var query = {};
     if(user.type === 'contractor'){
         query = {companyId: user.companyId.toString()};
     }
     if(beginDate){
-        console.log(beginDate);
+        //console.log(beginDate);
         var qDate = new Date(beginDate).toISOString();
         query.createdTimeStamp = {"$gte":  new Date(qDate)};
     }
@@ -23,7 +23,7 @@ exports.listTrucksAndCollections = function(user, beginDate, endDate, res){
         var qeDate = new Date(endDate).toISOString();
         query.createdTimeStamp.$lte = new Date(qeDate);
     }
-    console.log(query);
+    //console.log(query);
     collection.find(query, function(err, collections){
         if(err){
             console.log(err);
@@ -32,7 +32,7 @@ exports.listTrucksAndCollections = function(user, beginDate, endDate, res){
         }
         
         var modCollections = [];
-        console.log(collections.length);
+        //console.log(collections.length);
         collections.forEach(function (element, index){
             var modCollection = {};
             modCollection._id = collections[index]._id;
@@ -64,7 +64,7 @@ exports.listTrucksAndCollections = function(user, beginDate, endDate, res){
 };
 
 exports.listSpreadsiteData = function(user, year, spreadS, cb){
-    console.log("in get Spreadsite list for report");
+    //console.log("in get Spreadsite list for report");
     var query = {};
     query.spreadSiteId = spreadS;
     if(user.type === 'contractor'){
@@ -82,11 +82,11 @@ exports.listSpreadsiteData = function(user, year, spreadS, cb){
         var qeDate = new Date('December 31, '+ year).toISOString();
         query.dischargeTimeStamp.$lte = new Date(qeDate);
     }
-    console.log("My Query is:");
-    console.log(query);
+    //console.log("My Query is:");
+    //console.log(query);
     collection.find(query, function(err, collections){
         //console.log(query);
-        console.log(collections.length);
+        //console.log(collections.length);
         if(err){
             console.log(err);
             cb({code: 400, message: err.message}, null);
@@ -125,13 +125,10 @@ exports.listSpreadsiteData = function(user, year, spreadS, cb){
                     modCollections.push(modCollection);
                     if (modCollections.length === collections.length) {
                         cb(null, modCollections);
-                    //res.status(200).json(modCollections);
                     }
                 });
             });
         });
         
-        //console.log(modCollections);
-        //cb(null, collections);
     }).sort({spreadSiteId: 1});
 };

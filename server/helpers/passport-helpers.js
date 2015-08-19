@@ -10,7 +10,7 @@ var passport = require('passport');
 exports.localHandler = function(username, password, done){
     //console.log(username, password);
     user.findOne({_id: username}, function(err, user){
-        console.log(user);
+        //console.log(user);
         if (err) { return done(err); }
         
         //console.log("no err");

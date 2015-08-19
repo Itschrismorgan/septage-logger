@@ -13,8 +13,9 @@ septageLogger.controller('IndexCtrl',['$scope',function($scope){
 septageLogger.config(function($routeProvider) {
 $routeProvider.
 when('/', {
-templateUrl: 'javascripts/views/home.html',
-controller: 'IndexCtrl'
+        redirectTo: function(){return "/login";}
+//templateUrl: 'javascripts/views/home.html',
+//controller: 'IndexCtrl'
 }).
 when('/login', {
    templateUrl: 'javascripts/views/login.html',
@@ -28,7 +29,7 @@ when('/driver/:username',{
     templateUrl: 'javascripts/views/driver.html',
     controller: 'DriverCtlr'
 }).
-otherwise('/');
+otherwise('/login');
 });
 
 

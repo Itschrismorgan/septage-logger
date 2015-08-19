@@ -4,12 +4,12 @@ var passport = require('passport');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index');
+    res.render('index');
 });
 
 router.post('/login', function(req, res, next){
     passport.authenticate('local', function(err, user, info) {
-    console.log("check index.js", err, "--", user, "--", info);
+    //console.log("check index.js", err, "--", user, "--", info);
     if (err) {console.log("top err"); return next(err)}
     if(typeof info !== 'undefined' && info && info.code === 401) {
         return res.status(401).json(info);
@@ -31,8 +31,8 @@ router.post('/login', function(req, res, next){
 });
 
 router.get('/logout', function(req, res){
-  req.logout();
-  res.render('index');
+    req.logout();
+    res.render('index');
 });
 
 module.exports = router;
