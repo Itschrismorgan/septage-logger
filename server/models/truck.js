@@ -2,14 +2,14 @@ var mongoose = require('mongoose');
 
 var schema = mongoose.Schema({
     _id: String, //vin to ensure uniqness 
-    capacity: { type: Number, required: true },
-    license: { type: String, required: true },
-    nickname: { type: String, required: true },
-    make: {type: String, required: true },
-    model: { type: String, required: true },
-    year: { type: Number, required: true },
-    color: {type: String, required: true},
-    stat: {type: String, required: true},
+    capacity: { type: Number, required: false },
+    license: { type: String, required: false },
+    nickname: { type: String, required: false },
+    make: {type: String, required: false },
+    model: { type: String, required: false },
+    year: { type: Number, required: false },
+    color: {type: String, required: false},
+    stat: {type: String, required: false},
     companyId: {type: mongoose.Schema.Types.ObjectId },
     approvedDrivers: [{type: String}]
 });

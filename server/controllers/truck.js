@@ -75,18 +75,19 @@ exports.getTruckList = function(req, res){
                     modTruck.color = truck.color;
                     modTruck.companyId = truck.companyId;
                     modTruck.approvedDrivers = truck.approvedDrivers;
+                    modTruck.stat = truck.stat;
 
                     company.findOne({_id: truck.companyId}, function(err, company){
                         if (err){
                             console.log(err);
                         }
-                        console.log(company.name);
+                        //console.log(company.name);
                         modTruck.companyName = company.name;
 
-                        console.log(modTruck);
+                        //console.log(modTruck);
                         returnTrucks.push(modTruck);
                         if (index === trucks.length - 1) {
-                            console.log(returnTrucks);
+                            //console.log(returnTrucks);
                             res.status(200).json(returnTrucks);
                         }
                     });
@@ -100,7 +101,7 @@ exports.getTruckList = function(req, res){
 };
 
 exports.updateTruck = function(req, res){
-    //console.log('in update truck');
+    console.log('in update truck');
     company.findOne({name: req.body.company},function(err, company){
         if(err){
             res.status(500).json({code:500, message: "Server error retrieving company record"});
@@ -113,25 +114,18 @@ exports.updateTruck = function(req, res){
                 var truckToUpdate = req.body;
                 truckToUpdate.companyId = company._id;
                 //console.log(truckToUpdate);
-                truck.findByIdAndUpdate(req.params.truck_id, truckToUpdate, function(err, truckRet){
+                truck.findByIdAndUpdate(req.params.truck_id, truckToUpdate, {new: true}, function(err, truckRet){
                     if(err){
                         res.status(500).json({code:500, message: "error updating truck", error: err});
                     }
-                    
-                    //console.log("I'm gonna find one!");
-                    truck.findOne({_id: truckRet._id}, function(err,updateTruck){
-                        if(err){
-                            //console.log("I got an err");
-                            res.status(500).json({code:500, message: "GetTruck: Server error"});
-                        }
-                        
-                        if(!truck){
-                            res.status(404).json({code:404, message: "truck not found"});
-                        } else {
-                            console.log("problem in the else");
-                            res.status(200).json({code:200, message: "truck updated!"});
-                        }
-                    });
+
+                    console.log("I'm gonna find one!");
+                    console.log(truckRet);
+                    if(!truckRet){
+                        res.status(404).json({code:404, message: "truck not found"});
+                    } else {
+                        res.status(200).json({code: 200, message: "truck updated", truck: truckRet});
+                    }
                 });
             }
         }
@@ -195,4 +189,4 @@ exports.getTruck = function(req,res){
             });
         }
     });
-}
+};

@@ -152,49 +152,49 @@
                     <div class="form-group">
                         <label for="capacity" class="control-label">Capacity:</label>
                         <div>
-                            <input class="form-control input-lg" type="number" name="capacity" ng-model="newTruck.capacity" required/>
+                            <input class="form-control input-lg" type="number" name="capacity" ng-model="newTruck.capacity"/>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="tag" class="control-label">License Tag:</label>
+                        <label for="license" class="control-label">License Tag:</label>
                         <div>
-                            <input class="form-control input-lg" type="text" name="tag" ng-model="newTruck.tag" required/>
+                            <input class="form-control input-lg" type="text" name="license" ng-model="newTruck.license"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="nickname" class="control-label">Nick Name:</label>
                         <div>
-                            <input class="form-control input-lg" type="text" name="nickname" ng-model="newTruck.nickname" required/>
+                            <input class="form-control input-lg" type="text" name="nickname" ng-model="newTruck.nickname"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="make" class="control-label">Make:</label>
                         <div>
-                            <input class="form-control input-lg" type="text" name="make" ng-model="newTruck.make" required/>
+                            <input class="form-control input-lg" type="text" name="make" ng-model="newTruck.make"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="Model" class="control-label">Model:</label>
                         <div>
-                            <input class="form-control input-lg" type="text" name="model" ng-model="newTruck.model" required/>
+                            <input class="form-control input-lg" type="text" name="model" ng-model="newTruck.model"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="year" class="control-label">Year:</label>
                         <div>
-                            <input class="form-control input-lg" type="number" name="year" ng-model="newTruck.year" required/>
+                            <input class="form-control input-lg" type="number" name="year" ng-model="newTruck.year"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="color" class="control-label">Color:</label>
                         <div>
-                            <input class="form-control input-lg" type="text" name="color" ng-model="newTruck.color" required/>
+                            <input class="form-control input-lg" type="text" name="color" ng-model="newTruck.color"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="status" class="control-label">Status:</label>
                         <div>
-                            <select class="form-control input-lg" ng-model="newTruck.stat" required>
+                            <select class="form-control input-lg" ng-model="newTruck.stat">
                                 <option value="active">Active</option>
                                 <option value="out of service">Out of Service</option>
                                 <option value="backup">Backup</option>
@@ -216,7 +216,7 @@
                     </div>
                     <div class="form-group">
                         <div>
-                            <button type="submit" class="btn btn-block btn-success" ng-click="submitTruck()">Add/Update Truck</button>
+                            <button type="submit" class="btn btn-block btn-success" ng-click="submitTruck()">Submit Truck</button>
                         </div>
                     </div>
                 </form>

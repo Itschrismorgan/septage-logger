@@ -138,11 +138,11 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
         truckService.getTruck(vin)
                 .then(function(returnData){
                     //console.log("test");
-                    console.log(returnData);
+                    //console.log(returnData);
                     $scope.selectedCompany = returnData.data.company;
                     $scope.newTruck.vin = returnData.data._id;
                     $scope.newTruck.capacity = returnData.data.capacity;
-                    $scope.newTruck.tag = returnData.data.license;
+                    $scope.newTruck.license = returnData.data.license;
                     $scope.newTruck.nickname = returnData.data.nickname;
                     $scope.newTruck.make = returnData.data.make;
                     $scope.newTruck.model = returnData.data.model;
