@@ -1,43 +1,15 @@
 
 septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$anchorScroll', 'userService', 'companyService', 'truckService', 'spreadSiteService', 'logoutService', 'reportService','flash',
     function($scope, $routeParams, $location, $anchorScroll, userService, companyService, truckService, spreadSiteService, logoutService, reportService, flash){
-    
-    $scope.yearList = ['2015', '2016', '2017', '2018', '2019', '2020'];
-    $scope.selectedYear = new Date().getFullYear().toString()
-    
-    $scope.$watch('selectedUser', function(newSelectedUser){
-        console.log(newSelectedUser);
-        if(newSelectedUser === "" || newSelectedUser === undefined || newSelectedUser === null){
-            // clear out the form inputs
-            $scope.newUser = {};
-            document.getElementById('username').disabled = false;
-            document.getElementById('company').disabled = false;
-            $scope.selectedCompany = "";
-        } else {
-            userService.getUser(newSelectedUser)
-                .then(function(returnData){
-                    //console.log("I'm here!");
-                    //console.log(returnData);
-                    //console.log($scope.newUser);
-                    $scope.newUser.username = returnData.data.username;
-                    $scope.newUser.password = "";
-                    $scope.newUser.email = returnData.data.email;
-                    $scope.newUser.type = returnData.data.type;
-                    $scope.selectedCompany = returnData.data.company;
-                    if(returnData.data.active){
-                        $scope.newUser.active = 'yes';
-                    } else {
-                        $scope.newUser.active = 'no';
-                    }
-                    document.getElementById('username').disabled = true;
-                    document.getElementById('company').disabled = true;
-                    
-                }, function(err){
-                    console.log("problem");
-                });
 
-        }
-    });
+    $scope.yearList = [];
+    var beginYear = new Date().getFullYear() - 2;
+    for(var x =0; x<7; x++){
+        $scope.yearList.push(beginYear+x);
+    }
+
+    $scope.selectedYear = new Date().getFullYear();
+
 
     $scope.$watch('selectedCompany', function(newSelectedCompany){
         if(newSelectedCompany === "" || newSelectedCompany === undefined){
@@ -259,32 +231,39 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
         }
     };
 
+    $scope.clearUserFields = function(){
+        clearFields();
+    };
 
     $scope.createUser = function(){
         var newUser = {};
-        newUser = $scope.newUser;
+        newUser = $scope.userForm;
 
-        if($scope.newUser.active === 'yes'){
+        if($scope.userForm.active === 'yes'){
             newUser.active = true;
         } else {
             newUser.active = false;
         }
-        if($scope.userList.indexOf($scope.newUser.username) !== -1 ){
-            newUser.company = $scope.selectedCompany;
-            //console.log(newUser);
+        newUser.company = $scope.selectedCompany;
 
+        var usernameList = $scope.userList.map(function(user){return user._id;});
+        //console.log(usernameList);
+        //console.log(usernameList.indexOf(newUser._id));
+        //console.log(newUser);
+        if(usernameList.indexOf($scope.userForm._id) !== -1 ){
             userService.updateUser(newUser)
                 .then(function(data){
                     console.log("user updated");
                     addFlash('user updated!');
+                    fillInUserList();
+                    fillApprovedDriversList();
                     clearFields();
                 }, function(error){
                     console.log("problem");
                 });
 
         } else {
-            newUser.company = $scope.selectedCompany;
-            userService.createUser($scope.newUser)
+            userService.createUser($scope.userForm)
                 .then(function(data){
                     addFlash('user created!');
                     fillInUserList();
@@ -330,13 +309,19 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
         }
     };
 
+    $scope.editUser = function(user){
+        $scope.userForm = user;
+        $scope.selectedCompany = user.company.name;
+        //console.log($scope.userForm);
+    };
+
     $scope.editSite = function(spreadSite){
         //console.log("editSite");
         //console.log(spreadSite)
         $scope.spreadSiteForm = spreadSite;
         $scope.approvedCompanies.companies = {};
         for (var i=0; i < spreadSite.approvedCompanies.length; i++){
-            console.log(spreadSite.approvedCompanies[i]);
+                //console.log(spreadSite.approvedCompanies[i]);
                 $scope.approvedCompanies.companies[spreadSite.approvedCompanies[i]._id] = true;
             }
     };
@@ -427,7 +412,12 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
                 //console.log(response);
                 response.data.map(function(user){
                     //console.log(user);
-                    $scope.userList.push(user._id);
+                    if(user.active){
+                        user.active = 'yes';
+                    } else {
+                        user.active = 'no';
+                    }
+                    $scope.userList.push(user);
                     //console.log($scope.userList);
                 });
             }, function(error){
@@ -744,13 +734,12 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
     }
 
     function clearFields(){
-        $scope.newUser = {};
-        $scope.newUser.username = "";
-        $scope.newUser.password = "";
-        $scope.newUser.email = "";
-        $scope.newUser.type = "";
+        $scope.userForm = {};
+        $scope.userForm._id = "";
+        $scope.userForm.password = "";
+        $scope.userForm.email = "";
+        $scope.userForm.type = "";
         $scope.selectedCompany = "";
-        $scope.selectedUser = "";
         document.getElementById('username').disabled = false;
         document.getElementById('company').disabled = false;
         $scope.user_form.$setPristine();

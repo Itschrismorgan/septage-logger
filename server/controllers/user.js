@@ -21,7 +21,7 @@ exports.getUserType = function(username){
 
 exports.createUser = function(req,res){
     //console.log("in controller:createUser");
-    
+    //console.log(req.body.company);
     company.findOne({name: req.body.company}, function(err, company){
         if(err){
             res.status(500).json({code:500, message: "Server error retrieving company record"});
@@ -39,7 +39,7 @@ exports.createUser = function(req,res){
             var passwordHash = hash(req.body.password, salt);
 
             var userToCreate = {
-                _id: req.body.username,
+                _id: req.body._id,
                 passwordHash: passwordHash,
                 salt: salt,
                 type: req.body.type,
@@ -106,59 +106,79 @@ exports.updateUser = function(req,res){
                     userToUpdate.passwordHash = passwordHash;
                     userToUpdate.salt = salt;
                 }
-                
-                user.findByIdAndUpdate(req.params.username, userToUpdate , function(err, userRet){
+                //console.log(userToUpdate);
+                //console.log(req.params);
+                user.findByIdAndUpdate(req.params.username, userToUpdate ,{new: true}, function(err, userRet){
                     if(err){
                         res.status(500).json({code:500, message: "error updating user", error: err});
                     }
-                    
-                    //console.log(userRet);
-                    user.findOne({_id: userRet._id}, function(err,updateUser){
-                        if(err){
-                            res.status(500).json({code:500, message: "GetUser: Server error"});
-                        }
-                        
-                        if(!user){
-                            res.status(404).json({code:404, message: "user not found"});
-                        } else {
-                            res.status(200).json(safeUserInfo(updateUser));
-                        }
-                    });
+
+                    if(!userRet){
+                        res.status(404).json({code:404, message: "user not found"});
+                    } else {
+                        res.status(200).json(safeUserInfo(userRet));
+                    }
                 });
             }
         }
     });
 };
 
-exports.getUserList = function(req,res){
-    if(req.user.type === "admin"){
-        user.find({}, '_id type email companyId active', function(err, users){
+
+exports.getUserList = function(req, res){
+    //console.log("in get TruckList");
+    //console.log(req.user);
+    if(req.user){
+        var query = {};
+        if (req.user.type === 'contractor' ){
+            query.companyId = req.user.companyId;
+        }
+        //console.log(query);
+
+        user.find(query, function(err, users){
             if(err) {
-                res.status(500).json({code: 500, message: "failed to delete user"});
+                res.status(500).json({code: 500, message: "failed to retrieve users"});
             }
-            
+
             if(!users){
-                res.status(404).json({code: 404, message: "no users found"})
+                res.status(404).json({code: 404, message: "no users found"});
             } else {
-                res.status(200).json(users);
+                returnUsers = [];
+                //console.log("Get User List");
+                //console.log(users.length);
+                users.forEach(function (user, index){
+                    var modUser = {};
+                    modUser._id = user._id;
+                    modUser.email = user.email;
+                    modUser.active = user.active;
+                    modUser.type = user.type;
+                    //console.log(user);
+                    company.findOne({_id: user.companyId}, function(err, company){
+                        if (err){
+                            console.log(err);
+                        }
+                        //console.log(company.name);
+                        if(company){
+                            modUser.company = {};
+                            modUser.company._id = company._id;
+                            modUser.company.active = company.active;
+                            modUser.company.name = company.name;
+                            modUser.company.phone = company.phone;
+                        }
+
+                        //console.log(modUser);
+                        returnUsers.push(modUser);
+                        if (returnUsers.length === users.length) {
+                            //console.log(returnUsers.length);
+                            res.status(200).json(returnUsers);
+                        }
+                    });
+                });
             }
-        });  
-    } else {
-        //console.log(req.user);
-        getUserCompany(req.user._id, function(limitToCompany){
-            user.find({companyId: limitToCompany}, function(err, users){
-                //console.log(users);
-                if(err) {
-                    res.status(500).json({code: 500, message: "failed to delete user"});
-                }
-                
-                if(!users){
-                    res.status(404).json({code: 404, message: "no users found"})
-                } else {
-                    res.status(200).json(users);
-                }
-            });
         });
+
+    } else {
+        res.status(401).json({code: 401, message: 'not authorized for this resource'});
     }
 };
 

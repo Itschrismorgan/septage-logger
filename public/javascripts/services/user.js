@@ -22,7 +22,7 @@ septageLogger.service('userService', ['$http', function($http){
     };
 
     this.updateUser = function(user){
-        return $http.post('/users/'+user.username, user)
+        return $http.post('/users/'+user._id, user)
             .success(function(data){
                 return data;
             })
@@ -31,7 +31,7 @@ septageLogger.service('userService', ['$http', function($http){
             });
     };
 
-    this.deleteUser = function(username){
+    /*this.deleteUser = function(username){
         return $http.delete('/users/'+username)
             .success(function(data){
                 console.log(data);
@@ -40,7 +40,7 @@ septageLogger.service('userService', ['$http', function($http){
                 return e;
             });
 
-    };
+    };*/
 
     this.getUserList = function(){
         return $http.get('/users')

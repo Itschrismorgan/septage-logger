@@ -18,65 +18,86 @@
         </div>
     </div>
     <div ng-show="isButton(1)">
-        <form class="form-horizontal" name="user_form" novalidate>
-            <br>
-            <div class="form-group">
-                <label for="users" class="col-sm-2 control-label">Existing Users:</label>
-                <div class="col-sm-3">
-                    <select class="form-control input-lg" ng-model="selectedUser" ng-options="user for user in userList">
-                        <option value=""></option>
-                    </select>
+        <div class="col-sm-3">
+            <form class="form-horizontal" name="user_form" novalidate>
+                <div class="form-group">
+                    <label for="username" class="control-label">Username:</label>
+                    <div class="">
+                        <input class="form-control input-lg" type="text" name="username" id="username" ng-model="userForm._id" required/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="password" class="control-label">Password:</label>
+                    <div class="">
+                        <input class="form-control input-lg" type="password" name="password" ng-model="userForm.password" required/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="usertype" class="control-label">User Type:</label>
+                    <div class="">
+                        <select class = "form-control input-lg" ng-model="userForm.type" required>
+                            <option value="admin" ng-hide="accountType!='admin'">Admin</option>
+                            <option value="contractor" ng-hide="accountType!='admin'">Contractor</option>
+                            <option value="driver">Driver</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="company" class="control-label">Company:</label>
+                    <div class="">
+                        <select class="form-control input-lg" id="company" ng-model="selectedCompany" ng-options="company for company in companyList" required></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="email" class="control-label">Email Address:</label>
+                    <div class="">
+                        <input class="form-control input-lg" type="email" name="email" ng-model="userForm.email" required/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="active" class="control-label">Active?</label>
+                    <div class="">
+                        <select class="form-control input-lg" ng-model="userForm.active" required>
+                            <option value="yes">Yes</option>
+                            <option value="no">No</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="">
+                        <button type="submit" class="btn btn-block btn-success" ng-click="createUser()">Submit User</button>
+                        <button type="submit" class="btn btn-block btn-info" ng-click="clearUserFields()">Clear Fields</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-sm-9">
+            <div>
+                <input ng-model="userFilter" type="text" placeholder="Filter by Username">
+            </div>
+            <div ng-repeat="user in userList | filter:{ _id:userFilter} | orderBy: ['company.name', '_id']">
+                <div class="row truck-border">
+                    <div class="col-sm-10">
+                        <div class="row">
+                            <div class="col-sm-7"><label class="control-label">Username</label>: {{user._id}}</div>
+                            <div class="col-sm-5"><label class="control-label">Company</label>: {{user.company.name}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-7"><label class="control-label">Account Tpe</label>: {{user.type}}</div>
+                            <div class="col-sm-5"><label class="control-label">Email</label>: {{user.email}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-7"><label class="control-label">Active</label>: {{user.active}}</div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-2 vertical-align-middle">
+                        <button class="btn btn-block btn-info" ng-click="editUser(user)">Select</button>
+                    </div>
                 </div>
             </div>
-            <div class="form-group">
-                <label for="username" class="col-sm-2 control-label">Username:</label>
-                <div class="col-sm-3">
-                    <input class="form-control input-lg" type="text" name="username" id="username" ng-model="newUser.username" required/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="password" class="col-sm-2 control-label">Password:</label>
-                <div class="col-sm-3">
-                    <input class="form-control input-lg" type="password" name="password" ng-model="newUser.password" required/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="usertype" class="col-sm-2 control-label">User Type:</label>
-                <div class="col-sm-3">
-                    <select class = "form-control input-lg" ng-model="newUser.type" required>
-                        <option value="admin" ng-hide="accountType!='admin'">Admin</option>
-                        <option value="contractor" ng-hide="accountType!='admin'">Contractor</option>
-                        <option value="driver">Driver</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="company" class="col-sm-2 control-label">Company:</label>
-                <div class="col-sm-3">
-                    <select class="form-control input-lg" id="company" ng-model="selectedCompany" ng-options="company for company in companyList"></select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="email" class="col-sm-2 control-label">Email Address:</label>
-                <div class="col-sm-3">
-                    <input class="form-control input-lg" type="email" name="email" ng-model="newUser.email" required/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="active" class="col-sm-2 control-label">Active?</label>
-                <div class="col-sm-3">
-                    <select class="form-control input-lg" ng-model="newUser.active" required>
-                        <option value="yes">Yes</option>
-                        <option value="no">No</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-3">
-                    <button type="submit" class="btn btn-block btn-success" ng-click="createUser()">Create/Update User</button>
-                </div>
-            </div>
-        </form>
+        </div>
     </div>
     <div ng-show="isButton(2)">
         <div class="col-sm-3">
