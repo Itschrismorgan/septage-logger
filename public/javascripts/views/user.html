@@ -21,21 +21,35 @@
         <div class="col-sm-3">
             <form class="form-horizontal" name="user_form" novalidate>
                 <div class="form-group">
-                    <label for="username" class="control-label">Username:</label>
+                    <label for="username" class="control-label">Username: <span class="label label-warning" ng-hide="!user_form.username.$error.required">Required</span></label>
                     <div class="">
-                        <input class="form-control input-lg" type="text" name="username" id="username" ng-model="userForm._id" required/>
+                        <input class="form-control input-lg" type="text" name="username" id="username" ng-model="userForm._id" ng-pattern="/^[a-z0-9]*$/" required/>
                     </div>
+                </div>
+                <div class="alert alert-danger" ng-show="user_form.username.$invalid && user_form.username.$dirty" role="alert">
+                    <span class="error" ng-show="user_form.username.$error.pattern">Usernames can only contain lower case letters and numbers.</span>
                 </div>
                 <div class="form-group">
                     <label for="password" class="control-label">Password:</label>
-                    <div class="">
-                        <input class="form-control input-lg" type="password" name="password" ng-model="userForm.password" required/>
+                    <div>
+                        <input class="form-control input-lg" type="password" name="password" ng-model="userForm.password" ng-pattern="/^[a-zA-Z0-9!@#$%^&*<>?]*$/"/>
                     </div>
                 </div>
+                <div class="alert alert-danger"  ng-show="user_form.password.$invalid && user_form.password.$dirty">
+                    <span class="error" ng-show="user_form.password.$error.pattern">
+                        Passwords can only contain the following:
+                        <ul>
+                            <li>Upper case letters</li>
+                            <li>Lower case letters</li>
+                            <li>Numbers</li>
+                            <li>Allowed Characters: !@#$%^&*<>?</li>
+                        </ul>
+                    </span>
+                </div>
                 <div class="form-group">
-                    <label for="usertype" class="control-label">User Type:</label>
+                    <label for="usertype" class="control-label">User Type:<span class="label label-warning" ng-hide="!user_form.type.$error.required">Required</span></label>
                     <div class="">
-                        <select class = "form-control input-lg" ng-model="userForm.type" required>
+                        <select class = "form-control input-lg" name="type" ng-model="userForm.type" required>
                             <option value="admin" ng-hide="accountType!='admin'">Admin</option>
                             <option value="contractor" ng-hide="accountType!='admin'">Contractor</option>
                             <option value="driver">Driver</option>
@@ -43,21 +57,21 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="company" class="control-label">Company:</label>
+                    <label for="company" class="control-label">Company:<span class="label label-warning" ng-hide="!user_form.company.$error.required">Required</span></label>
                     <div class="">
-                        <select class="form-control input-lg" id="company" ng-model="selectedCompany" ng-options="company for company in companyList" required></select>
+                        <select class="form-control input-lg" id="company" name="company" ng-model="selectedCompany" ng-options="company for company in companyList" required></select>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="email" class="control-label">Email Address:</label>
                     <div class="">
-                        <input class="form-control input-lg" type="email" name="email" ng-model="userForm.email" required/>
+                        <input class="form-control input-lg" type="email" name="email" ng-model="userForm.email"/>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="active" class="control-label">Active?</label>
+                    <label for="active" class="control-label">Active?<span class="label label-warning" ng-hide="!user_form.active.$error.required">Required</span></label>
                     <div class="">
-                        <select class="form-control input-lg" ng-model="userForm.active" required>
+                        <select class="form-control input-lg" name="active" ng-model="userForm.active" required>
                             <option value="yes">Yes</option>
                             <option value="no">No</option>
                         </select>
@@ -65,7 +79,7 @@
                 </div>
                 <div class="form-group">
                     <div class="">
-                        <button type="submit" class="btn btn-block btn-success" ng-click="createUser()">Submit User</button>
+                        <button ng-disabled="user_form.$invalid" type="submit" class="btn btn-block btn-success" ng-click="createUser()">Submit User</button>
                         <button type="submit" class="btn btn-block btn-info" ng-click="clearUserFields()">Clear Fields</button>
                     </div>
                 </div>

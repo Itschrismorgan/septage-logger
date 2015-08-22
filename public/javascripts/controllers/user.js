@@ -310,7 +310,8 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
     };
 
     $scope.editUser = function(user){
-        $scope.userForm = user;
+        // using angular.copy so that the form does not change users in user list until the server is updated.
+        $scope.userForm = angular.copy(user);
         $scope.selectedCompany = user.company.name;
         //console.log($scope.userForm);
     };
