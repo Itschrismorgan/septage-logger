@@ -263,15 +263,19 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
                 });
 
         } else {
-            userService.createUser($scope.userForm)
-                .then(function(data){
-                    addFlash('user created!');
-                    fillInUserList();
-                    fillApprovedDriversList();
-                    clearFields();
-                }, function(error){
-                    console.log("problem");
-                });
+            if($scope.userForm.password){
+                userService.createUser($scope.userForm)
+                    .then(function(data){
+                        addFlash('user created!');
+                        fillInUserList();
+                        fillApprovedDriversList();
+                        clearFields();
+                    }, function(error){
+                        console.log("problem");
+                    });
+            } else {
+                addFlash('Need password for new user');
+            }
         }
     };
 
@@ -311,7 +315,8 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
 
     $scope.editUser = function(user){
         // using angular.copy so that the form does not change users in user list until the server is updated.
-        $scope.userForm = angular.copy(user);
+        var tempUser = angular.copy(user);
+        $scope.userForm = tempUser;
         $scope.selectedCompany = user.company.name;
         //console.log($scope.userForm);
     };

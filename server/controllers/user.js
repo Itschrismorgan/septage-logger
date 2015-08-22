@@ -31,7 +31,11 @@ exports.createUser = function(req,res){
             res.status(404).json({code:404, message: "company record not found"});
         } else {
             if(req.user.type === 'contractor' && req.body.type !== 'driver'){
-                res.status(400).json({code: 400, message: "Not authorized to create this kind of account"});
+                res.status(400).json({code: 401, message: "Not authorized to create this kind of account"});
+                return;
+            }
+            if(!req.body.password){
+                res.status(401).json({code: 400, message: "No password supplied for new user"});
                 return;
             }
             var salt = genSalt();
