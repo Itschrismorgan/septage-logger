@@ -7,7 +7,7 @@ var spreadsite = mongoose.model('SpreadSite');
 var company = mongoose.model('Company');
 var collection = mongoose.model('Collection');
 
-exports.listTrucksAndCollections = function(user, beginDate, endDate, res){
+exports.listTrucksAndCollections = function(user, beginDate, endDate, siteId, res){
     //console.log("in get Collections list for report");
     //console.log(user);
     var query = {};
@@ -22,6 +22,9 @@ exports.listTrucksAndCollections = function(user, beginDate, endDate, res){
     if(endDate){
         var qeDate = new Date(endDate).toISOString();
         query.createdTimeStamp.$lte = new Date(qeDate);
+    }
+    if(siteId){
+        query.spreadSiteId = siteId;
     }
     //console.log(query);
     collection.find(query, function(err, collections){

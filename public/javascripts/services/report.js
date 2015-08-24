@@ -1,7 +1,7 @@
 
 septageLogger.service('reportService', [ '$http', function($http){
 
-    this.getCollectionReport = function (beginDate, endDate) {
+    this.getCollectionReport = function (beginDate, endDate, siteId) {
         var url = '/reports/collection-history';
         if(beginDate){
             url = url + '?parameters=dates&dates[beginDate]='+beginDate;
@@ -9,7 +9,10 @@ septageLogger.service('reportService', [ '$http', function($http){
         if(endDate){
             url = url + '&dates[endDate]='+endDate;
         }
-        console.log(url);
+        if(siteId){
+            url = url + '&dates[siteId]='+siteId;
+        }
+        //console.log(url);
 
         return $http.get(url)
             .success(function(data){
@@ -28,7 +31,7 @@ septageLogger.service('reportService', [ '$http', function($http){
         if(spreadsite){
             url = url + '&dates[spreadsite]='+spreadsite;
         }
-        console.log(url);
+        //console.log(url);
 
         return $http.get(url)
             .success(function(data){

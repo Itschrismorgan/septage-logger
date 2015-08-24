@@ -29,6 +29,7 @@ router.get('/', function(req,res,next){
 router.get('/collection-history', function(req,res,next){
     var beginDate = null;
     var endDate = null;
+    var siteId = null;
     if(req.query.dates.beginDate){
         console.log('qp: '+req.query.dates.beginDate);
         beginDate = req.query.dates.beginDate;
@@ -41,10 +42,13 @@ router.get('/collection-history', function(req,res,next){
     } else {
         endDate = new Date();
     }
+    if(req.query.dates.siteId){
+        siteId = req.query.dates.siteId;
+    }
     //console.log(req.user);
     if (req.user || req.user.type === "admin" || req.user.type === "contractor"){
         //console.log("test it");
-        reports.listTrucksAndCollections(req.user, beginDate, endDate, res);/*{
+        reports.listTrucksAndCollections(req.user, beginDate, endDate, siteId, res);/*{
          //console.log("did this work?");
          if(err){
          console.log(err);

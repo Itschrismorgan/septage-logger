@@ -322,14 +322,22 @@
                 <div class="form-group">
                     <label for="nitro" class="control-label">Nitrogen Demand:</label>
                     <div>
-                        <input class="form-control input-lg" type="text" name="nitro" ng-model="spreadSiteForm.nitro" required/>
+                        <input class="form-control input-lg" type="text" name="nitro" ng-model="spreadSiteForm.nitro" />
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="acres" class="control-label">Acreage:</label>
                     <div>
-                        <input class="form-control input-lg" type="text" name="acres" ng-model="spreadSiteForm.acres" required/>
+                        <input class="form-control input-lg" type="text" name="acres" ng-model="spreadSiteForm.acres" />
                     </div>
+                </div>
+                <div class="form-group">
+                    <label for="siteType" class="control-label">Site Type:</label>
+                    <select class="form-control input-lg" ng-model="spreadSiteForm.siteType">
+                        <option value="Spreadsite">Spreadsite</option>
+                        <option value="Wastewater Treatment Plant">Wastewater Treatment Plant</option>
+                        <option value="Stablization Plant">Stablization Plant</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="driver" class="control-label">Approved Companies:</label>
@@ -368,6 +376,7 @@
                             <div class="col-sm-6"><label class="control-label">Acreage</label>: {{spreadSite.acres}}</div>
                         </div>
                         <div class="row">
+                            <div class="col-sm-6"><label class="control-label">Type</label>: {{spreadSite.siteType}}</div>
                             <div class="col-sm-12"><label class="control-label">Approved Companies: </label> <span class="approved-driver" ng-repeat="company in spreadSite.approvedCompanies">{{company.name}}</span></div>
                         </div>
                     </div>
@@ -388,6 +397,12 @@
                 <div style="display:inline-block; min-height:290px;">
                     <label>End Date:</label>
                     <datepicker ng-model="report.endDate" class="well well-sm"></datepicker>
+                </div>
+                <div>
+                    <label>Spreadsite:</label>
+                    <select class="form-control input-lg spacer-lg" ng-model="selectedSpreadsite" ng-options="spreadsite.name for spreadsite in spreadSites">
+                        <option value=""></option>
+                    </select>
                 </div>
                 <div>
                     <button class="btn btn-success btn-block spacer" type="submit" ng-click="refreshReport()">Get Collection Report</button>

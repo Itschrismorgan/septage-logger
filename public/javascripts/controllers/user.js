@@ -444,6 +444,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
     }
 
     $scope.refreshReport = function(){
+        var siteId = null;
         $scope.collections = [];
         document.getElementById('collectionPDF').disabled = false;
         document.getElementById('collectionCSV').disabled = false;
@@ -455,7 +456,10 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
         if (!$scope.report.endDate){
             $scope.report.endDate = new Date();
         }
-        reportService.getCollectionReport($scope.report.beginDate.toISOString(), $scope.report.endDate.toISOString())
+        if ($scope.selectedSpreadsite){
+            siteId = $scope.selectedSpreadsite._id;
+        }
+        reportService.getCollectionReport($scope.report.beginDate.toISOString(), $scope.report.endDate.toISOString(), siteId)
             .then(function(response){
                 response.data.map(function(collection){
                     $scope.collections.push(collection);
@@ -602,6 +606,10 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
                 
                 var remainTotal = total.cap - prevYearSum;
                 total.perLeft = (Math.floor(((remainTotal / total.cap) * 100) * 100) / 100) + '%';
+                if(isNaN(Number(total.cap))) {
+                    total.perLeft = "N/A";
+                    total.cap = "N/A";
+                }
                 formatTotal(total);
                 total.spreadsiteName = response.data[0].spreadsiteName;
                 $scope.spreadTotals.push(total);
