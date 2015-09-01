@@ -607,7 +607,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
                 
                 var remainTotal = total.cap - prevYearSum;
                 total.perLeft = (Math.floor(((remainTotal / total.cap) * 100) * 100) / 100) + '%';
-                if(isNaN(Number(total.cap))) {
+                if(isNaN(Number(total.cap)) || !$scope.selectedSpreadsite._id) {
                     total.perLeft = "N/A";
                     total.cap = "N/A";
                 }
