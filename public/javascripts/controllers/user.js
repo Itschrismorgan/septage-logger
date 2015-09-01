@@ -494,7 +494,8 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
         if (!$scope.selectedYear){
             $scope.selectedYear = new Date().getFullYear().toString();
         }
-        if (!$scope.selectedSpreadsite._id){
+        if (!$scope.selectedSpreadsite){
+            $scope.selectedSpreadsite = {};
             $scope.selectedSpreadsite._id = null;
         }
         $scope.spreadTotals = [];
