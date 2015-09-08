@@ -9,7 +9,7 @@ var reports = require('../server/controllers/reports');
 router.get('/', function(req,res,next){
     console.log('in reports get');
     //console.log(req.user);
-    if (req.user || req.user.type === "admin" || req.user.type === "contractor"){
+    if (req.user.type === "admin" || req.user.type === "contractor"){
         //console.log("test it");
         reports.listTrucksAndCollections(req.user, null, res);/*{
             //console.log("did this work?");
@@ -46,7 +46,7 @@ router.get('/collection-history', function(req,res,next){
         siteId = req.query.dates.siteId;
     }
     //console.log(req.user);
-    if (req.user || req.user.type === "admin" || req.user.type === "contractor"){
+    if (req.user.type === "admin" || req.user.type === "contractor"){
         //console.log("test it");
         reports.listTrucksAndCollections(req.user, beginDate, endDate, siteId, res);/*{
          //console.log("did this work?");
@@ -79,7 +79,7 @@ router.get('/spreadsite-history', function(req,res,next){
         spreadsite = null;
     }
     //console.log(req.user);
-    if (req.user || req.user.type === "admin" || req.user.type === "contractor"){
+    if (req.user.type === "admin" || req.user.type === "contractor"){
         //console.log("test it");
         reports.listSpreadsiteData(req.user, year, spreadsite, function(err, data){
             if(err){
