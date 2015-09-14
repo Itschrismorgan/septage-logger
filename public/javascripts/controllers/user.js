@@ -283,7 +283,7 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
         var spreadSite = $scope.spreadSiteForm;
 
         spreadSite.approvedCompanies = [];
-        console.log($scope.approvedCompanies);
+        //console.log(spreadSite);
         for(var _id in $scope.approvedCompanies.companies){
             if($scope.approvedCompanies.companies[_id]){
                 spreadSite.approvedCompanies.push(_id);

@@ -22,7 +22,8 @@ exports.createSpreadSite = function(recordToCreate,user, cb){
             phone: recordToCreate.phone,
             approvedCompanies: recordToCreate.approvedCompanies,
             nitro: recordToCreate.nitro,
-            acres: recordToCreate.acres
+            acres: recordToCreate.acres,
+            siteType: recordToCreate.siteType
         };
     } catch(e){
         console.log(e);
