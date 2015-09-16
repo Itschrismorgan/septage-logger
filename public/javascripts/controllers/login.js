@@ -1,7 +1,7 @@
 septageLogger.controller('LoginCtrl',['$scope', '$location', 'loginService', 'userService', function($scope, $location, loginService, userService){
     $scope.showMessage = false;
     $scope.sendLogin = function(){
-        loginService.login($scope.login.username, $scope.login.password)
+        loginService.login($scope.login.username.toLowerCase(), $scope.login.password)
             .then(function(data){
                 //console.log("login good");
                 $scope.loginResult = "";
@@ -10,14 +10,14 @@ septageLogger.controller('LoginCtrl',['$scope', '$location', 'loginService', 'us
                 $scope.loginStatus = true;
                 $scope.showMessage = true;
                 $scope.loginResult = 'Success, redirecting . . .';
-                userService.getUser($scope.login.username)
+                userService.getUser($scope.login.username.toLowerCase())
                     .then(function(data){
                         $scope.username = data.data.username;
                         $scope.accountType = data.data.type;
                         if ($scope.accountType !== 'driver'){
-                            $location.url("/user/"+$scope.login.username+'#scrollhere');
+                            $location.url("/user/"+$scope.login.username.toLowerCase()+'#scrollhere');
                         } else {
-                            $location.url("/driver/"+$scope.login.username);
+                            $location.url("/driver/"+$scope.login.username.toLowerCase());
                         }
                     }, function(error){
                         console.log("problem");
