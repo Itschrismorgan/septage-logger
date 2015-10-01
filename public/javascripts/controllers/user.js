@@ -665,52 +665,48 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
     };
 
     function formatCollectionRec(doc, record, curY){
+        doc.setFontSize(10);
         curY=curY+20;
         doc.text("Company: "+record.companyName,20,curY);
         curY=curY+20;
         doc.text("Truck VIN: "+record.truckId,20,curY);
-        doc.text("Volume: "+record.volume,350,curY);
-        curY=curY+20;
-        doc.text("Collection Coordinates: Lat="+record.location.latitude+" Lon="+record.location.longitude,20,curY);
-        curY=curY+20;
-        doc.text("Address: "+record.location.address,20,curY);
+        doc.text("Volume: "+record.volume,150,curY);
+        doc.text("Collection Coordinates: Lat="+record.location.latitude+" Lon="+record.location.longitude,230,curY);
         curY=curY+20;
         doc.text("Type: "+record.type,20,curY);
-        doc.text("Date/Time: "+ new Date(record.createdTimeStamp).toDateString() + " " + new Date(record.createdTimeStamp).toLocaleTimeString(),200,curY);
+        doc.text("Date/Time: "+ new Date(record.createdTimeStamp).toDateString() + " " + new Date(record.createdTimeStamp).toLocaleTimeString(),100,curY);
+        doc.text("Address: "+record.location.address.replace(', USA',''),300,curY);
         curY=curY+20;
         return curY;
     }
 
     function formatSpreadSiteRec(doc, record, curY){
+        doc.setFontSize(10);
         curY=curY+20;
         doc.text("Spread Site: "+record.spreadsiteName,20,curY);
-        curY=curY+40;
+        curY=curY+20;
         doc.text("Total: "+record.total,20,curY);
-        doc.text("Jan: "+record.Jan,200,curY);
-        doc.text("May: "+record.May,320,curY);
-        doc.text("Sep: "+record.Sep,460,curY);
+        doc.text("Jan: "+record.Jan,150,curY);
+        doc.text("Feb: "+record.Feb,230,curY);
+        doc.text("Mar: "+record.Mar,310,curY);
+        doc.text("Q1: "+record.Q1,390,curY);
         curY=curY+20;
         doc.text("Capacity: "+record.cap,20,curY);
-        doc.text("Feb: "+record.Feb,200,curY);
-        doc.text("Jun: "+record.Jun,320,curY);
-        doc.text("Oct: "+record.Oct,460,curY);
+        doc.text("Apr: "+record.Apr,150,curY);
+        doc.text("May: "+record.May,230,curY);
+        doc.text("Jun: "+record.Jun,310,curY);
+        doc.text("Q2: "+record.Q2,390,curY);
         curY=curY+20;
         doc.text("Percent Left: "+record.perLeft,20,curY);
-        doc.text("Mar: "+record.Mar,200,curY);
-        doc.text("Jul: "+record.Jul,320,curY);
-        doc.text("Nov: "+record.Nov,460,curY);
+        doc.text("Jul: "+record.Jul,150,curY);
+        doc.text("Aug: "+record.Aug,230,curY);
+        doc.text("Sep: "+record.Sep,310,curY);
+        doc.text("Q3: "+record.Q3,390,curY);
         curY=curY+20;
-        doc.text("Apr: "+record.Apr,200,curY);
-        doc.text("Aug: "+record.Aug,320,curY);
-        doc.text("Dec: "+record.Dec,460,curY);
-        curY=curY+20;
-        doc.text("Q1: "+record.Q1,20,curY);
-        curY=curY+20;
-        doc.text("Q2: "+record.Q2,20,curY);
-        curY=curY+20;
-        doc.text("Q3: "+record.Q3,20,curY);
-        curY=curY+20;
-        doc.text("Q4: "+record.Q4,20,curY);
+        doc.text("Oct: "+record.Oct,150,curY);
+        doc.text("Nov: "+record.Nov,230,curY);
+        doc.text("Dec: "+record.Dec,310,curY);
+        doc.text("Q4: "+record.Q4,390,curY);
         curY=curY+20;
         /*if(record.dischargeLocation !== null){
             doc.text("Discharge Coordinates: Lat="+record.dischargeLocation.latitude+" Lon="+record.dischargeLocation.longitude,20,curY);
