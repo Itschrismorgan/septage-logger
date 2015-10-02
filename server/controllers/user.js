@@ -147,7 +147,7 @@ exports.getUserList = function(req, res){
             if(!users){
                 res.status(404).json({code: 404, message: "no users found"});
             } else {
-                returnUsers = [];
+                var returnUsers = [];
                 //console.log("Get User List");
                 //console.log(users.length);
                 users.forEach(function (user, index){
