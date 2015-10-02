@@ -62,7 +62,7 @@ exports.getTruckList = function(req, res){
             if(!trucks){
                 res.status(404).json({code: 404, message: "no trucks found"});
             } else {
-                returnTrucks = [];
+                var returnTrucks = [];
                 trucks.forEach(function (truck, index){
                     var modTruck = {};
                     modTruck._id = truck._id;
@@ -86,7 +86,7 @@ exports.getTruckList = function(req, res){
 
                         //console.log(modTruck);
                         returnTrucks.push(modTruck);
-                        if (index === trucks.length - 1) {
+                        if (returnTrucks.length === trucks.length) {
                             //console.log(returnTrucks);
                             res.status(200).json(returnTrucks);
                         }
