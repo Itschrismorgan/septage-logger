@@ -670,8 +670,8 @@ septageLogger.controller('UserCtrl',['$scope', '$routeParams', '$location', '$an
         doc.text("Company: "+record.companyName,20,curY);
         curY=curY+20;
         doc.text("Truck VIN: "+record.truckId,20,curY);
-        doc.text("Volume: "+record.volume,150,curY);
-        doc.text("Collection Coordinates: Lat="+record.location.latitude+" Lon="+record.location.longitude,230,curY);
+        doc.text("Volume: "+record.volume,180,curY);
+        doc.text("Collection Coordinates: Lat="+record.location.latitude+" Lon="+record.location.longitude,250,curY);
         curY=curY+20;
         doc.text("Type: "+record.type,20,curY);
         doc.text("Date/Time: "+ new Date(record.createdTimeStamp).toDateString() + " " + new Date(record.createdTimeStamp).toLocaleTimeString(),100,curY);
