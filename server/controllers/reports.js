@@ -55,6 +55,30 @@ exports.listTrucksAndCollections = function(user, beginDate, endDate, siteId, re
                 modCollection.companyName = company.name;  
                 modCollections.push(modCollection);
                 if (modCollections.length === collections.length) {
+                    modCollections.sort(function (a, b){
+                        
+                        var x = a.companyName.toLowerCase();
+                        var y = b.companyName.toLowerCase();
+                        
+                        if (x == y){
+                            if (a.createdTimeStamp < b.createdTimeStamp){
+                            return -1;
+                            }
+                            if (a.createdTimeStamp > b.createdTimeStamp){
+                                return 1;
+                            }
+                            return 0;  
+                        }
+                        if (x > y){
+                            return 1;
+                        }
+                        if (x < y){
+                            return -1;
+                        }
+                        
+                        
+                        
+                    });
                     res.status(200).json(modCollections);
                 }
             });
@@ -63,7 +87,7 @@ exports.listTrucksAndCollections = function(user, beginDate, endDate, siteId, re
         
         //console.log(modCollections);
         //cb(null, collections);
-    }).sort({companyId: 1});
+    });
 };
 
 exports.listSpreadsiteData = function(user, year, spreadS, cb){
